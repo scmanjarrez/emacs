@@ -50,6 +50,18 @@
 (setq show-paren-style
       'mixed) ; highlight brackets if visible, else entire expression
 
+;; use Shift+arrow_keys to move cursor around split panes
+(windmove-default-keybindings)
+
+(setq
+ completion-ignore-case t   ;; ignore case when completing...
+ read-file-name-completion-ignore-case t) ;; ...filenames too
+
+(setq
+ initial-scratch-message
+      ";; I am your editor. Please describe your program.\n")
+
+(fset 'yes-or-no-p 'y-or-n-p)            ;; enable y/n answers to yes/no
 
 (package-initialize)
 
