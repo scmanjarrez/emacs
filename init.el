@@ -32,6 +32,7 @@
 ;;                "*Messages*" "Async Shell Command"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(load "/usr/lib/ciao/ciao-mode-init") ;;Activate ciao-prolog mode
 
 (require 'package)
 (add-to-list
@@ -45,8 +46,7 @@
  )
 
 ;; turn on highlight matching brackets when cursor is on one
-(show-paren-mode
- 1)
+(show-paren-mode 1)
 (setq show-paren-style
       'mixed) ; highlight brackets if visible, else entire expression
 
@@ -72,5 +72,16 @@
  'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20160310.2248/dict")
 (ac-config-default)
 
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(require 'cl-lib)
+(require 'color)
+(cl-loop
+ for index from 1 to rainbow-delimiters-max-face-count
+ do
+ (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+   (cl-callf color-saturate-name (face-foreground face) 80)))
+
 ;; (require 'hungry-delete)
-;; (add-hook 'c-mode-hook #'(lambda () (hungry-keyboard c-mode-map)))
+;; (global-hungry-delete-mode)
