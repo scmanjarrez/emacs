@@ -58,7 +58,7 @@
 ;; make buffer switch command auto suggestions, also for find-file command
 (ido-mode 1)
 ;;ignore all *xxx* buffers except scratch
-(defvar ido-dont-ignore-buffer-names '("*scratch*"));"*Messages*"))
+(defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*"));"*Messages*"))
 (defun ido-ignore-most-star-buffers (name)
   (and
    (string-match-p "^*" name)
@@ -71,6 +71,25 @@
 ;; (setq iswitchb-buffer-ignore '("^ " "*Completions*" "*Shell Command Output*"
 ;;                "*Messages*" "Async Shell Command"))
 
+;; Automatically save and restore sessions
+(setq desktop-dirname             (getenv "PWD");;"~/.emacs.d/desktop/"
+      desktop-base-file-name      "emacs.desktop"
+      desktop-base-lock-name      "lock"
+      desktop-path                (list desktop-dirname)
+      desktop-save                t
+      desktop-files-not-to-save   "^$" ;reload tramp paths
+      desktop-load-locked-desktop nil)
+(desktop-save-mode 1)
+
+;; truncate lines, don't break lines
+(set-default 'truncate-lines t)
+(setq truncate-partial-width-windows nil)
+
+(tool-bar-mode -1)                 ; No toolbar - icons
+
+(toggle-scroll-bar -1)             ; Toggle scroll-bar
+
+(column-number-mode t)             ; Show column number in mode-line
 
 (package-initialize)
 
@@ -88,9 +107,11 @@
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook
-	  'rainbow-delimiters-mode) ;;activate rainbow-del programming mode
+	  'rainbow-delimiters-mode) ;;activate rainbow-delimiter programming mode
 (add-hook 'ciao-mode-hook
 	  'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
+
+(load-theme 'monokai t)  ;;enable monokai-theme
 
 ;; makes rainbow-mode colors more contrasted
 (require 'cl-lib)
@@ -101,5 +122,6 @@
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 80)))
 
+;; enable hungry-delete
 ;; (require 'hungry-delete)
 ;; (add-hook 'c-mode-hook 'hungry-delete-mode)
