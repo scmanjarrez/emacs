@@ -21,18 +21,10 @@
 
 ;; (require 'iso-transl)
 
-;; (add-to-list 'load-path "~/.emacs.d/")
-;; (require 'auto-complete-config)
-;; (add-to-list 'ac-dictionary-directories "~/.emacs.d//ac-dict")
-;; (ac-config-default)
-
-;; (iswitchb-mode 1)
-
-;; (setq iswitchb-buffer-ignore '("^ " "*Completions*" "*Shell Command Output*"
-;;                "*Messages*" "Async Shell Command"))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (load "/usr/lib/ciao/ciao-mode-init") ;;Activate ciao-prolog mode
+
+(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;;loads emacs maximized
 
 (require 'package)
 (add-to-list
@@ -63,18 +55,44 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)            ;; enable y/n answers to yes/no
 
+;; make buffer switch command auto suggestions, also for find-file command
+(ido-mode 1)
+;;ignore all *xxx* buffers except scratch
+(defvar ido-dont-ignore-buffer-names '("*scratch*"));"*Messages*"))
+(defun ido-ignore-most-star-buffers (name)
+  (and
+   (string-match-p "^*" name)
+   (not (member name ido-dont-ignore-buffer-names))))
+
+(setq ido-ignore-buffers (list "\\` " #'ido-ignore-most-star-buffers))
+
+;; deprecated
+;; (iswitchb-mode 1) ;; enable fast switch buffer C-x b + C-s/C-r
+;; (setq iswitchb-buffer-ignore '("^ " "*Completions*" "*Shell Command Output*"
+;;                "*Messages*" "Async Shell Command"))
+
+
 (package-initialize)
 
-(smartparens-global-mode t)
+(smartparens-global-mode t) ;;enable smartparens global mode
 
-(require 'auto-complete-config)
+(require 'auto-complete)
+(global-auto-complete-mode t)  ;;enable global auto-complete
+(add-hook 'ciao-mode-hook
+	  'auto-complete-mode)  ;;enable auto-complete ciao-mode
+
+(require 'auto-complete-config)  ;;load auto-complete config
 (add-to-list
  'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20160310.2248/dict")
 (ac-config-default)
 
 (require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+(add-hook 'prog-mode-hook
+	  'rainbow-delimiters-mode) ;;activate rainbow-del programming mode
+(add-hook 'ciao-mode-hook
+	  'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
 
+;; makes rainbow-mode colors more contrasted
 (require 'cl-lib)
 (require 'color)
 (cl-loop
@@ -84,4 +102,4 @@
    (cl-callf color-saturate-name (face-foreground face) 80)))
 
 ;; (require 'hungry-delete)
-;; (global-hungry-delete-mode)
+;; (add-hook 'c-mode-hook 'hungry-delete-mode)

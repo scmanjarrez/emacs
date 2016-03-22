@@ -1,0 +1,30 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/home/serchiman/" . ".emacs.d/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/home/serchiman/.emacs.d/"
+ "/home/serchiman/Desktop/Universidad/Prolog/Practica/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "init.el"
+ "practica.pl"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/home/serchiman/.emacs.d/" (22256 35258 69667 270000) "ac-comphist.dat" "README.md" "../" ".git/" "elpa/" "init.el" "auto-save-list/" "./")
+
+ ("/home/serchiman/" (22256 35327 261670 408000) ".devilspie/" ".notifyosdconf/" ".gnome2/" ".zsh_history" ".mysql_history" ".zcompdump" ".dbus/" ".mozilla/" ".viminfo" ".python_history" ".rnd" ".emacs.d/" ".macromedia/" ".dia/" ".bash_history" ".bashrc~" ".hplip/" ".Private/" ".sane/" ".profile" ".gnupg/" ".clave" ".list.tasks" ".bash_logout" ".lesshst" "workspace/" ".pki/" ".thumbnails/" "Public/" ".eclipse/" "Documents/" ".icons/" ".local/" "Music/" ".apport-ignore.xml" ".zcompdump-Serchiman-5.0.2" "nltk_data/" ".themes/" ".ts3client/" "Videos/" ".wireshark/" ".ICEauthority" "Templates/" ".gstreamer-0.10/" ".bashrc" ".java/" "Desktop/" ".gitconfig" ".gksu.lock" ".pdfsam/" ".mysql/" ".cache/" ".Skype/" ".gimp-2.8/" ".TelegramDesktop/" ".zshrc" ".zshrc~" "Pictures/" ".filezilla/" ".ecryptfs/" ".gnome/" "PacketTracer6/" ".gvfs/" ".wine/" ".putty/" ".gnome2_private/" ".packettracer" ".ssh/" ".gconf/" "PacketTracer611Student/" ".thunderbird/" ".adobe/" ".zsh-update" "Downloads/" ".gphoto/" ".oh-my-zsh/" ".config/" "../" "./")
+
+ ("/home/serchiman/Desktop/Universidad/Prolog/Practica/" (22256 35343 293671 135000) "../" "automaton.pl" "pruebas~" "automaton.itf" "pruebas" "practica.itf" "automaton.po" "practica.po" "practica.pl" ".#practica.pl" "practica.pl~" "automaton.pl~" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t
