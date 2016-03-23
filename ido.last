@@ -20,9 +20,9 @@
 
 ;; ----- ido-work-file-list -----
 (
+ "intermediario.c"
  "servidor.c"
  "init.el"
- "intermediario.c"
  "aritmetica.pl"
  "pruebas"
  "automaton.pl"
@@ -31,11 +31,11 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22257 41461 431337 652000) "../" "comun.c" "comun.h" "intermediario.c" "servidor.c" "fich_test" "emacs.desktop" "intermediario.c~" "Makefile" "servidor.c~" "lock" "./" "i")
+
  ("/home/serchiman/.emacs.d/" (22257 35143 283051 94000) "ac-comphist.dat" "README.md" "../" ".git/" "elpa/" "init.el" "auto-save-list/" "desktop/" "ido.last~" "ido.last" "./")
 
  ("/home/serchiman/" (22257 35192 735053 337000) ".devilspie/" ".notifyosdconf/" ".gnome2/" ".zsh_history" ".mysql_history" ".zcompdump" ".dbus/" ".mozilla/" ".viminfo" ".python_history" ".rnd" ".emacs.d/" ".macromedia/" ".dia/" ".bash_history" ".bashrc~" ".hplip/" ".Private/" ".sane/" ".profile" ".gnupg/" ".clave" ".list.tasks" ".bash_logout" ".lesshst" "workspace/" ".pki/" ".thumbnails/" "Public/" ".eclipse/" "Documents/" ".icons/" ".local/" "Music/" ".apport-ignore.xml" ".zcompdump-Serchiman-5.0.2" "nltk_data/" ".themes/" ".ts3client/" "Videos/" ".wireshark/" ".ICEauthority" "Templates/" ".gstreamer-0.10/" ".bashrc" ".java/" "Desktop/" ".gitconfig" ".gksu.lock" ".pdfsam/" ".mysql/" ".cache/" ".Skype/" ".gimp-2.8/" ".TelegramDesktop/" ".zshrc" ".zshrc~" "Pictures/" ".filezilla/" ".ecryptfs/" ".gnome/" "PacketTracer6/" ".gvfs/" ".wine/" ".putty/" ".gnome2_private/" ".packettracer" ".ssh/" ".gconf/" "PacketTracer611Student/" ".thunderbird/" ".adobe/" ".zsh-update" "Downloads/" ".gphoto/" ".oh-my-zsh/" ".config/" "../" "./")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22257 34177 391007 286000) "../" "comun.c" "comun.h" "intermediario.c" "servidor.c" "fich_test" "intermediario.c~" "Makefile" "servidor.c~" "./" "i")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/servidor/" (22255 62642 446691 470000) "../" "servidor" "servicio_svc.o" "servicio.h" "servicio_xdr.o" "servicio_xdr.c" "servidor.c" "servicio_svc.c" "Makefile" "Makefile~" "servidor.o" "./")
 
