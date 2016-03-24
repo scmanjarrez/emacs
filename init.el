@@ -127,6 +127,8 @@
 
 (column-number-mode t)             ; Show column number in mode-line
 
+(delete-selection-mode 1)          ; Delete selected region on write
+
 (package-initialize)
 
 (smartparens-global-mode t) ;;enable smartparens global mode

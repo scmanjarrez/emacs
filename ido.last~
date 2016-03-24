@@ -2,15 +2,29 @@
 
 ;; ----- ido-last-directory-list -----
 (
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/" . "editor/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/" . "EDSU.2015/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/" . "SD/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" . "DATSI/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/" . "cliente_src/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/" . "servidor.2015a/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/" . "so/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/" . "DATSI/")
+ ("/home/serchiman/Desktop/Universidad/" . "Sistemas Distribuidos/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/" . "servidor/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/" . "reto/")
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/" . "reto2/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/" . "practica1_I/")
  ("/home/serchiman/" . ".emacs.d/")
 )
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/editor/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/cliente_src/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/filtrar.2015a/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/"
  "/home/serchiman/.emacs.d/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/servidor/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/RETO2.2015/"
@@ -20,18 +34,39 @@
 
 ;; ----- ido-work-file-list -----
 (
- "intermediario.c"
- "servidor.c"
- "init.el"
- "aritmetica.pl"
- "pruebas"
- "automaton.pl"
- "practica.pl"
+ "test_editor_avanz.c"
+ "comun.c"
+ "editor.h"
+ "test_subscriptor.c"
+ "cliente.c"
+ "edsu_comun.h"
+ "edsu_comun.c"
+ "comun.h"
+ "Makefile"
+ "subscriptor.h"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22257 41461 431337 652000) "../" "comun.c" "comun.h" "intermediario.c" "servidor.c" "fich_test" "emacs.desktop" "intermediario.c~" "Makefile" "servidor.c~" "lock" "./" "i")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22258 61418 823144 511000) "../" "comun.h~" "comun.c" "comun.h" "intermediario.c" "servidor.c" "fich_test" "emacs.desktop" "intermediario.c~" "Makefile" "Makefile~" "servidor.c~" "lock" ".#comun.h" "./" "i" "#comun.h#")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/editor/" (22258 57649 935289 303000) "../" "#editor.c#" "test_editor_avanz.c" "comun.c" "comun.h" "test_editor.c" "editor.c~" "editor.c" "Makefile" "Makefile~" "edsu_comun.h" "editor.h" "./" ".#editor.c" "edsu_comun.c")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/cliente_src/" (22258 41505 135909 551000) "../" "MakeVars" "cliente.o" "Makefile" "./" "cliente.c")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/" (22258 50054 271581 112000) "../" "subscriptor.o" "comun.c" "test_subscriptor_avanz.o" "comun.h" "test_subscriptor_avanz" "test_subscriptor.c~" "edsu_comun.h~" "subscriptor.c" "test_subscriptor_avanz.c" "test_subscriptor.o" "edsu_comun.o" "edsu_comun.c~" "comun.o" "Makefile" "test_subscriptor" "subscriptor.c~" "Makefile~" "test_subscriptor.c" "edsu_comun.h" "./" "subscriptor.h" "cliente.c" "edsu_comun.c")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/filtrar.2015a/" (21887 25581 952570 727000) ".sed" "filtrar" "../" "libfiltra_alfa.c~" "filtrar.c~" "filtrar.h" "libfiltra_delay.c" "libfiltra_delay.c~" "test.c" "test" "libfiltra_void.so" "Mensajes" "libfiltra_delay.so" "libfiltra_alfa.c" "Makefile" "libfiltra_void.c" "filtrar.c" "./" "libfiltra_alfa.so")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/" (22065 34623 112731 139000) "../" "MakeVars" "f1.txt" "servidor" "diseno_error.chk" "lanzador_nuevo.sh" "#servidor.c#" "message.h" "diseno.chk" "lanzador.sh" "cliente" "Ejemplo" "puerto_servidor" "cliente_src/" "servidor.c" "servidor.sh" "servidor.2015a.tester.tar.gz" "f2.txt" "Makefile" "servidor.o" "./" "README.txt")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/" (21903 62343 595133 567000) "../" "servidor.2015a.tgz" "servidor" "servidor.2015a/" "filtrar.2015a/" "test/" "./" "filtrar.2015a.tgz")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/" (21772 47881 264312 0) "../" "so/" "./")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/" (22257 43674 123438 9000) "DATSI/" "ejemplos_threads/" "memorias-sosbolonia.pdf" "../" "procesos-sosbolonia.pdf" "solfeb07.pdf" "introduccion-sosbolonia.pdf" "Link to memorias-sosbolonia.pdf" "Link to ficherosbolonia.pdf" "pipes.dia" "cap04.pdf" "PracticasAnalisis/" "emacs-refcard-a4.pdf" "Link to procesos.pdf" "Link to Sistemas Operativos IV" "CompClase/" "ejercicios propuestos/" "Cosas mias/" "Link to problemasso2.pdf" "Link to sincronizacion_y_comunicacion.pdf" "ficheros-sosbolonia.pdf" "./" "sincronizacion_y_comunicacion.pdf")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" (22257 42383 259379 462000) "DATSI/" "../" "sd-edsu.pdf" "edsu.tgz" "SDSockets/" "./")
 
  ("/home/serchiman/.emacs.d/" (22257 35143 283051 94000) "ac-comphist.dat" "README.md" "../" ".git/" "elpa/" "init.el" "auto-save-list/" "desktop/" "ido.last~" "ido.last" "./")
 
@@ -56,8 +91,6 @@
  ("/home/serchiman/Desktop/Universidad/" (22210 6171 726253 702000) "Link to Universidad" "../" "Sistemas Operativos/" "Prolog/" "Redes/" "Arquitectura/" "pdfsam/" "Concurrencia/" "PPS/" "Procesadores de Lenguajes/" "Seguridad/" "BasesDatos/" "Sistemas Distribuidos/" "./" "Link to Probabilidades y Estadísticas IV")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/" (22255 63670 170738 82000) "reto1/" "../" "reto2/" "./" "practica1_I/")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" (22256 39417 209855 907000) "DATSI/" "../" "sd-edsu.pdf" "edsu.tgz" "./")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/" (20326 4763 0 0) "../" "SD/" "./")
 
