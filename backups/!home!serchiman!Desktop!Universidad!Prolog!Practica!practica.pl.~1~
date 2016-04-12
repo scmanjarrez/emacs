@@ -1,0 +1,102 @@
+:-ensure_loaded(automaton).
+
+
+% cells/2: Predicado cuyo primer argumento es una cinta que al aplicar una serie de reglas se convierte en la cinta del segundo argumento.
+
+% mappend([],Ys,Ys).
+
+% mappend([X|Xs],Ys,[X|Zs]):-
+% 	mappend(Xs,Ys,Zs).
+
+% cells2([x,o,o|[]],[x]).
+
+% cells2([Xa,Xb,Xc|Xs],[Y|Zs]):-
+% 	regla(Xa,Xb,Xc,Y),
+% 	cells2([Xb,Xc|Xs],Zs).
+
+% cells([o,x|Xs],Zs):-
+% 	mappend([o],[o,x|Xs],Ys),
+% 	mappend(Ys,[o],Ws),
+% 	cells2(Ws,As),
+% 	mappend([o],As,Bs),
+% 	mappend(Bs,[o],Zs).
+
+
+cells2([x,o|[]],[X,o]):-
+	regla(x,o,o,X).
+
+cells2([Xa,Xb,Xc|Xs],[Y|Zs]):-
+	regla(Xa,Xb,Xc,Y),
+	cells2([Xb,Xc|Xs],Zs).
+
+cells([o,x|Xs],[o|Zs]):-
+	cells2([o,o,x|Xs],Zs).
+
+isNat(0).
+isNat(s(X)):-
+	isNat(X).
+
+isEqual(0,0).
+isEqual(s(X),s(Y)):-
+	isEqual(X,Y).
+
+mPlus(0,X,X):-
+	isNat(X).
+mPlus(s(X),Y,s(Z)):-
+	mPlus(X,Y,Z).
+
+isEven(0).
+isEven(s(s(X))):-
+	isNat(X),
+	isEven(X).
+
+
+% mPlusPar(X,Y,Z):-
+% 	isEven(Y),
+% 	mPlus(X,Y,Z).
+mPlusPar(X,0,X).
+mPlusPar(X,Y,X):-
+	Y \= 0;
+mPlusPar(X,s(s(Y)),s(s(Z))):-
+	mPlusPar(X,Y,Z).
+
+
+mPlusPar(X,_,X).
+
+arbolPar(void,0).
+
+% arbolPar(tree(par(_,P),void,void),Z):-
+% 	isEven(P),
+% 	P = Z.
+
+% arbolPar(tree(par(_,_),void,void),0).
+arbolPar(tree(par(_,P),void,void),Z):-
+	mPlusPar(0,P,Z).
+
+arbolPar(tree(par(_,P),X,Y),Z):-
+	isNat(P),
+	arbolPar(X,L),
+	arbolPar(Y,R),
+	mPlus(L,R,W),
+	mPlusPar(W,P,Z).
+
+arbolBalanceadoPar(tree(par(_,P),X,Y)):-
+	isNat(P),
+	arbolPar(X,Xt),
+	arbolPar(Y,Yt),
+	isEqual(Xt,Yt).
+
+
+
+% mLess(0,X):-
+% 	isNat(X).
+% mLess(s(X),s(Y)):-
+% 	X \= Y,
+% 	mLess(X,Y).
+
+% mMod(X,Y,X):-
+% 	mLess(X, Y).
+% mMod(X,Y,Z):-
+% 	mPlus(X1,Y,X),
+% 	mMod(X1,Y,Z).
+

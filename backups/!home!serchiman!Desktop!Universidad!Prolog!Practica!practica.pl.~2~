@@ -1,0 +1,112 @@
+:-ensure_loaded(automaton).
+
+
+% cells/2: Predicado cuyo primer argumento es una cinta que al aplicar una serie de reglas se convierte en la cinta del segundo argumento.
+
+% mappend([],Ys,Ys).
+
+% mappend([X|Xs],Ys,[X|Zs]):-
+% 	mappend(Xs,Ys,Zs).
+
+% cells2([x,o,o|[]],[x]).
+
+% cells2([Xa,Xb,Xc|Xs],[Y|Zs]):-
+% 	regla(Xa,Xb,Xc,Y),
+% 	cells2([Xb,Xc|Xs],Zs).
+
+% cells([o,x|Xs],Zs):-
+% 	mappend([o],[o,x|Xs],Ys),
+% 	mappend(Ys,[o],Ws),
+% 	cells2(Ws,As),
+% 	mappend([o],As,Bs),
+% 	mappend(Bs,[o],Zs).
+
+
+cells2([x,o|[]],[X,o]):-
+	regla(x,o,o,X).
+
+cells2([Xa,Xb,Xc|Xs],[Y|Zs]):-
+	regla(Xa,Xb,Xc,Y),
+	cells2([Xb,Xc|Xs],Zs).
+
+cells([o,x|Xs],[o|Zs]):-
+	cells2([o,o,x|Xs],Zs).
+
+isNat(0).
+isNat(s(X)):-
+	isNat(X).
+
+isEqual(0,0).
+isEqual(s(X),s(Y)):-
+	isEqual(X,Y).
+
+mPlus(0,X,X):-
+	isNat(X).
+mPlus(s(X),Y,s(Z)):-
+	mPlus(X,Y,Z).
+
+mTimes(X,0,0):-
+	isNat(X).
+
+mTimes(X,s(Y),Z):-
+	mTimes(X,Y,W),
+	mPlus(X,W,Z).
+
+
+isEven(0).
+isEven(s(s(X))):-
+	isNat(X),
+	isEven(X).
+
+isOdd(s(0)).
+isOdd(s(s(X))):-
+	isNat(X),
+	isOdd(X).
+
+mVal(X,X):-
+	isEven(X).
+
+mVal(X,0):-
+	isOdd(X).
+
+arbolPar(void, 0).
+
+arbolPar(tree(par(_,P),void,void),K):-
+	mVal(P,K).
+
+arbolPar(tree(par(_,P),X,Y),Z):-
+	mVal(P,W),
+	arbolPar(X,L),
+	arbolPar(Y,R),
+	mPlus(L,R,K),
+	mPlus(K,W,Z).
+
+arbolBalanceadoPar(tree(par(_,P),X,Y)):-
+	isNat(P),
+	arbolPar(X,Xt),
+	arbolPar(Y,Yt),
+	isEqual(Xt,Yt).
+
+arbolMultiplica(void,_,void).
+
+arbolMultiplica(tree(par(N,P),X,Y),Z,tree(par(N,K),L,R)):-
+	mTimes(P,Z,K),
+	arbolMultiplica(X,Z,L),
+	arbolMultiplica(Y,Z,R).
+
+arbolAmplificado(tree(par(N,P),X,Y),tree(par(N,P),L,R)):-
+	arbolMultiplica(X,P,L),
+	arbolMultiplica(Y,P,R).
+
+% mLess(0,X):-
+% 	isNat(X).
+% mLess(s(X),s(Y)):-
+% 	X \= Y,
+% 	mLess(X,Y).
+
+% mMod(X,Y,X):-
+% 	mLess(X, Y).
+% mMod(X,Y,Z):-
+% 	mPlus(X1,Y,X),
+% 	mMod(X1,Y,Z).
+

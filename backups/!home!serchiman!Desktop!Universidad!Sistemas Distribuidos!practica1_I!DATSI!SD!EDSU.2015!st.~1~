@@ -1,0 +1,33 @@
+On branch master
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+	modified:   .gitignore
+	deleted:    editor/editor.c~
+	deleted:    intermediario/#iii.c#
+	deleted:    intermediario/Makefile~
+	deleted:    intermediario/comun.c~
+
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+	deleted:    intermediario/comun.h~
+	deleted:    intermediario/i.c~
+	deleted:    intermediario/ii.c~
+	deleted:    intermediario/iii.c~
+	deleted:    intermediario/iiii.c~
+	deleted:    intermediario/intermediario.c~
+	deleted:    intermediario/servidor.c~
+	deleted:    subscriptor/#subscriptor.c#
+	deleted:    subscriptor/Makefile~
+	deleted:    subscriptor/edsu_comun.c~
+	deleted:    subscriptor/edsu_comun.h~
+	deleted:    subscriptor/subscriptor.c~
+	deleted:    subscriptor/test_subscriptor.c~
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	st
+

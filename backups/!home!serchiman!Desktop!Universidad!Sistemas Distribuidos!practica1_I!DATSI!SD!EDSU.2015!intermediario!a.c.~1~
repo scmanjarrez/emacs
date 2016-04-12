@@ -1,0 +1,59 @@
+#include <stdio.h>
+#include <string.h>
+typedef struct myStruct
+{
+  int op;
+}MY;
+
+typedef struct topic
+{
+  char tp_nam[64];
+  int mem_sz;
+  MY *mem;
+} TOPIC;
+
+
+int main()
+{
+  int n_temas = 0;
+  TOPIC *temas;
+  temas = malloc(sizeof(TOPIC));
+  sprintf(temas[n_temas].tp_nam, "%s", "tema1");
+  temas[n_temas].mem_sz = 1;
+  temas[n_temas].mem = malloc(2*sizeof(MY));
+  temas[n_temas].mem[0].op = 11;
+  temas[n_temas++].mem[1].op = 111;
+  temas = realloc(temas, (1+n_temas)*sizeof(TOPIC));
+  sprintf(temas[n_temas].tp_nam, "%s", "tema2");
+  temas[n_temas].mem_sz = 2;
+  temas[n_temas].mem = malloc(2*sizeof(MY));
+  temas[n_temas].mem[0].op = 22;
+  temas[n_temas++].mem[1].op = 222;
+  temas = realloc(temas, (1+n_temas)*sizeof(TOPIC));
+
+
+  TOPIC *tmp;
+  tmp = malloc((n_temas-1)*sizeof(TOPIC));
+  // copiar la parte anterior al tema
+  memmove(temp, topics, (elem+1)*sizeof(TOPIC)); 
+
+  // copiar la parte posterior al tema
+  memmove(temp+elem, (topics)+(elem+1), (n_topics-elem)*sizeof(TOPIC));
+
+  n_temas--;
+  free(temas);
+  temas = temp;
+
+  int i,j;
+  for(i=0; i<2; i++){
+    printf("El nuevo array de struct temas: temas[%d] tp_nam:%s mem_sz:%d\n", i, temas[i].tp_nam, temas[i].mem_sz);
+    printf("2 miembros\n");
+    for(j=0; j<2; j++){
+      printf("Miembro[%d], op:%d\n", j, temas[i].mem[j]);
+    }
+  }
+
+  free(temas);
+
+  return 0;
+}

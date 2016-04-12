@@ -51,7 +51,7 @@
 
 (setq
  initial-scratch-message
-      ";; I am your editor. Please describe your program.\n")
+ ";; I am your editor. Please describe your program.\n")
 
 (fset 'yes-or-no-p 'y-or-n-p)            ;; enable y/n answers to yes/no
 
@@ -117,6 +117,44 @@
 
 
 
+(defun emacs-process-p (pid)
+  "If pid is the process ID of an emacs process, return t, else nil.
+Also returns nil if pid is nil."
+  (when pid
+    (let ((attributes (process-attributes pid)) (cmd))
+      (dolist (attr attributes)
+	(if (string= "comm" (car attr))
+	    (setq cmd (cdr attr))))
+      (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
+
+(defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+  "Don't allow dead emacsen to own the desktop file."
+  (when (not (emacs-process-p ad-return-value))
+    (setq ad-return-value nil)))
+;;; desktop-override-stale-locks.el ends here
+
+
+
+;; Put backup files neatly away                                                 
+(let ((backup-dir "~/.emacs.d/backups")
+      (auto-saves-dir "~/.emacs.d/autosaves/"))
+  (dolist (dir (list backup-dir auto-saves-dir))
+    (when (not (file-directory-p dir))
+      (make-directory dir t)))
+  (setq backup-directory-alist `(("." . ,backup-dir))
+        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+        tramp-backup-directory-alist `((".*" . ,backup-dir))
+        tramp-auto-save-directory auto-saves-dir))
+
+(setq backup-by-copying t    ; Don't delink hardlinks                           
+      delete-old-versions t  ; Clean up the backups                             
+      version-control t      ; Use version numbers on backups,                  
+      kept-new-versions 5    ; keep some new versions                           
+      kept-old-versions 2)   ; and some old ones, too 
+
+
+
 ;; truncate lines, don't break lines
 (set-default 'truncate-lines t)
 (setq truncate-partial-width-windows nil)
@@ -163,3 +201,16 @@
 ;; enable hungry-delete
 ;; (require 'hungry-delete)
 ;; (add-hook 'c-mode-hook 'hungry-delete-mode)
+
+(require 'flycheck) ;enable flycheck cppcheck style
+(add-hook 'after-init-hook #'global-flycheck-mode) ;(global-flycheck-mode)
+(eval-after-load 'flycheck
+  '(progn
+     (require 'flycheck-cstyle)
+     (flycheck-cstyle-setup)
+     ;; chain after cppcheck since this is the last checker in the upstream
+     ;; configuration
+     (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))))
+
+(require 'undo-tree)
+(global-undo-tree-mode) ;enable undo-tree package globally
