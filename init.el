@@ -58,7 +58,7 @@
 ;; make buffer switch command auto suggestions, also for find-file command
 (ido-mode 1)
 ;;ignore all *xxx* buffers except scratch
-(defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*"));"*Messages*"))
+(defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*"));"*Messages*"))
 (defun ido-ignore-most-star-buffers (name)
   (and
    (string-match-p "^*" name)
@@ -177,9 +177,33 @@ Also returns nil if pid is nil."
 	  'auto-complete-mode)  ;;enable auto-complete ciao-mode
 
 (require 'auto-complete-config)  ;;load auto-complete config
-(add-to-list
- 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20160310.2248/dict")
+;;(add-to-list
+;; 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20160310.2248/dict")
 (ac-config-default)
+
+(require 'yasnippet) ;;start yasnippet
+(yas-global-mode 1)
+;;function that triggers on c/c++ mode
+(defun my:ac-header-init ()
+  (require 'auto-complete-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers)
+  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-linux-gnu/5/include"))
+;;function call on c/c++ hooks
+(add-hook 'c++-mode-hook 'my:ac-header-init)
+(add-hook 'c-mode-hook 'my:ac-header-init)
+
+(define-key global-map (kbd "C-c ;") 'iedit-mode)
+
+;;turn on Semantic
+(semantic-mode 1)
+
+(defun my:add-semantic-to-autocomplete() 
+  (add-to-list 'ac-sources 'ac-source-semantic))
+
+(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
+;;turn on automatic reparsing of open buffers in semantic
+(global-semantic-idle-scheduler-mode 1)
+
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook
@@ -214,3 +238,7 @@ Also returns nil if pid is nil."
 
 (require 'undo-tree)
 (global-undo-tree-mode) ;enable undo-tree package globally
+
+(global-set-key (kbd "M-s") 'imenu)
+
+(global-set-key (kbd "C-x g") 'magit-status)

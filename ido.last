@@ -2,7 +2,10 @@
 
 ;; ----- ido-last-directory-list -----
 (
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/" . "editor/")
+ ("/home/serchiman/Desktop/" . "Universidad/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/" . "subscriptor/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/" . "subscriptor/")
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/" . "subscriptor/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/" . "EDSU.2015/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/" . "SD/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" . "DATSI/")
@@ -19,56 +22,109 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/serchiman/.emacs.d/"
+ "/home/serchiman/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/subscriptor/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/editor/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/intermediario/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/editor/"
+ "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/subscriptor/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/cliente/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/idl/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/servidor/"
  "/home/serchiman/Desktop/Universidad/Prolog/Practica/"
  "/home/serchiman/Desktop/Universidad/Prolog/"
- "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/editor/"
  "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/cliente_src/"
  "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/filtrar.2015a/"
- "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/"
- "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/"
- "/home/serchiman/.emacs.d/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/RETO2.2015/"
 )
 
 ;; ----- ido-work-file-list -----
 (
- "cliente.c"
- "servicio.h"
- "servidor.c"
- "servicio.x"
- "pruebas"
- "aritmetica.pl"
- "practica.pl"
- "automaton.pl"
- "subscriptor.h"
+ ".gitignore"
+ "init.el"
+ "algo.c"
+ "algo.cpp"
+ "message.h"
  "edsu_comun.c"
+ "comun.c"
+ "intermediario.c"
+ "servidor.c"
+ "i.c"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/cliente/" (22266 15318 539792 978000) "../" "servicio_clnt.o" "servicio_clnt.c" "cliente.o" "cliente" "servicio.h" "servicio_xdr.o" "servicio_xdr.c" "Makefile" "./" "cliente.c")
+ ("/home/serchiman/.emacs.d/" (22318 16731 812706 613000) "./" "ido.last" "init.el" "auto-save-list/" "ac-comphist.dat" "README.md" "backups/" ".git/" "../" "autosaves/" "elpa/" "semanticdb/" "eshell/" "snippets/")
 
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/servidor/" (22266 15306 655793 434000) "../" "servidor" "servicio_svc.o" "servicio.h" "servicio_xdr.o" "servicio_xdr.c" "servidor.c" "servicio_svc.c" "Makefile" "servidor.o" "./")
+ ("/home/serchiman/" (22318 16492 500114 840000) "Public/" ".macromedia/" ".bashrc_backup" ".dbus/" ".gnupg/" "Pictures/" ".ICEauthority" ".zshrc_backup" ".zcompdump-GUbuntu-5.1.1" "..bashrc.swp" "./" ".zsh_history_backup" ".bash_history_backup" ".putty/" ".cache/" ".gksu.lock" ".gnome/" ".sudo_as_admin_successful" ".custom_prompt_zsh/" "Templates/" "Music/" ".zcompdump" ".viminfo" ".zsh-update" "workspace/" ".Skype/" ".config/" ".local/" ".gconf/" ".emacs.d/" ".zsh_history" "Documents/" ".bash_history" ".adobe/" ".tmux.conf" ".eclipse/" ".bashrc" ".mozilla/" ".thunderbird/" ".ssh/" "../" "Downloads/" ".nano/" ".gitconfig" ".TelegramDesktop/" ".zshrc" ".icons/" ".tooling/" ".oh-my-zsh/" ".tmux/" "Videos/" ".bash_logout" ".p2/" ".profile" "Desktop/" ".pki/")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/" (22318 8660 630847 202000) "Makefile" "main.c" "lock" "./" "i.c" "i" "ii.c" "emacs.desktop" "ii" "../" "i_c" "i_c.c" "main" ".INDEX" "main.h" "main.o")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/" (22316 61312 922610 882000) "Makefile" "edsu_comun.o" "pr" "comun.c" "./" "edsu_comun.c" "test_subscriptor" "test_subscriptor_avanz.c" "core" "test_subscriptor_avanz" "cliente.c" "test_subscriptor_avanz.o" "subscriptor.h" "subscriptor.c" "test_subscriptor.o" "../" "comun.o" "test_subscriptor.c" "pr.c" "edsu_comun.h" "subscriptor.o" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/" (22263 4560 0 0) "./" ".gitignore" "intermediario/" "editor/" "README.md" "subscriptor/" ".git/" "../")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/" (22266 15199 0 0) "1459096837.V24I4497f2M702097.triqui4.etsiinf.upm.es" "./" "EDSU.2015_5_puntos.tar.gz" "EDSU.2015.tar.gz" "../" "EDSU.2015 (5 puntos)/" "diferencias/" "EDSU.2015/")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" (22304 1869 615787 692000) "./" "Silvia/" "Rafa/" "DATSI/" "sd-edsu.pdf" "../" "Anais/" "edsu.tgz")
+
+ ("/home/serchiman/Desktop/" (22316 35729 430640 157000) "./" "Universidad/" "../")
+
+ ("/home/serchiman/Desktop/Universidad/" (22316 35729 430640 157000) "BasesDatos/" "expediente12151750516825.pdf" "Concurrencia/" "Link to Probabilidades y Estadísticas IV" "./" "Seguridad/" "Arquitectura/" "Sergio Chica Manjarrez - CV_2016.pdf" "Sistemas Distribuidos/" "Sistemas Operativos/" "PPS/" "../" "pdfsam/" "Link to Universidad" "Redes/" "Prolog/")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22315 52810 243968 5000) "a.c" "iii.c" "Makefile" "iiiii.c" "fich1" "lock" "comun.c" "./" "test.c" "i.c" "iiii.c" "core" "intermediario" "i" "ii.c" "emacs.desktop" "ii" "aa.c" "iiii" "intermediario.o" "servidor.c" "fich_test" "../" "comun.o" "iiiii" "intermediario.c" "iii" "a" "aa" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/" (22316 59279 513711 920000) "#servidor.c#" "Makefile" "f1.txt" "f2.txt" "./" "lanzador_nuevo.sh" "servidor.2015a.tester.tar.gz" "diseno_error.chk" "lanzador.sh" "MakeVars" "cliente" "README.txt" "servidor.o" "Ejemplo" "diseno.chk" "cliente_src/" "message.h" "servidor.c" "puerto_servidor" "../" "servidor" "servidor.sh")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/" (22315 49444 564185 904000) "practica1_I/" "./" "reto2/" "practica2_G/" "practica2_I/" "../" "reto1/" "practica1_G/")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica2_I/" (22315 48010 171116 300000) "dmutex.2015.tar.gz" "./" "DATSI/" "../")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica2_I/DATSI/" (21641 21621 0 0) "./" "SD/" "../")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica2_I/DATSI/SD/" (21844 25281 0 0) "./" "../" "DMUTEX.2015/")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica2_I/DATSI/SD/DMUTEX.2015/" (21844 25272 0 0) "Makefile" "./" "MakeVars" "Controlador/" "Makefile.common" "../" "Proceso/" "Ejemplos/")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/subscriptor/" (22294 22305 0 0) "Makefile" "edsu_comun.o" "comun.c" "./" "edsu_comun.c" "test_subscriptor" "test_subscriptor_avanz.c" "test_subscriptor_avanz" "test_subscriptor_avanz.o" "subscriptor.h" "subscriptor" "subscriptor.c" "test_subscriptor.o" "../" "comun.o" "test_subscriptor.c" "edsu_comun.h" "subscriptor.o" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/editor/" (22294 22305 0 0) "Makefile" "edsu_comun.o" "comun.c" "./" "test_editor.o" "edsu_comun.c" "test_editor_avanz.o" "test_editor_avanz" "editor" "editor.c" "test_editor_avanz.c" "test_editor.c" "message.h" "../" "comun.o" "editor.o" "editor.h" "test_editor" "edsu_comun.h" "#editor.c#" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/intermediario/" (22306 38003 335633 305000) "Makefile" "comun.c" "./" "core" "intermediario" "temas.txt" "emacs.desktop" "intermediario.o" "../" "comun.o" "intermediario.c" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/editor/" (22305 18884 38452 826000) "Makefile" "edsu_comun.o" "comun.c" "./" "test_editor.o" "edsu_comun.c" "core" "test_editor_avanz.o" "test_editor_avanz" "editor.c" "test_editor_avanz.c" "test_editor.c" "../" "comun.o" "editor.o" "editor.h" "test_editor" "edsu_comun.h" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/subscriptor/" (22306 37368 889223 76000) "Makefile" "edsu_comun.o" "comun.c" "./" "edsu_comun.c" "test_subscriptor" "test_subscriptor_avanz.c" "core" "test_subscriptor_avanz" "test_subscriptor_avanz.o" "subscriptor.h" "subscriptor.c" "test_subscriptor.o" "../" "comun.o" "test_subscriptor.c" "edsu_comun.h" "subscriptor.o" "comun.h")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Rafa/EDSU.2015/" (20326 8510 0 0) "./" "intermediario/" "editor/" "subscriptor/" "../")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/intermediario/" (22294 19848 991650 302000) "../" "intermediario.o" "comun.c" "intermediario" "comun.h" "intermediario.c" "atemas.txt" "core" "temas.txt" "comun.o" "Makefile" "./")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/RETO2.2015/" (22269 8381 730715 582000) "../" "servidor" "servicio_clnt.o" "servicio_clnt.c" "servicio_svc.o" "cliente.o" "cliente" "servicio.h" "servicio_xdr.o" "servicio_xdr.c" "servidor.c" "servicio_svc.c" "servicio.x" "Makefile" "servidor.o" "./" "cliente.c")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/editor/" (22266 14885 131809 628000) "test_editor" "editor.o" "../" "test_editor_avanz.c" "comun.c" "comun.h" "test_editor_avanz" "test_editor.c" "core" "test_editor.o" "test_editor_avanz.o" "editor.c" "edsu_comun.o" "comun.o" "Makefile" "edsu_comun.h" "editor.h" "./" "edsu_comun.c")
+
+ ("/home/serchiman/Desktop/Universidad/Prolog/Practica/" (22265 32928 372349 824000) "../" "automaton.pl" "pruebas~" "automaton.itf" "pruebas" "practica.itf" "automaton.po" "practica.po" "emacs.desktop" "practica.pl" "practica.pl~" "automaton.pl~" "./")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/servidor/" (22266 15486 783786 514000) "../" "servidor" "servicio_svc.o" "servicio.h" "servicio_xdr.o" "servicio_xdr.c" "servidor.c" "servicio_svc.c" "Makefile" "servidor.o" "./")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/idl/" (22266 16566 979745 15000) "../" "servicio_clnt.c" "servicio.h" "servicio_xdr.c" "servicio_svc.c" "servicio.x" "emacs.desktop" "./")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/cliente/" (22266 15484 423786 605000) "../" "servicio_clnt.o" "servicio_clnt.c" "cliente.o" "cliente" "servicio.h" "servicio_xdr.o" "servicio_xdr.c" "Makefile" "./" "cliente.c")
+
+ ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/Silvia/EDSU.2015/" (22294 18328 875597 61000) "../" "editor/" "autores" "intermediario/" "memoria.txt" "subscriptor/" "./")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/" (22266 15203 83797 413000) "../" "idl/" "servidor/" "cliente/" "./")
-
- ("/home/serchiman/Desktop/Universidad/Prolog/Practica/" (22265 5548 173752 910000) "../" "automaton.pl" "pruebas~" "automaton.itf" "pruebas" "practica.itf" "automaton.po" "practica.po" "emacs.desktop" "practica.pl" "practica.pl~" "lock" "automaton.pl~" "./")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/" (22262 59988 898914 810000) "../" "subscriptor.o" "comun.c" "test_subscriptor_avanz.o" "comun.h" "test_subscriptor_avanz" ".#subscriptor.c" "subscriptor.c" "test_subscriptor_avanz.c" "test_subscriptor.o" "edsu_comun.o" "comun.o" "Makefile" "test_subscriptor.c" "edsu_comun.h" "./" "subscriptor.h" "cliente.c" "edsu_comun.c")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/editor/" (22260 7890 378953 636000) "../" "test_editor_avanz.c" "comun.c" "comun.h" "test_editor.c" "editor.c~" "editor.c" "Makefile" "Makefile~" "edsu_comun.h" "editor.h" "./" "edsu_comun.c")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22258 61418 823144 511000) "../" "comun.h~" "comun.c" "comun.h" "intermediario.c" "servidor.c" "fich_test" "emacs.desktop" "intermediario.c~" "Makefile" "Makefile~" "servidor.c~" "lock" ".#comun.h" "./" "i" "#comun.h#")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/cliente_src/" (22258 41505 135909 551000) "../" "MakeVars" "cliente.o" "Makefile" "./" "cliente.c")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/filtrar.2015a/" (21887 25581 952570 727000) ".sed" "filtrar" "../" "libfiltra_alfa.c~" "filtrar.c~" "filtrar.h" "libfiltra_delay.c" "libfiltra_delay.c~" "test.c" "test" "libfiltra_void.so" "Mensajes" "libfiltra_delay.so" "libfiltra_alfa.c" "Makefile" "libfiltra_void.c" "filtrar.c" "./" "libfiltra_alfa.so")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/" (22065 34623 112731 139000) "../" "MakeVars" "f1.txt" "servidor" "diseno_error.chk" "lanzador_nuevo.sh" "#servidor.c#" "message.h" "diseno.chk" "lanzador.sh" "cliente" "Ejemplo" "puerto_servidor" "cliente_src/" "servidor.c" "servidor.sh" "servidor.2015a.tester.tar.gz" "f2.txt" "Makefile" "servidor.o" "./" "README.txt")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/" (21903 62343 595133 567000) "../" "servidor.2015a.tgz" "servidor" "servidor.2015a/" "filtrar.2015a/" "test/" "./" "filtrar.2015a.tgz")
 
@@ -76,31 +132,11 @@
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Operativos/" (22257 43674 123438 9000) "DATSI/" "ejemplos_threads/" "memorias-sosbolonia.pdf" "../" "procesos-sosbolonia.pdf" "solfeb07.pdf" "introduccion-sosbolonia.pdf" "Link to memorias-sosbolonia.pdf" "Link to ficherosbolonia.pdf" "pipes.dia" "cap04.pdf" "PracticasAnalisis/" "emacs-refcard-a4.pdf" "Link to procesos.pdf" "Link to Sistemas Operativos IV" "CompClase/" "ejercicios propuestos/" "Cosas mias/" "Link to problemasso2.pdf" "Link to sincronizacion_y_comunicacion.pdf" "ficheros-sosbolonia.pdf" "./" "sincronizacion_y_comunicacion.pdf")
 
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" (22257 42383 259379 462000) "DATSI/" "../" "sd-edsu.pdf" "edsu.tgz" "SDSockets/" "./")
-
- ("/home/serchiman/.emacs.d/" (22257 35143 283051 94000) "ac-comphist.dat" "README.md" "../" ".git/" "elpa/" "init.el" "auto-save-list/" "desktop/" "ido.last~" "ido.last" "./")
-
- ("/home/serchiman/" (22257 35192 735053 337000) ".devilspie/" ".notifyosdconf/" ".gnome2/" ".zsh_history" ".mysql_history" ".zcompdump" ".dbus/" ".mozilla/" ".viminfo" ".python_history" ".rnd" ".emacs.d/" ".macromedia/" ".dia/" ".bash_history" ".bashrc~" ".hplip/" ".Private/" ".sane/" ".profile" ".gnupg/" ".clave" ".list.tasks" ".bash_logout" ".lesshst" "workspace/" ".pki/" ".thumbnails/" "Public/" ".eclipse/" "Documents/" ".icons/" ".local/" "Music/" ".apport-ignore.xml" ".zcompdump-Serchiman-5.0.2" "nltk_data/" ".themes/" ".ts3client/" "Videos/" ".wireshark/" ".ICEauthority" "Templates/" ".gstreamer-0.10/" ".bashrc" ".java/" "Desktop/" ".gitconfig" ".gksu.lock" ".pdfsam/" ".mysql/" ".cache/" ".Skype/" ".gimp-2.8/" ".TelegramDesktop/" ".zshrc" ".zshrc~" "Pictures/" ".filezilla/" ".ecryptfs/" ".gnome/" "PacketTracer6/" ".gvfs/" ".wine/" ".putty/" ".gnome2_private/" ".packettracer" ".ssh/" ".gconf/" "PacketTracer611Student/" ".thunderbird/" ".adobe/" ".zsh-update" "Downloads/" ".gphoto/" ".oh-my-zsh/" ".config/" "../" "./")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/idl/" (22255 62267 858674 480000) "../" "servicio_clnt.c" "servicio.h" "servicio_xdr.c" "servicio_svc.c" "servicio.x" "./")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/RETO2.2015/" (22255 62601 214689 600000) "../" "servidor.c" "servicio.x" "./" "cliente.c")
-
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/" (22255 62494 538684 761000) "../" "ejemplos-guiaRPC.tgz" "ejemplos-guiaRPC/" "reto/" "RETO2.2015/" "./")
 
  ("/home/" (22071 31672 330652 598000) "../" ".ecryptfs/" "serchiman/" "./")
 
- ("/home/serchiman/Desktop/" (22252 48307 154718 285000) "../" "algo.java" "Universidad/" "HashCode/" "algo.c~" "#algo.java#" "algo.c" "algo.java~" "./")
-
- ("/home/serchiman/Desktop/Universidad/" (22210 6171 726253 702000) "Link to Universidad" "../" "Sistemas Operativos/" "Prolog/" "Redes/" "Arquitectura/" "pdfsam/" "Concurrencia/" "PPS/" "Procesadores de Lenguajes/" "Seguridad/" "BasesDatos/" "Sistemas Distribuidos/" "./" "Link to Probabilidades y Estadísticas IV")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/" (22255 63670 170738 82000) "reto1/" "../" "reto2/" "./" "practica1_I/")
-
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/" (20326 4763 0 0) "../" "SD/" "./")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/" (22204 36079 0 0) "../" "EDSU.2015/" "./")
-
- ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/" (22257 24029 278547 20000) "../" "editor/" "intermediario/" "subscriptor/" "./")
 
  ("/home/serchiman/Desktop/Universidad/Prolog/" (22256 22449 383840 895000) "enfermedades.po" "../" "aritmetica.po" "vidaNatural.pl" "familiaAdams.pl" "vidaNatural.itf" "vidaNatural.po" "aritmetica.pl" "CiaoDE-1.14.2-13646_ciao.pdf" "aritmetica.itf" "enfermedades.pl" "Practica/" "enfermedades.itf" "familiaAdams.itf" "familiaAdams.po" "./")
 )

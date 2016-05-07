@@ -1,0 +1,44 @@
+gcc -o pr pr.c
+./pr
+gcc ii.c -o ii.c
+gcc ii.c -o ii
+./ii
+gcc ii.c -o ii
+gcc ii.c -o ii
+./ii
+gcc ii.c -o ii
+./ii
+gcc ii.c -o ii
+./ii
+gcc ii.c -o ii
+./ii
+gcc -g ii.c -o ii
+gdb ./ii
+gcc -g ii.c -o ii
+./ii
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+./i
+gcc -o i i.c
+./i
+./i
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i_c i_c.c
+gcc -o i_c i_c.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i i.c
+gcc -o i_c i_c.c
