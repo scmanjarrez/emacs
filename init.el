@@ -173,8 +173,7 @@ Also returns nil if pid is nil."
 
 (require 'auto-complete)
 (global-auto-complete-mode t)  ;;enable global auto-complete
-(add-hook 'ciao-mode-hook
-	  'auto-complete-mode)  ;;enable auto-complete ciao-mode
+(add-hook 'ciao-mode-hook 'auto-complete-mode)  ;;enable auto-complete ciao-mode
 
 (require 'auto-complete-config)  ;;load auto-complete config
 ;;(add-to-list
@@ -206,10 +205,8 @@ Also returns nil if pid is nil."
 
 
 (require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook
-	  'rainbow-delimiters-mode) ;;activate rainbow-delimiter programming mode
-(add-hook 'ciao-mode-hook
-	  'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter programming mode
+(add-hook 'ciao-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
 
 (load-theme 'monokai t)  ;;enable monokai-theme
 
@@ -240,5 +237,7 @@ Also returns nil if pid is nil."
 (global-undo-tree-mode) ;enable undo-tree package globally
 
 (global-set-key (kbd "M-s") 'imenu)
+(setq imenu-auto-rescan t)
+(add-hook 'c-mode-hook 'imenu-add-menubar-index)
 
 (global-set-key (kbd "C-x g") 'magit-status)
