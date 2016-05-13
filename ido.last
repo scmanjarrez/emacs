@@ -25,9 +25,9 @@
 
 ;; ----- ido-work-directory-list -----
 (
- "/home/serchiman/Desktop/Universidad/Prolog/Practica/"
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/cliente/"
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/servidor/"
+ "/home/serchiman/Desktop/Universidad/Prolog/Practica/"
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/"
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Pruebas/"
  "/home/serchiman/.emacs.d/"
@@ -53,12 +53,12 @@
 
 ;; ----- ido-work-file-list -----
 (
- "pruebas"
- "automaton.pl"
  "ClienteEco.java"
  "ServidorEco.java"
  "ServicioEcoImpl.java"
  "ServicioEco.java"
+ "pruebas"
+ "automaton.pl"
  "dmutex.h"
  "i.c"
  "i_c.c"
@@ -67,15 +67,15 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/cliente/" (22325 62302 696111 859000) "cliente.permisos" "ServicioEco.class" "./" "ClienteEco.java" "../")
+
+ ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/servidor/" (22325 59646 515303 253000) "./" "ServidorEco.java" "ServicioEco.java" "../" "servidor.permisos" "ServicioEcoImpl.java")
+
+ ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/" (22325 62629 578650 234000) "./" "6_banco_final/" "5_banco/" "3_chat/" "4_banco_simple/" "../" "1_eco/" "2_log/")
+
  ("/home/serchiman/Desktop/Universidad/Prolog/Practica/" (22325 61577 138436 381000) "practica.po" "./" "practica.itf" "practica.pl" "automaton.pl~" "emacs.desktop" "automaton.itf" "../" "automaton.po" "practica.pl~" "automaton.pl" "pruebas" "pruebas~")
 
- ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/cliente/" (20420 37694 0 0) "cliente.permisos" "ServicioEco.class" "./" "ClienteEco.java" "../")
-
- ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/servidor/" (22318 9937 910073 550000) "./" "ServidorEco.java" "ServicioEco.java" "../" "servidor.permisos" "ServicioEcoImpl.java")
-
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/" (20420 36423 0 0) "./" "cliente/" "../" "servidor/")
-
- ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/" (20423 9662 0 0) "./" "6_banco_final/" "5_banco/" "3_chat/" "4_banco_simple/" "../" "1_eco/" "2_log/")
 
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/" (22325 11383 864791 106000) "Makefile" "lock" "dmutex.o" "./" "emacs.desktop" "dmutex.h" "dmutex.c" "../" ".#dmutex.c" ".INDEX")
 

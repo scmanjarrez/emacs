@@ -103,18 +103,18 @@
 	(message "Session not saved."))
     (desktop-save-in-desktop-dir)))
 
-;; ask user whether to restore desktop at start-up
-(add-hook 'after-init-hook
-	  '(lambda ()
-	     (if (saved-session)
-		 (if (y-or-n-p "Restore desktop? ")
-		     (session-restore)))))
+;; ;; ask user whether to restore desktop at start-up
+;; (add-hook 'after-init-hook
+;; 	  '(lambda ()
+;; 	     (if (saved-session)
+;; 		 (if (y-or-n-p "Restore desktop? ")
+;; 		     (session-restore)))))
 
-;; ask user whether to save desktop at exit
-(add-hook 'kill-emacs-hook
-	  '(lambda ()
-	     (if (y-or-n-p "Save desktop? ")
-		 (session-save))))
+;; ;; ask user whether to save desktop at exit
+;; (add-hook 'kill-emacs-hook
+;; 	  '(lambda ()
+;; 	     (if (y-or-n-p "Save desktop? ")
+;; 		 (session-save))))
 
 
 
