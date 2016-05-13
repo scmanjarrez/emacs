@@ -25,12 +25,10 @@
 (defun my:ciao-config ()
   (when (and (stringp buffer-file-name)
              (string-match "\\.pl\\'" buffer-file-name))
-    (load "/usr/lib/ciao/ciao-mode-init")
+    (load "/usr/lib/ciao/ciao-mode-init");;loads ciao emacs-config
     (ciao-mode)))
 
 (add-hook 'find-file-hook 'my:ciao-config)
-;; (add-hook 'ciao-mode-hook
-;; 	  '(load "/usr/lib/ciao/ciao-mode-init")) ;;Activate ciao-prolog mode
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;;loads emacs maximized
 
@@ -65,7 +63,7 @@
 
 ;; make buffer switch command auto suggestions, also for find-file command
 (ido-mode 1)
-;;ignore all *xxx* buffers except scratch
+;;ignore all *xxx* buffers except scratch, ciao and eshell
 (defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*"));"*Messages*"))
 (defun ido-ignore-most-star-buffers (name)
   (and
@@ -225,7 +223,7 @@ Also returns nil if pid is nil."
 ;; (add-hook 'c-mode-hook 'hungry-delete-mode)
 
 (require 'flycheck) ;enable flycheck cppcheck style
-(add-hook 'c-mode-hook #'global-flycheck-mode) ;(global-flycheck-mode)
+(add-hook 'c-mode-hook 'global-flycheck-mode) ;(global-flycheck-mode)
 (eval-after-load 'flycheck
   '(progn
      (require 'flycheck-cstyle)
