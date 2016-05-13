@@ -22,7 +22,15 @@
 ;; (require 'iso-transl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(load "/usr/lib/ciao/ciao-mode-init") ;;Activate ciao-prolog mode
+(defun my:ciao-config ()
+  (when (and (stringp buffer-file-name)
+             (string-match "\\.pl\\'" buffer-file-name))
+    (load "/usr/lib/ciao/ciao-mode-init")
+    (ciao-mode)))
+
+(add-hook 'find-file-hook 'my:ciao-config)
+;; (add-hook 'ciao-mode-hook
+;; 	  '(load "/usr/lib/ciao/ciao-mode-init")) ;;Activate ciao-prolog mode
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;;loads emacs maximized
 
@@ -65,11 +73,6 @@
    (not (member name ido-dont-ignore-buffer-names))))
 
 (setq ido-ignore-buffers (list "\\` " #'ido-ignore-most-star-buffers))
-
-;; deprecated
-;; (iswitchb-mode 1) ;; enable fast switch buffer C-x b + C-s/C-r
-;; (setq iswitchb-buffer-ignore '("^ " "*Completions*" "*Shell Command Output*"
-;;                "*Messages*" "Async Shell Command"))
 
 ;; Automatically save and restore sessions
 (setq desktop-dirname             (getenv "PWD");;"~/.emacs.d/desktop/"
@@ -176,8 +179,6 @@ Also returns nil if pid is nil."
 (add-hook 'ciao-mode-hook 'auto-complete-mode)  ;;enable auto-complete ciao-mode
 
 (require 'auto-complete-config)  ;;load auto-complete config
-;;(add-to-list
-;; 'ac-dictionary-directories "~/.emacs.d/elpa/auto-complete-20160310.2248/dict")
 (ac-config-default)
 
 (require 'yasnippet) ;;start yasnippet
@@ -224,7 +225,7 @@ Also returns nil if pid is nil."
 ;; (add-hook 'c-mode-hook 'hungry-delete-mode)
 
 (require 'flycheck) ;enable flycheck cppcheck style
-(add-hook 'after-init-hook #'global-flycheck-mode) ;(global-flycheck-mode)
+(add-hook 'c-mode-hook #'global-flycheck-mode) ;(global-flycheck-mode)
 (eval-after-load 'flycheck
   '(progn
      (require 'flycheck-cstyle)
