@@ -24,11 +24,15 @@
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/" . "cliente/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/" . "reto/")
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/" . "practica1_I/")
- ("/home/serchiman/" . ".emacs.d/")
+ ("/home/serchiman/" . "Desktop/")
 )
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/codigo/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoDeFormas/"
+ "/home/serchiman/.emacs.d/"
  "/home/serchiman/Desktop/Universidad/Prolog/Practica2/"
  "/home/serchiman/Desktop/Universidad/Prolog/Practica/"
  "/home/serchiman/Desktop/Universidad/Prolog/PrologPuro/"
@@ -41,7 +45,6 @@
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/servidor/"
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/"
  "/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Pruebas/"
- "/home/serchiman/.emacs.d/"
  "/home/serchiman/"
  "/home/serchiman/Desktop/Universidad/Sistemas Operativos/DATSI/so/servidor.2015a/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/subscriptor/"
@@ -64,27 +67,45 @@
 
 ;; ----- ido-work-file-list -----
 (
+ "clasifScKt.py"
+ "prueba.py"
+ "prueba.txt"
+ "irisData.txt"
+ "algo.c"
+ "irisScKt.py"
+ "test.py"
+ "init.el"
  "pruebas.pl"
  "practica.pl"
- "aritmetica.pl"
- "practica2_ParteI_NombreAlumno.pl"
- "practica2_ParteII_NombreAlumno.pl"
- "practica_v9 (2).pl"
- "DFSFicheroCliente.java"
- "Cache.java"
- "DFSFicheroServImpl.java"
- "DFSFicheroServ.java"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/serchiman/Desktop/Universidad/Prolog/Practica2/" (22362 40535 515297 898000) "./" "practica2_Memoria_SergioChica.pdf" "practica.pl" "practica2_ParteI_SergioChica.pl" "pruebas.itf" "emacs.desktop" "pruebas.pl" "pruebas.po" "NormasRealizacionEntrega-vFinal.pdf" "../" "ciao0_3195Vap" "practica2_ParteII_SergioChica.pl" "fichero.txt" "PRODE-Practica2-vFinal.pdf")
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/codigo/" (22531 35051 8301 85000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" (22502 50134 986838 669000) "irisData.txt" "./" "codigo.zip" "codigo/" "TutorialPython2.pdf" "../")
+
+ ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/" (22329 49644 188681 133000) "Makefile" "dmutex.o" "./" "emacs.desktop" "dmutex.h" "dmutex.c" "../" ".INDEX")
+
+ ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/DATSI/SD/JavaDSM.2015/cliente/" (22327 44081 876598 360000) "cliente.permisos" "TestAlmacenString.java" "TestCerrojoRemoto.class" "./" "dsm_cliente.jar" "ejecuta_programa.sh" "TestAlmacenString.class" "TestAlmacenListaContadores.java" "Contador.class" "TestCerrojoRemoto.java" "ClienteDSM.class" "compila_programa.sh" "../" "TestAlmacenListaContadores.class" "TestAlmacenContador.java" "TestAlmacenInts.class" "TestAlmacenInts.java" "Contador.java" "ClienteDSM.java")
+
+ ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/DATSI/SD/JavaDSM.2015/dsm/" (22327 21047 846094 202000) "compila_y_construye_JARS.sh" "CerrojoImpl.class" "./" "AlmacenImpl.java" "dsm_cliente.jar" "DSMCerrojo.java" "FabricaCerrojosImpl.java" "ObjetoCompartido.java" "ObjetoCompartido.class" "Almacen.class" "CerrojoImpl.java" "CabeceraObjetoCompartido.class" "AlmacenImpl$Mayor.class" "DSMCerrojo.class" "Cerrojo.class" "CabeceraObjetoCompartido.java" "FabricaCerrojos.class" "FabricaCerrojosImpl.class" "FabricaCerrojos.java" "../" "AlmacenImpl.class" "compila_fichero.sh" "Cerrojo.java" "dsm_servidor.jar" "Almacen.java")
+
+ ("/home/serchiman/Desktop/Universidad/Prolog/PrologPuro/" (22362 334 409871 358000) "enfermedades.itf" "familiaAdams.po" "aritmetica.po" "aritmetica.pl" "./" "familiaAdams.pl" "digitos.pdf" "vidaNatural.pl" "enfermedades.pl" "enfermedades.po" "Ejercicios.pdf" "aritmetica.itf" "vidaNatural.po" "familiaAdams.itf" "../" "vidaNatural.itf" "Diapos/")
+
+ ("/home/serchiman/Desktop/Universidad/Prolog/Practica2/" (22362 41435 179201 536000) "./" "practica2_Memoria_SergioChica.pdf" "practica.pl" "practica2_ParteI_SergioChica.pl" "pruebas.itf" "emacs.desktop" "pruebas.pl" "pruebas.po" "NormasRealizacionEntrega-vFinal.pdf" "../" "ciao0_3195Vap" "practica2_ParteII_SergioChica.pl" "fichero.txt" "PRODE-Practica2-vFinal.pdf")
+
+ ("/home/serchiman/Desktop/Universidad/" (22325 6975 934985 317000) "BasesDatos/" "expediente12151750516825.pdf" "Concurrencia/" "Sergio Chica Manjarrez - Android.doc" "Sergio Chica Manjarrez - ENG.doc" "Link to Probabilidades y Estadísticas IV" "./" "Seguridad/" "Arquitectura/" "Sergio Chica Manjarrez - CV_2016.pdf" "SistemasOperativos/" "SistemasDistribuidos/" "10418.pdf" "Sergio Chica Manjarrez - CV_ENG.pdf" "PPS/" "../" "pdfsam/" "Link to Universidad" "Redes/" "Prolog/")
+
+ ("/home/serchiman/Desktop/" (22489 8301 826433 872000) "./" "Universidad/" "IMDEA/" "../")
+
+ ("/home/serchiman/.emacs.d/" (22502 35682 34967 774000) "session.104885db960f21626146555669977861300000014270038" "./" ".gitignore" "ido.last" "init.el" "auto-save-list/" "ac-comphist.dat" "README.md" "backups/" ".git/" "../" "autosaves/" "elpa/" "semanticdb/" "eshell/" "snippets/")
+
+ ("/home/serchiman/" (22502 35916 327160 366000) ".gimp-2.8/" "Public/" ".macromedia/" ".livestreamerrc" ".bashrc_backup" ".dbus/" ".gnupg/" "Pictures/" ".ICEauthority" ".zshrc_backup" ".zcompdump-GUbuntu-5.1.1" "..bashrc.swp" "./" ".zsh_history_backup" ".gitignore" ".bash_history_backup" ".putty/" ".cache/" ".gksu.lock" ".gnome/" ".sudo_as_admin_successful" ".custom_prompt_zsh/" "Templates/" ".gitignore~" "Music/" ".zcompdump" ".viminfo" ".zsh-update" ".Skype/" ".config/" ".gphoto/" ".local/" ".gconf/" ".emacs.d/" ".zsh_history" "Documents/" ".bash_history" ".adobe/" ".swt/" ".thumbnails/" ".tmux.conf" ".eclipse/" ".bashrc" ".mozilla/" ".thunderbird/" ".ssh/" "../" "Downloads/" ".nano/" ".gitconfig" ".TelegramDesktop/" ".zshrc" "eclipse/" ".swp" ".icons/" ".tooling/" ".python_history" ".oh-my-zsh/" ".tmux/" "Videos/" ".swtend-colorpicker-recent" ".bash_logout" ".p2/" ".profile" "Desktop/" ".pki/")
 
  ("/home/serchiman/Desktop/Universidad/Prolog/" (22361 57466 22941 59000) "The Art of Prolog  2nd Ed - Leon Sterling , Ehud Shapiro.pdf" "ISOProlog/" "Fotos/" "./" "ExamenJulio2015-Soluciones.pdf" "PrologRestricc/" "PrologPuro/" "CiaoDE-1.14.2-13646_ciao.pdf" "Practica/" "../" "ExamenJunio2015-Soluciones.pdf" "Fotos.zip" "Practica2/")
 
  ("/home/serchiman/Desktop/Universidad/Prolog/Practica/" (22335 27760 831992 242000) "practica.po" "lock" "Practica1-v2.pdf" "./" "practica.itf" "practica.pl" "practica1_SergioChica.rar" "emacs.desktop" "automaton.itf" "../" "automaton.po" "automaton.pl" "pruebas")
-
- ("/home/serchiman/Desktop/Universidad/Prolog/PrologPuro/" (22361 55656 360715 928000) "difLists.pdf" "enfermedades.itf" "familiaAdams.po" "aritmetica.pl" "./" "familiaAdams.pl" "digitos.pdf" "vidaNatural.pl" "enfermedades.pl" "enfermedades.po" "Ejercicios.pdf" "aritmetica.itf" "vidaNatural.po" "familiaAdams.itf" "../" "vidaNatural.itf" "Diapos/")
 
  ("/home/serchiman/Downloads/JavaDFS/src/dfs/" (22336 25544 573559 307000) "dfs_servidor.jar" "DFSFicheroCliente.java" "FicheroInfo.java" "DFSCliente.class" "Cache.class" "compila_y_construye_JARS.sh" "DFSServicioImpl.class" "./" "DFSServicio.java" "DFSServicioImpl.java" "DFSFicheroCallbackImpl.class" "DFSCliente.java" "dfs_cliente.jar" "DFSFicheroServImpl.java" "DFSFicheroServ.class" "DFSFicheroCliente.class" "Cache$1.class" "DFSFicheroCallback.class" "../" "DFSFicheroCallback.java" "Cache.java" "Bloque.java" "compila_fichero.sh" "DFSFicheroCallbackImpl.java" "FicheroInfo.class" "DFSFicheroServ.java" "DFSServicio.class" "Bloque.class" "DFSFicheroServImpl.class")
 
@@ -100,23 +121,13 @@
 
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_G/DATSI/SD/JAVADFS.2015/cambios/" (22335 24257 680658 201000) "DFSFicheroCliente.java" "./" "DFSFicheroServImpl.java" "../" "DFSFicheroServ.java")
 
- ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/DATSI/SD/JavaDSM.2015/dsm/" (22326 64674 326276 686000) "compila_y_construye_JARS.sh" "./" "AlmacenImpl.java" "dsm_cliente.jar" "DSMCerrojo.java" "FabricaCerrojosImpl.java" "ObjetoCompartido.java" "CerrojoImpl.java" "CabeceraObjetoCompartido.java" "FabricaCerrojos.java" "../" "compila_fichero.sh" "Cerrojo.java" "dsm_servidor.jar" "Almacen.java")
-
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/DATSI/SD/JavaDSM.2015/servidor/" (21354 812 0 0) "arranca_rmiregistry" "./" "ejecuta_servidor.sh" "ServidorDSM.java" "../" "servidor.permisos" "compila_servidor.sh" "dsm_servidor.jar")
 
- ("/home/serchiman/" (22326 64591 744496 862000) ".gimp-2.8/" "Public/" ".macromedia/" ".bashrc_backup" ".dbus/" ".gnupg/" "Pictures/" ".ICEauthority" ".zshrc_backup" ".zcompdump-GUbuntu-5.1.1" "..bashrc.swp" "./" ".zsh_history_backup" ".gitignore" ".bash_history_backup" ".putty/" ".cache/" ".gksu.lock" ".gnome/" ".sudo_as_admin_successful" ".custom_prompt_zsh/" "Templates/" "Music/" ".zcompdump" ".viminfo" ".zsh-update" "workspace/" ".Skype/" ".config/" ".local/" ".gconf/" ".emacs.d/" ".zsh_history" "Documents/" ".bash_history" ".adobe/" ".tmux.conf" ".eclipse/" ".bashrc" ".mozilla/" ".thunderbird/" ".ssh/" "../" "Downloads/" ".nano/" ".gitconfig" ".TelegramDesktop/" ".zshrc" ".icons/" ".tooling/" ".oh-my-zsh/" ".tmux/" "Videos/" ".bash_logout" ".p2/" ".profile" "Desktop/" ".pki/")
-
- ("/home/serchiman/.emacs.d/" (22326 15430 601613 918000) "./" ".gitignore" "ido.last" "init.el" "auto-save-list/" "ac-comphist.dat" "README.md" "backups/" ".git/" "../" "autosaves/" "elpa/" "semanticdb/" "eshell/" "snippets/")
-
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Pruebas/" (22324 52863 94744 931000) "a.c" "iii.c" "main.c" "i.o" "./" "i.c" "iiii.c" "iii.o" "i" "ii.c" "ii" "iiii" "../" "i_c" "i_c.c" "iii" "main" "a" "i_c.o" "main.h" "ii.o" "iiii.o")
-
- ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/" (22325 60699 582522 48000) "Makefile" "dmutex.o" "./" "emacs.desktop" "dmutex.h" "dmutex.c" "../" ".INDEX")
 
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/servidor/" (22325 63193 865739 46000) "ServicioEco.class" "ServidorEco.class" "./" "ServidorEco.java" "ServicioEco.java" "ServicioEcoImpl.class" "../" "servidor.permisos" "ServicioEcoImpl.java")
 
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/Ejemplos/ejemplos-guiaRMI/1_eco/cliente/" (22325 63208 754028 461000) "cliente.permisos" "ServicioEco.class" "./" "ClienteEco.class" "ClienteEco.java" "../")
-
- ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/DATSI/SD/JavaDSM.2015/cliente/" (22326 64611 936956 437000) "cliente.permisos" "TestAlmacenString.java" "./" "dsm_cliente.jar" "ejecuta_programa.sh" "TestAlmacenListaContadores.java" "TestCerrojoRemoto.java" "compila_programa.sh" "../" "TestAlmacenContador.java" "TestAlmacenInts.java" "Contador.java" "ClienteDSM.java")
 
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica1_G/DATSI/SD/JavaDSM.2015/" (22326 64267 846605 20000) "./" "cliente/" "dsm/" "README.md" ".git/" "../" "servidor/")
 
@@ -137,10 +148,6 @@
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/" (22266 15199 0 0) "1459096837.V24I4497f2M702097.triqui4.etsiinf.upm.es" "./" "EDSU.2015_5_puntos.tar.gz" "EDSU.2015.tar.gz" "../" "EDSU.2015 (5 puntos)/" "diferencias/" "EDSU.2015/")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/" (22304 1869 615787 692000) "./" "Silvia/" "Rafa/" "DATSI/" "sd-edsu.pdf" "../" "Anais/" "edsu.tgz")
-
- ("/home/serchiman/Desktop/" (22316 35729 430640 157000) "./" "Universidad/" "../")
-
- ("/home/serchiman/Desktop/Universidad/" (22316 35729 430640 157000) "BasesDatos/" "expediente12151750516825.pdf" "Concurrencia/" "Link to Probabilidades y Estadísticas IV" "./" "Seguridad/" "Arquitectura/" "Sergio Chica Manjarrez - CV_2016.pdf" "Sistemas Distribuidos/" "Sistemas Operativos/" "PPS/" "../" "pdfsam/" "Link to Universidad" "Redes/" "Prolog/")
 
  ("/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/intermediario/" (22315 52810 243968 5000) "a.c" "iii.c" "Makefile" "iiiii.c" "fich1" "lock" "comun.c" "./" "test.c" "i.c" "iiii.c" "core" "intermediario" "i" "ii.c" "emacs.desktop" "ii" "aa.c" "iiii" "intermediario.o" "servidor.c" "fich_test" "../" "comun.o" "iiiii" "intermediario.c" "iii" "a" "aa" "comun.h")
 

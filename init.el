@@ -22,13 +22,13 @@
 ;; (require 'iso-transl)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(defun my:ciao-config ()
-  (when (and (stringp buffer-file-name)
-             (string-match "\\.pl\\'" buffer-file-name))
-    (load "/usr/lib/ciao/ciao-mode-init");;loads ciao emacs-config
-    (ciao-mode)))
+;; (defun my:ciao-config ()
+;;   (when (and (stringp buffer-file-name)
+;;              (string-match "\\.pl\\'" buffer-file-name))
+;;     (load "/usr/lib/ciao/ciao-mode-init");;loads ciao emacs-config
+;;     (ciao-mode)))
 
-(add-hook 'find-file-hook 'my:ciao-config)
+;; (add-hook 'find-file-hook 'my:ciao-config)
 
 (add-to-list 'default-frame-alist '(fullscreen . maximized)) ;;loads emacs maximized
 
@@ -64,7 +64,7 @@
 ;; make buffer switch command auto suggestions, also for find-file command
 (ido-mode 1)
 ;;ignore all *xxx* buffers except scratch, ciao and eshell
-(defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*"));"*Messages*"))
+(defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*" "*Python*"));"*Messages*"))
 (defun ido-ignore-most-star-buffers (name)
   (and
    (string-match-p "^*" name)
@@ -174,13 +174,16 @@ Also returns nil if pid is nil."
 
 (require 'auto-complete)
 (global-auto-complete-mode t)  ;;enable global auto-complete
-(add-hook 'ciao-mode-hook 'auto-complete-mode)  ;;enable auto-complete ciao-mode
+;; (add-hook 'ciao-mode-hook 'auto-complete-mode)  ;;enable auto-complete ciao-mode
+(add-hook 'python-mode-hook (lambda () (auto-complete-mode -1))) ;;disable auto-complete in python-mode
 
 (require 'auto-complete-config)  ;;load auto-complete config
 (ac-config-default)
 
 (require 'yasnippet) ;;start yasnippet
 (yas-global-mode 1)
+;; (add-hook 'python-mode-hook (lambda () (yas-minor-mode -1))) ;;disable yasnippet in python-mode
+
 ;;function that triggers on c/c++ mode
 (defun my:ac-header-init ()
   (require 'auto-complete-c-headers)
@@ -194,6 +197,7 @@ Also returns nil if pid is nil."
 
 ;;turn on Semantic
 (semantic-mode 1)
+(add-hook 'python-mode-hook (lambda () (semantic-mode -1))) ;;disable semantic-mode in python-mode
 
 (defun my:add-semantic-to-autocomplete() 
   (add-to-list 'ac-sources 'ac-source-semantic))
@@ -207,7 +211,8 @@ Also returns nil if pid is nil."
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter programming mode
 (add-hook 'ciao-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
 
-(load-theme 'monokai t)  ;;enable monokai-theme
+;; (load-theme 'monokai t)  ;;enable monokai-theme
+(load-theme 'zenburn t)  ;;enable zenburn-theme
 
 ;; makes rainbow-mode colors more contrasted
 (require 'cl-lib)
@@ -240,3 +245,13 @@ Also returns nil if pid is nil."
 (add-hook 'c-mode-hook 'imenu-add-menubar-index)
 
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; (add-hook 'python-mode-hook
+;; 	  (lambda () (setq indent-tabs-mode t))
+
+(elpy-enable)
+
+(global-set-key (kbd "M-<down>") 'shrink-window)
+(global-set-key (kbd "M-<up>") 'enlarge-window)
+(global-set-key (kbd "M-<left>") 'shrink-window-horizontally)
+(global-set-key (kbd "M-<right>") 'enlarge-window-horizontally)
