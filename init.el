@@ -180,6 +180,21 @@ Also returns nil if pid is nil."
 (require 'auto-complete-config)  ;;load auto-complete config
 (ac-config-default)
 
+;; Activate auto-complete for latex modes (AUCTeX or Emacs' builtin one).
+(add-to-list 'ac-modes 'latex-mode)
+
+;; Activate ac-math.
+(eval-after-load "latex"
+  '(when (featurep 'auto-complete)
+     ;; See https://github.com/vspinu/ac-math
+     (require 'ac-math)
+     (defun ac-latex-mode-setup ()       ; add ac-sources to default ac-sources
+       (setq ac-sources
+         (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands)
+             ac-sources)))
+     (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
+
+
 (require 'yasnippet) ;;start yasnippet
 (yas-global-mode 1)
 ;; (add-hook 'python-mode-hook (lambda () (yas-minor-mode -1))) ;;disable yasnippet in python-mode

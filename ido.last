@@ -2,6 +2,7 @@
 
 ;; ----- ido-last-directory-list -----
 (
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" . "rafa/")
  ("/home/serchiman/Desktop/Universidad/Prolog/" . "Practica2/")
  ("/home/serchiman/Downloads/JavaDFS/src/" . "dfs/")
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_G/DATSI/SD/JAVADFS.2015/" . "dfs/")
@@ -29,8 +30,12 @@
 
 ;; ----- ido-work-directory-list -----
 (
- "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/codigo/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/rafa/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasBayes/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasEuclid/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/"
+ "/home/serchiman/Desktop/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/codigo/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoDeFormas/"
  "/home/serchiman/.emacs.d/"
  "/home/serchiman/Desktop/Universidad/Prolog/Practica2/"
@@ -68,22 +73,30 @@
 ;; ----- ido-work-file-list -----
 (
  "clasifScKt.py"
+ "irisScKt.py"
+ "ej5yej14.tex"
+ "te.log"
  "prueba.py"
  "prueba.txt"
  "irisData.txt"
  "algo.c"
- "irisScKt.py"
  "test.py"
  "init.el"
- "pruebas.pl"
- "practica.pl"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/codigo/" (22531 35051 8301 85000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/rafa/" (22543 48947 713179 949000) "./" "../" "irisScKt.py" "clasifScKt.py" "clasifScKt.pyc" "wdbc.data" "irisData.txt")
 
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" (22502 50134 986838 669000) "irisData.txt" "./" "codigo.zip" "codigo/" "TutorialPython2.pdf" "../")
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" (22541 16626 659873 518000) "./" "../" "demostraciones/" "isolet.zip" "clasBayes/" "TutorialPython2.pdf" "isolet/" "cancer.zip" "codigo.zip" "wine/" "cancer/" "wine.zip" "clasEuclid/" "rafa/")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasBayes/" (22543 48891 248056 403000) "./" "lock" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" ".#clasifScKt.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "isolet1234.data" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasEuclid/" (22539 62003 724789 106000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+
+ ("/home/serchiman/Desktop/" (22531 39976 163073 34000) "./" "te.pdf" "../" "Universidad/" "te.log" "te.tex" "te.aux")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/codigo/" (22531 35051 8301 85000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
 
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_I/DATSI/SD/DMUTEX.2015/Proceso/" (22329 49644 188681 133000) "Makefile" "dmutex.o" "./" "emacs.desktop" "dmutex.h" "dmutex.c" "../" ".INDEX")
 
@@ -96,8 +109,6 @@
  ("/home/serchiman/Desktop/Universidad/Prolog/Practica2/" (22362 41435 179201 536000) "./" "practica2_Memoria_SergioChica.pdf" "practica.pl" "practica2_ParteI_SergioChica.pl" "pruebas.itf" "emacs.desktop" "pruebas.pl" "pruebas.po" "NormasRealizacionEntrega-vFinal.pdf" "../" "ciao0_3195Vap" "practica2_ParteII_SergioChica.pl" "fichero.txt" "PRODE-Practica2-vFinal.pdf")
 
  ("/home/serchiman/Desktop/Universidad/" (22325 6975 934985 317000) "BasesDatos/" "expediente12151750516825.pdf" "Concurrencia/" "Sergio Chica Manjarrez - Android.doc" "Sergio Chica Manjarrez - ENG.doc" "Link to Probabilidades y Estadísticas IV" "./" "Seguridad/" "Arquitectura/" "Sergio Chica Manjarrez - CV_2016.pdf" "SistemasOperativos/" "SistemasDistribuidos/" "10418.pdf" "Sergio Chica Manjarrez - CV_ENG.pdf" "PPS/" "../" "pdfsam/" "Link to Universidad" "Redes/" "Prolog/")
-
- ("/home/serchiman/Desktop/" (22489 8301 826433 872000) "./" "Universidad/" "IMDEA/" "../")
 
  ("/home/serchiman/.emacs.d/" (22502 35682 34967 774000) "session.104885db960f21626146555669977861300000014270038" "./" ".gitignore" "ido.last" "init.el" "auto-save-list/" "ac-comphist.dat" "README.md" "backups/" ".git/" "../" "autosaves/" "elpa/" "semanticdb/" "eshell/" "snippets/")
 
