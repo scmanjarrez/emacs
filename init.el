@@ -280,3 +280,5 @@ Also returns nil if pid is nil."
 
 
 (global-set-key [f8] 'highlight-or-dehighlight-line)
+
+(xclip-mode 1)
