@@ -64,13 +64,13 @@
 ;; make buffer switch command auto suggestions, also for find-file command
 (ido-mode 1)
 ;;ignore all *xxx* buffers except scratch, ciao and eshell
-(defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*" "*Python*"));"*Messages*"))
-(defun ido-ignore-most-star-buffers (name)
-  (and
-   (string-match-p "^*" name)
-   (not (member name ido-dont-ignore-buffer-names))))
+;; (defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*" "*Python*"));"*Messages*"))
+;; (defun ido-ignore-most-star-buffers (name)
+;;   (and
+;;    (string-match-p "^*" name)
+;;    (not (member name ido-dont-ignore-buffer-names))))
 
-(setq ido-ignore-buffers (list "\\` " #'ido-ignore-most-star-buffers))
+;; (setq ido-ignore-buffers (list "\\` " #'ido-ignore-most-star-buffers))
 
 ;; Automatically save and restore sessions
 (setq desktop-dirname             (getenv "PWD");;"~/.emacs.d/desktop/"
@@ -226,8 +226,9 @@ Also returns nil if pid is nil."
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter programming mode
 (add-hook 'ciao-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
 
-;; (load-theme 'monokai t)  ;;enable monokai-theme
-(load-theme 'zenburn t)  ;;enable zenburn-theme
+(if (display-graphic-p) 
+    (load-theme 'zenburn t)  ;;enable zenburn-theme only GUI
+  (set-face-attribute 'region nil :background "#e3cf71" :foreground "#000")) ;; change bg color terminal
 
 ;; makes rainbow-mode colors more contrasted
 (require 'cl-lib)

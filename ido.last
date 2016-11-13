@@ -30,6 +30,7 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/final/"
  "/home/serchiman/Desktop/Universidad/EPAC/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasBayes/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/silvia/"
@@ -75,11 +76,11 @@
 
 ;; ----- ido-work-file-list -----
 (
- "references.bib"
  "clasifScKt.py"
  "irisScKt.py"
- "clasiBayes.tex"
  "irisData.txt"
+ "references.bib"
+ "clasiBayes.tex"
  "ej5yej14.tex"
  "te.log"
  "prueba.py"
@@ -89,6 +90,8 @@
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/final/" (22568 30093 702849 579000) "./" "wine.data" "../" "irisScKt.py" "iris_grafica.png" "clasifScKt.py" "clasifScKt.pyc" "wdbc.data" "memoria.odt" "irisData.txt" "isolet1234.data" "emacs.desktop")
+
  ("/home/serchiman/" (22549 55436 845533 597000) "eclipse/" "./" ".gnome/" "../" ".putty/" ".cache/" ".zsh-update" "Templates/" ".TelegramDesktop/" ".livestreamerrc" ".gconf/" ".Skype/" "Documents/" ".bashrc" ".swt/" ".gitignore~" ".viminfo" ".gphoto/" ".nano/" ".adobe/" ".emacs.d/" ".gnupg/" ".ssh/" ".python_history" ".pki/" ".mozilla/" ".sudo_as_admin_successful" ".bash_history" ".cat_installer/" ".dbus_back/" ".swtend-colorpicker-recent" ".ipython/" ".bashrc_backup" "Pictures/" ".lesshst" "Videos/" ".aptitude/" "Desktop/" ".zshrc_backup" ".themes/" ".macromedia/" ".bash_logout" ".bash_history_backup" ".zcompdump-archx-5.1.1" ".gitignore" ".p2/" "Music/" ".tmux.conf" ".thumbnails/" ".tooling/" ".config/" ".custom_prompt_zsh/" ".ICEauthority" ".oh-my-zsh/" ".idlerc/" ".icons/" "Public/" ".local/" ".zcompdump" ".zcompdump-GUbuntu-5.1.1" ".zsh_history" ".gimp-2.8/" ".eclipse/" ".profile" ".tmux/" ".thunderbird/" ".swp" ".gitconfig" ".zshrc" "Downloads/" ".zsh_history_backup" ".gksu.lock")
 
  ("/home/serchiman/.emacs.d/" (22547 44585 754110 884000) "./" "../" "semanticdb/" "auto-save-list/" ".git/" "session.104885db960f21626146555669977861300000014270038" "README.md" "autosaves/" "snippets/" "eshell/" "init.el" "ido.last" ".gitignore" "ac-comphist.dat" "elpa/" "backups/" "session.10529b74f1cf3138e6147716354065564600000012400037")
