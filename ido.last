@@ -2,7 +2,7 @@
 
 ;; ----- ido-last-directory-list -----
 (
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" . "clasBayes/")
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" . "final/")
  ("/home/serchiman/Desktop/Universidad/Prolog/" . "Practica2/")
  ("/home/serchiman/Downloads/JavaDFS/src/" . "dfs/")
  ("/home/serchiman/Desktop/Universidad/SistemasDistribuidos/practica2_G/DATSI/SD/JAVADFS.2015/" . "dfs/")
@@ -30,9 +30,11 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/serchiman/Desktop/Universidad/AdministracionSistemasInformaticos/codigo/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/final/"
- "/home/serchiman/Desktop/Universidad/EPAC/"
+ "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/kmedias/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasBayes/"
+ "/home/serchiman/Desktop/Universidad/EPAC/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/silvia/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/rafa/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/alvaro/"
@@ -76,35 +78,45 @@
 
 ;; ----- ido-work-file-list -----
 (
+ "configurar_cluster.sh"
  "clasifScKt.py"
+ "kmedias_silvia.py"
+ "kmeans.py"
  "irisScKt.py"
  "irisData.txt"
  "references.bib"
  "clasiBayes.tex"
  "ej5yej14.tex"
  "te.log"
- "prueba.py"
- "prueba.txt"
- "algo.c"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/final/" (22568 30093 702849 579000) "./" "wine.data" "../" "irisScKt.py" "iris_grafica.png" "clasifScKt.py" "clasifScKt.pyc" "wdbc.data" "memoria.odt" "irisData.txt" "isolet1234.data" "emacs.desktop")
+ ("/home/serchiman/Desktop/Universidad/AdministracionSistemasInformaticos/codigo/scripts/" (22598 53264 16835 583000) "./" "func_disasm.py" "../" "bash_waves" "diaphora.sh" "idapro.sh" "bw_threshold.sh" "panda_replay.sh" "replay_all_from_file.sh" "diaphora.py" "proc.log" "replay_only_from_file.sh" "record_replay.sh" "byteweight_custom.sh" "asd/" "bwasm.c" "compare_functions.py" "README-byteweight" "replay.sh" "diff_from_file.sh" "bwasm" "record.sh" "README-idapro" "README-record" "byteweight.sh" "panda_replayonly.sh" "bweight.py" "bindiff.sh" "make_idb.py" "README-replay" "bindiff_export.idc")
 
- ("/home/serchiman/" (22549 55436 845533 597000) "eclipse/" "./" ".gnome/" "../" ".putty/" ".cache/" ".zsh-update" "Templates/" ".TelegramDesktop/" ".livestreamerrc" ".gconf/" ".Skype/" "Documents/" ".bashrc" ".swt/" ".gitignore~" ".viminfo" ".gphoto/" ".nano/" ".adobe/" ".emacs.d/" ".gnupg/" ".ssh/" ".python_history" ".pki/" ".mozilla/" ".sudo_as_admin_successful" ".bash_history" ".cat_installer/" ".dbus_back/" ".swtend-colorpicker-recent" ".ipython/" ".bashrc_backup" "Pictures/" ".lesshst" "Videos/" ".aptitude/" "Desktop/" ".zshrc_backup" ".themes/" ".macromedia/" ".bash_logout" ".bash_history_backup" ".zcompdump-archx-5.1.1" ".gitignore" ".p2/" "Music/" ".tmux.conf" ".thumbnails/" ".tooling/" ".config/" ".custom_prompt_zsh/" ".ICEauthority" ".oh-my-zsh/" ".idlerc/" ".icons/" "Public/" ".local/" ".zcompdump" ".zcompdump-GUbuntu-5.1.1" ".zsh_history" ".gimp-2.8/" ".eclipse/" ".profile" ".tmux/" ".thunderbird/" ".swp" ".gitconfig" ".zshrc" "Downloads/" ".zsh_history_backup" ".gksu.lock")
+ ("/home/serchiman/" (22598 47839 197339 338000) "eclipse/" "./" ".gnome/" ".subversion/" "../" ".putty/" ".cache/" ".zsh-update" "Templates/" ".TelegramDesktop/" ".livestreamerrc" ".gconf/" ".Skype/" "Documents/" ".bashrc" ".swt/" ".gitignore~" ".viminfo" ".gphoto/" ".tmux.conf~" ".nano/" ".adobe/" ".emacs.d/" ".gnupg/" ".ssh/" ".python_history" ".pki/" ".mozilla/" ".sudo_as_admin_successful" ".bash_history" ".cat_installer/" ".dbus_back/" ".swtend-colorpicker-recent" ".ipython/" ".bashrc_backup" "Pictures/" ".lesshst" "Videos/" ".aptitude/" "Desktop/" ".zshrc_backup" ".themes/" ".macromedia/" ".bash_logout" ".bash_history_backup" ".gtk-recordmydesktop" ".zcompdump-archx-5.1.1" ".dot-files/" ".gitignore" ".p2/" "Music/" ".tmux.conf" "VirtualBox VMs/" ".thumbnails/" ".tooling/" ".config/" ".custom_prompt_zsh/" ".ICEauthority" ".oh-my-zsh/" ".idlerc/" ".icons/" "Public/" ".local/" ".zcompdump" ".zcompdump-GUbuntu-5.1.1" ".zsh_history" ".gimp-2.8/" ".eclipse/" ".profile" ".tmux/" ".thunderbird/" ".swp" ".gitconfig" ".zshrc" "Downloads/" ".zsh_history_backup" ".gksu.lock")
 
- ("/home/serchiman/.emacs.d/" (22547 44585 754110 884000) "./" "../" "semanticdb/" "auto-save-list/" ".git/" "session.104885db960f21626146555669977861300000014270038" "README.md" "autosaves/" "snippets/" "eshell/" "init.el" "ido.last" ".gitignore" "ac-comphist.dat" "elpa/" "backups/" "session.10529b74f1cf3138e6147716354065564600000012400037")
+ ("/home/serchiman/.emacs.d/" (22597 51058 728929 827000) "./" "../" "semanticdb/" "auto-save-list/" ".git/" "session.104885db960f21626146555669977861300000014270038" "README.md" "autosaves/" "snippets/" "eshell/" "init.el" "ido.last" ".gitignore" "ac-comphist.dat" "elpa/" "backups/" "session.10e6f4ba11aaa3e65d148001372717412800000014640038" "session.10529b74f1cf3138e6147716354065564600000012400037")
 
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasEuclid/" (22547 42133 992393 31000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+ ("/home/serchiman/Desktop/" (22586 21722 809458 971000) "./" "../" "entrega_SERGIO_CHICA.pdf" "Universidad/")
 
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasBayes/" (22547 42746 540784 497000) "./" "wine.data" "../" "irisScKt.py" "clasifBayes.pdf" "clasifScKt.py" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "isolet1234.data" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/kmedias/" (22586 55133 913222 991000) "./" "wine.data" "../" "memoria.pdf" "wine.svg" "iris.svg" "Screenshot from 2016-11-27 04-32-42.png" "cancer.svg" "memoria (copy).odt" "wdbc.data" "memoria.odt" "irisData.txt" "isolet1234.data" "isolet.svg" "kmeans.py" "emacs.desktop")
 
- ("/home/serchiman/Desktop/Universidad/EPAC/" (22549 56465 239837 434000) "./" "../" "research_hot_topic_SERGIO_CHICA.pdf" "research_hot_topic_SERGIO_CHICA.tex" "research_hot_topic_SERGIO_CHICA.aux" "research_hot_topic_SERGIO_CHICA.log")
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/final/" (22586 8624 673517 401000) "./" "wine.data" "../" "irisScKt.py" "memoria.pdf" "clasifScKt.py" "clasifScKt.pyc" "wdbc.data" "memoria.odt" "graficos/" "irisData.txt" "isolet1234.data" "emacs.desktop" "back/")
+
+ ("/home/serchiman/Desktop/Universidad/AdministracionSistemasInformaticos/codigo/" (22559 44192 911299 986000) "./" "../")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" (22585 50618 597815 89000) "./" "clasificadores/" "../" "demostraciones/" "TutorialPython2.pdf" "codigo.zip" "kmedias/" "memoria.odt" "final/" "db/")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasEuclid/" (22567 39950 151762 508000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/silvia/" (22567 43792 38446 702000) "./" "../" "irisScKt.py" "clasifScKt.py" "clasifScKt.pyc" "isolet1234.data")
+
+ ("/home/serchiman/Desktop/Universidad/EPAC/" (22549 60294 781665 16000) "./" "../" "research_hot_topic_SERGIO_CHICA.pdf" "research_hot_topic_SERGIO_CHICA.tex" "references.bib" "research_hot_topic_SERGIO_CHICA.aux" "research_hot_topic_SERGIO_CHICA.blg" "research_hot_topic_SERGIO_CHICA.bbl" "emacs.desktop" "research_hot_topic_SERGIO_CHICA.log")
+
+ ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/clasBayes/" (22580 56555 589892 530000) "./" "wine.data" "../" "irisScKt.py" "clasifBayes.pdf" "clasifScKt.py" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "isolet1234.data" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
 
  ("/home/serchiman/Desktop/Universidad/" (22534 17341 594137 739000) "./" "../" "expediente12151750516825.pdf" "SistemasOperativos/" "BasesDatos/" "SistemasDistribuidos/" "Prolog/" "Redes/" "pdfsam/" "Arquitectura/" "Seguridad/" "LaTeX_symbols.pdf" "10418.pdf" "Sergio Chica Manjarrez - CV_ENG.pdf" "Sergio Chica Manjarrez - Android.doc" "Concurrencia/" "Sergio Chica Manjarrez - CV_2016.pdf" "ReconocimientoFormas/" "Sergio Chica Manjarrez - ENG.doc" "PPS/")
-
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/" (22547 42243 614601 526000) "./" "../" "demostraciones/" "isolet.zip" "clasBayes/" "silvia/" "TutorialPython2.pdf" "isolet/" "cancer.zip" "codigo.zip" "wine/" "cancer/" "wine.zip" "clasEuclid/" "anais/" "rafa/" "alvaro/")
 
  ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/anais/" (22547 42289 111515 441000) "./" "../" "PyCharm/" "PyCharm.zip")
 
@@ -130,11 +142,7 @@
 
  ("/home/serchiman/Desktop/Universidad/Prolog/Practica/" (22531 30732 994144 781000) "./" "../" "automaton.pl" "practica.pl" "practica.itf" "practica1_SergioChica.rar" "practica.po" "automaton.po" "Practica1-v2.pdf" "pruebas" "emacs.desktop" "automaton.itf")
 
- ("/home/serchiman/Desktop/" (22539 47022 293221 404000) "./" "../" "Universidad/")
-
  ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/rafa/" (22547 15134 119647 308000) "./" "../" "irisScKt.py" "clasifScKt.py" "clasifScKt.pyc" "wdbc.data" "irisData.txt")
-
- ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/silvia/" (22547 27812 390355 52000) "./" "../" "irisScKt.py" "clasifScKt.py" "clasifScKt.pyc" "isolet1234.data")
 
  ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/alvaro/" (22547 10631 332563 649000) "./" "../" "irisScKt.py" "clasifScKt.py" "clasifScKt.pyc" "isolet1234.data")
 

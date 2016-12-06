@@ -228,7 +228,16 @@ Also returns nil if pid is nil."
 
 (if (display-graphic-p) 
     (load-theme 'zenburn t)  ;;enable zenburn-theme only GUI
-  (set-face-attribute 'region nil :background "#e3cf71" :foreground "#000")) ;; change bg color terminal
+  (set-face-attribute 'region nil :background "#e3cf71" :foreground "#000") ;; change bg color terminal
+  (define-key input-decode-map "\e[1;5D" [C-left])
+  (define-key input-decode-map "\e[1;5C" [C-right])
+  (define-key input-decode-map "\e[1;5A" [C-up])
+  (define-key input-decode-map "\e[1;5B" [C-down])
+
+  (define-key input-decode-map "\e[1;2D" [S-left])
+  (define-key input-decode-map "\e[1;2C" [S-right])
+  (define-key input-decode-map "\e[1;2A" [S-up])
+  (define-key input-decode-map "\e[1;2B" [S-down]))
 
 ;; makes rainbow-mode colors more contrasted
 (require 'cl-lib)
@@ -295,6 +304,6 @@ Also returns nil if pid is nil."
         (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))
 
 
-(global-set-key [f8] 'highlight-or-dehighlight-line)
+(global-set-key [f9] 'highlight-or-dehighlight-line)
 
 (xclip-mode 1)
