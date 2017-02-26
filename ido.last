@@ -2,6 +2,8 @@
 
 ;; ----- ido-last-directory-list -----
 (
+ ("/home/serchiman/Desktop/Universidad/DAW/daw-practicas/practica1/DAW-S02-E02/DAWBS/" . "images/")
+ ("/home/serchiman/Desktop/hashcode/" . "hashcode2017/")
  ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/baumela/" . "clasBayes/")
  ("/home/serchiman/Desktop/Universidad/AdministracionSistemasInformaticos/" . "codigo/")
  ("/home/serchiman/Desktop/Universidad/AdministracionSistemasInformaticos/codigo/" . "scripts/")
@@ -33,6 +35,8 @@
 
 ;; ----- ido-work-directory-list -----
 (
+ "/home/serchiman/Desktop/Universidad/DAW/daw-practicas/practica1/DAW-S02-E02/DAWBS/"
+ "/home/serchiman/Desktop/hashcode/hashcode2017/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/baumela/clasBayes/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/baumela_final/"
  "/home/serchiman/Desktop/Universidad/ReconocimientoFormas/baumela/clasEuclid/"
@@ -81,12 +85,12 @@
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/cliente/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/idl/"
  "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/reto2/reto/servidor/"
- "/home/serchiman/Desktop/Universidad/Prolog/"
- "/home/serchiman/Desktop/Universidad/Sistemas Distribuidos/practica1_I/DATSI/SD/EDSU.2015/editor/"
 )
 
 ;; ----- ido-work-file-list -----
 (
+ "styles.css"
+ "test.py"
  "clasifScKt.py"
  "irisScKt.py"
  "machine_learning.py"
@@ -95,12 +99,22 @@
  "configurar_cluster.sh"
  "ej5yej14.tex"
  "paper.tex"
- "titleinfo.tex"
- "overview.tex"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
+ ("/home/serchiman/Desktop/Universidad/DAW/daw-practicas/practica1/DAW-S02-E02/DAWBS/images/" (22707 4445 604198 718000) "./" "../" "obs2.jpg" "roque.jpg" "bujaren.jpg" "obs1.jpg" ".DS_Store")
+
+ ("/home/serchiman/Desktop/Universidad/DAW/daw-practicas/practica1/DAW-S02-E02/DAWBS/js/" (22707 4445 608198 795000) "./" "../" "bootstrap.js" "bootstrap.min.js" "npm.js")
+
+ ("/home/serchiman/Desktop/Universidad/DAW/daw-practicas/practica1/DAW-S02-E02/DAWBS/css/" (22707 4445 596198 564000) "./" "bootstrap-theme.css" "bootstrap.css" "../" "bootstrap.css.map" "bootstrap.min.css.map" "bootstrap-theme.css.map" "bootstrap-theme.min.css" "bootstrap.min.css" "bootstrap-theme.min.css.map")
+
+ ("/home/serchiman/Desktop/Universidad/DAW/daw-practicas/practica1/DAW-S02-E02/DAWBS/" (22707 5379 145707 520000) "./" "images/" "../" "index.html" "styles.css" ".DS_Store" "css/" "resultado.png" "fonts/" "js/")
+
+ ("/home/serchiman/Desktop/hashcode/hashcode2017/" (22703 8480 901451 898000) "./" "../" ".git/" "eduroam" ".gitignore" "me_at_the_zoo.in" "videos_worth_spreading.in" "hashcode2017_streaming_videos.pdf" "trending_today.in" "kittens.in")
+
+ ("/home/serchiman/Desktop/hashcode/" (22703 7938 391681 107000) "./" "../" "hashcode2017/")
+
  ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/baumela/clasBayes/" (22580 56555 589892 530000) "./" "wine.data" "../" "irisScKt.py" "clasifBayes.pdf" "clasifScKt.py" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "isolet1234.data" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
 
  ("/home/serchiman/Desktop/Universidad/ReconocimientoFormas/baumela/clasEuclid/" (22645 1334 860777 133000) "./" "wine.data" "../" "irisScKt.py" "tasas_error_acierto_iris_wine_cancer.pdf" "clasifScKt.py" "prueba.py" "tasas_error_acierto_iris_wine_cancer.odt" "clasifScKt.pyc" "prueba.txt" "wdbc.data" "irisData.txt" "emacs.desktop" "ficheros_SERGIO_CHICA.zip")
