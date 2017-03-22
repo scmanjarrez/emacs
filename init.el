@@ -155,6 +155,19 @@ Also returns nil if pid is nil."
       kept-old-versions 2)   ; and some old ones, too 
 
 
+(defun wrap-text (b e txt)
+  "simple wrapper"
+  (interactive "r\nMEnter text to wrap with: ")
+  (save-restriction
+    (narrow-to-region b e)
+    (goto-char (point-min))
+    (insert txt)
+    (insert "(")
+    (goto-char (point-max))
+    (insert ")")))
+
+(global-set-key (kbd "C-x M-w") 'wrap-text)
+
 
 ;; truncate lines, don't break lines
 (set-default 'truncate-lines t)
@@ -195,8 +208,8 @@ Also returns nil if pid is nil."
      (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
 
 
-(require 'yasnippet) ;;start yasnippet
-(yas-global-mode 1)
+;; (require 'yasnippet) ;;start yasnippet
+;; (yas-global-mode 1)
 ;; (add-hook 'python-mode-hook (lambda () (yas-minor-mode -1))) ;;disable yasnippet in python-mode
 
 ;;function that triggers on c/c++ mode
@@ -274,6 +287,8 @@ Also returns nil if pid is nil."
 ;; (add-hook 'python-mode-hook
 ;; 	  (lambda () (setq indent-tabs-mode t))
 
+(require 'elpy)
+(delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
 (elpy-enable)
 
 (global-set-key (kbd "M-<down>") 'shrink-window)
