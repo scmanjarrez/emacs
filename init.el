@@ -287,9 +287,21 @@ Also returns nil if pid is nil."
 ;; (add-hook 'python-mode-hook
 ;; 	  (lambda () (setq indent-tabs-mode t))
 
-(require 'elpy)
-(delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
+;; (require 'elpy)
+;; (delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
 (elpy-enable)
+(delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
+;; (defun elpy-goto-definition-or-rgrep ()
+;;   "Go to the definition of the symbol at point, if found. Otherwise, run `elpy-rgrep-symbol'."
+;;   (interactive)
+;;   (ring-insert find-tag-marker-ring (point-marker))
+;;   (condition-case nil (elpy-goto-definition)
+;;     (error (elpy-rgrep-symbol
+;; 	    (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
+
+;; (define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
+
+
 
 (global-set-key (kbd "M-<down>") 'shrink-window)
 (global-set-key (kbd "M-<up>") 'enlarge-window)
