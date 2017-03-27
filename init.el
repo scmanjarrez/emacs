@@ -294,8 +294,6 @@ Also returns nil if pid is nil."
 ;; (add-hook 'python-mode-hook
 ;; 	  (lambda () (setq indent-tabs-mode t))
 
-;; (require 'elpy)
-;; (delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
 (elpy-enable)
 (setq python-shell-completion-native-enable nil) ;; disable shell native warning
 (elpy-use-ipython)
@@ -303,7 +301,11 @@ Also returns nil if pid is nil."
   (setq elpy-modules
 	(delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode))
+
 (add-hook 'python-mode-hook (lambda () (company-quickhelp-mode 1)))
+
+(eval-after-load 'company
+  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
 (global-set-key (kbd "M-<down>") 'shrink-window)
 (global-set-key (kbd "M-<up>") 'enlarge-window)
