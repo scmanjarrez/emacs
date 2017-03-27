@@ -3,7 +3,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages
+   (quote
+    (company-quickhelp zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode magit latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -208,9 +211,13 @@ Also returns nil if pid is nil."
      (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
 
 
-;; (require 'yasnippet) ;;start yasnippet
-;; (yas-global-mode 1)
-;; (add-hook 'python-mode-hook (lambda () (yas-minor-mode -1))) ;;disable yasnippet in python-mode
+(require 'yasnippet) ;;start yasnippet
+;; (add-hook 'c-mode-hook (lambda () (yas-minor-mode 1))) ;;disable yasnippet in python-mode
+(yas-global-mode 1)
+(define-key yas-minor-mode-map [(tab)] nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
+
 
 ;;function that triggers on c/c++ mode
 (defun my:ac-header-init ()
@@ -290,18 +297,13 @@ Also returns nil if pid is nil."
 ;; (require 'elpy)
 ;; (delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
 (elpy-enable)
-(delete 'elpy-module-yasnippet elpy-modules)  ;; removes yasnippet from elpy
-;; (defun elpy-goto-definition-or-rgrep ()
-;;   "Go to the definition of the symbol at point, if found. Otherwise, run `elpy-rgrep-symbol'."
-;;   (interactive)
-;;   (ring-insert find-tag-marker-ring (point-marker))
-;;   (condition-case nil (elpy-goto-definition)
-;;     (error (elpy-rgrep-symbol
-;; 	    (concat "\\(def\\|class\\)\s" (thing-at-point 'symbol) "(")))))
-
-;; (define-key elpy-mode-map (kbd "M-.") 'elpy-goto-definition-or-rgrep)
-
-
+(setq python-shell-completion-native-enable nil) ;; disable shell native warning
+(elpy-use-ipython)
+(when (require 'flycheck nil t)
+  (setq elpy-modules
+	(delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+(add-hook 'python-mode-hook (lambda () (company-quickhelp-mode 1)))
 
 (global-set-key (kbd "M-<down>") 'shrink-window)
 (global-set-key (kbd "M-<up>") 'enlarge-window)
