@@ -1,20 +1,8 @@
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
     (company-quickhelp zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode magit latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))))
-
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;.emacs_backup;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Assembler for 68k uses *, not ;
@@ -66,6 +54,9 @@
 
 ;; make buffer switch command auto suggestions, also for find-file command
 (ido-mode 1)
+(ido-everywhere 1)
+(setq magit-completing-read-function 'magit-ido-completing-read)
+
 ;;ignore all *xxx* buffers except scratch, ciao and eshell
 ;; (defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*" "*Python*"));"*Messages*"))
 ;; (defun ido-ignore-most-star-buffers (name)
@@ -296,6 +287,7 @@ Also returns nil if pid is nil."
 
 (elpy-enable)
 (setq python-shell-completion-native-enable nil) ;; disable shell native warning
+(setq elpy-rpc-backend "jedi")
 (elpy-use-ipython)
 (when (require 'flycheck nil t)
   (setq elpy-modules
@@ -348,3 +340,21 @@ Also returns nil if pid is nil."
 (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+
+
+(require 'sublimity)
+(require 'sublimity-scroll)
+(require 'sublimity-map) ;; experimental
+(require 'sublimity-attractive)
+
+(sublimity-mode 1)
+
+(require 'ido-ubiquitous)
+(ido-ubiquitous-mode)
+(require 'smex) ; Not needed if you use package.el
+(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
+		  ; when Smex is auto-initialized on its first run.
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; This is your old M-x.
+(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)

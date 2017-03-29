@@ -1,0 +1,17 @@
+
+;; ----- smex-history -----
+(
+ session-restore
+ elpy-rpc-restart
+ cd
+ 5x5
+ arp
+ dbx
+ dig
+)
+
+;; ----- smex-data -----
+(
+ (elpy-rpc-restart . 1)
+ (session-restore . 1)
+)
