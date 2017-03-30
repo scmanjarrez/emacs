@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
+ smex-major-mode-commands
  reload-dot-emacs
  ruby-mode
  package-list-packages
  package-install
  smartscan-mode
  imenu
- package-autoremove
 )
 
 ;; ----- smex-data -----
@@ -25,4 +25,5 @@
  (smartscan-mode . 1)
  (reload-dot-emacs . 10)
  (ruby-mode . 1)
+ (smex-major-mode-commands . 1)
 )

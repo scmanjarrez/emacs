@@ -22,25 +22,20 @@
  '(mode-line-highlight ((t (:box nil))))
  '(mode-line-inactive ((t (:box nil)))))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;.emacs_backup;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Modify the comment symbol for asm 68k, '*' instead of ';'
+;; (add-hook 'asm-mode-set-comment-hook '(lambda () (setq asm-comment-char ?*)))
 
-;; Assembler for 68k uses *, not ;
-;; (add-hook 'asm-mode-set-comment-hook
-;; 	  '(lambda ()
-;; 	     (setq asm-comment-char ?*)))
-
-;; (require 'iso-transl)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;; (defun my:ciao-config ()
+;; If Ciao Prolog didn't get configured automatically, this function load ciao-mode-init.el
+;; (defun scm/ciao-config ()
 ;;   (when (and (stringp buffer-file-name)
 ;;              (string-match "\\.pl\\'" buffer-file-name))
-;;     (load "/usr/lib/ciao/ciao-mode-init");;loads ciao emacs-config
+;;     (load "/usr/lib/ciao/ciao-mode-init")
 ;;     (ciao-mode)))
 
-;; (add-hook 'find-file-hook 'my:ciao-config)
+;; (add-hook 'find-file-hook 'my/ciao-config)
 
-(add-to-list 'default-frame-alist '(fullscreen . maximized)) ;;loads emacs maximized
+;; Loads emacs fullscreened
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 (require 'package)
 (setq package-enable-at-startup nil)
@@ -60,29 +55,20 @@
 (ido-everywhere 1)
 (setq magit-completing-read-function 'magit-ido-completing-read)
 
-;;ignore all *xxx* buffers except scratch, ciao and eshell
-;; (defvar ido-dont-ignore-buffer-names '("*scratch*" "*Ciao*" "*eshell*" "*Python*"));"*Messages*"))
-;; (defun ido-ignore-most-star-buffers (name)
-;;   (and
-;;    (string-match-p "^*" name)
-;;    (not (member name ido-dont-ignore-buffer-names))))
-
-;; (setq ido-ignore-buffers (list "\\` " #'ido-ignore-most-star-buffers))
-
-;; Automatically save and restore sessions
-(setq desktop-dirname             (getenv "PWD");;"~/.emacs.d/desktop/"
-      desktop-base-file-name      "emacs.desktop"
-      desktop-base-lock-name      "lock"
+;; Set some variables in order to make below functions work
+(setq desktop-dirname             (getenv "PWD")
+      desktop-base-file-name      ".emacs.desktop"
+      desktop-base-lock-name      ".lock"
       desktop-path                (list desktop-dirname)
       desktop-save                t
-      desktop-files-not-to-save   "^$" ;reload tramp paths
+      desktop-files-not-to-save   "^$"
       desktop-load-locked-desktop nil)
 
-;;look for emacs.desktop file
+;; Look for .emacs.desktop file
 (defun saved-session ()
   (file-exists-p (concat desktop-dirname "/" desktop-base-file-name)))
 
-;; use session-restore to restore the desktop manually
+;; Use session-restore to restore the desktop manually
 (defun session-restore ()
   "Restore a saved emacs session."
   (interactive)
@@ -90,7 +76,7 @@
       (desktop-read)
     (message "No desktop found.")))
 
-;; use session-save to save the desktop manually
+;; Use session-save to save the desktop manually
 (defun session-save ()
   "Save an emacs session."
   (interactive)
@@ -100,20 +86,18 @@
 	(message "Session not saved."))
     (desktop-save-in-desktop-dir)))
 
-;; ;; ask user whether to restore desktop at start-up
+;; Ask user to restore desktop at start-up
 ;; (add-hook 'after-init-hook
 ;; 	  '(lambda ()
 ;; 	     (if (saved-session)
 ;; 		 (if (y-or-n-p "Restore desktop? ")
 ;; 		     (session-restore)))))
 
-;; ;; ask user whether to save desktop at exit
+;; Ask user to save desktop at start-up
 ;; (add-hook 'kill-emacs-hook
 ;; 	  '(lambda ()
 ;; 	     (if (y-or-n-p "Save desktop? ")
 ;; 		 (session-save))))
-
-
 
 (defun emacs-process-p (pid)
   "If pid is the process ID of an emacs process, return t, else nil.
@@ -129,9 +113,6 @@ Also returns nil if pid is nil."
   "Don't allow dead emacsen to own the desktop file."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
-;;; desktop-override-stale-locks.el ends here
-
-
 
 ;; Put backup files neatly away
 (let ((backup-dir "~/.emacs.d/backups")
@@ -337,10 +318,15 @@ Also returns nil if pid is nil."
      ;; configuration
      (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))))
 
-(require 'undo-tree)
-(global-undo-tree-mode) ;enable undo-tree package globally
-(global-set-key (kbd "C-z") 'undo-tree-undo)
-(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+(use-package undo-tree
+  :init (global-undo-tree-mode)
+  :bind (("C-z" . undo-tree-undo)
+	 ("C-S-z" . undo-tree-redo)))
+
+;; (require 'undo-tree)
+;; (global-undo-tree-mode) ;enable undo-tree package globally
+;; (global-set-key (kbd "C-z") 'undo-tree-undo)
+;; (global-set-key (kbd "C-S-z") 'undo-tree-redo)
 
 (global-set-key (kbd "M-s") 'imenu)
 (setq imenu-auto-rescan t)
@@ -400,7 +386,9 @@ Also returns nil if pid is nil."
 
 (global-set-key [f9] 'highlight-or-dehighlight-line)
 
-(xclip-mode 1)
+(use-package xclip
+  :init (xclip-mode 1))
+;; (xclip-mode 1)
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -422,20 +410,17 @@ Also returns nil if pid is nil."
 
 (require 'ido-ubiquitous)
 (ido-ubiquitous-mode)
-(require 'smex) ; Not needed if you use package.el
-(smex-initialize) ; Can be omitted. This might cause a (minimal) delay
-		  ; when Smex is auto-initialized on its first run.
-(global-set-key (kbd "M-x") 'smex)
-(global-set-key (kbd "M-X") 'smex-major-mode-commands)
-;; This is your old M-x.
-(global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 
+(use-package smex
+  :init (smex-initialize)
+  :bind (("M-x" . smex)
+	 ("M-X" . smex-major-mode-commands)
+	 ("C-c C-c M-x" . execute-extended-command)))
 
-(global-anzu-mode +1)
-(global-set-key [remap query-replace] 'anzu-query-replace)
-(global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
-
-
+(use-package anzu
+  :init (global-anzu-mode +1)
+  :bind (([remap query-replace] . anzu-query-replace)
+	 ([remap query-replace-regexp] . anzu-query-replace-regexp)))
 
 ;; From shackra dotemacs: https://github.com/shackra/.emacs.d
 (use-package telephone-line
@@ -495,7 +480,7 @@ Also returns nil if pid is nil."
                    (`finished (if flycheck-current-errors
                                   (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
                                                  (+ (or .warning 0) (or .error 0)))))
-                                    (propertize (format " ✖ %s problems%s" count (if (> count 1) "s" "")) 'face `(:foreground "orange")))
+                                    (propertize (format " ✖ %s problem%s" count (if (> count 1) "s" "")) 'face `(:foreground "orange")))
                                 (propertize " ✔ No problems." 'face `(:foreground "dark grey"))))
                    (`running     (propertize " ⟲ Running" 'face `(:foreground "deep sky blue")))
                    (`no-checker  (propertize " ⚠ No checker" 'face `(:foreground "dim grey")))
@@ -516,81 +501,52 @@ Also returns nil if pid is nil."
                              (accent . (telephone-line-minor-mode-segment telephone-line-position-segment))))
   (telephone-line-mode 1))
 
+(use-package auto-package-update
+  :config
+  (progn
+    (auto-package-update-maybe)
+    (setq auto-package-update-delete-old-versions t)
+    (add-hook 'auto-package-update-before-hook
+	      (lambda () (message "I will update packages now")))
+    (add-hook 'auto-package-update-after-hook
+	      (lambda () (message "Ok, packages update completed")))))
 
-;; (require 'telephone-line)
+(use-package smooth-scrolling
+  :config
+  (smooth-scrolling-mode 1))
 
-;; (setq telephone-line-height 20)
+(use-package smartscan
+  :config
+  (global-smartscan-mode 1))
 
-;; (setq telephone-line-lhs
-;;       '((accent . (telephone-line-buffer-segment))
-;; 	(evil    . (telephone-line-minor-mode-segment))))
+(use-package neotree
+  :config
+  (progn
+    (setq-default neo-smart-open t)
+    (setq neo-theme
+	  (if window-system 'icons 'arrow)) ; 'classic, 'nerd, 'ascii, 'arrow
+    (setq neo-vc-integration '(face char))
+    (setq neo-show-hidden-files t)
+    (setq neo-toggle-window-keep-p t)
+    ;; (setq neo-force-change-root t)
+    (add-hook 'neotree-mode-hook
+	      (lambda () (setq-local mode-line-format nil)))
+    (set-face-attribute 'neo-vc-edited-face nil
+			:foreground "#E2C08D")
+    (set-face-attribute 'neo-vc-added-face nil
+			:foreground "green4")
+    (set-face-attribute 'neo-vc-removed-face nil
+			:foreground "indianred1")
+    (global-set-key [f5] 'neotree-toggle)))
 
-;; (setq telephone-line-rhs
-;;       '((evil   . (telephone-line-major-mode-segment))
-;; 	(accent . (telephone-line-vc-segment))
-;; 	(evil   . (telephone-line-airline-position-segment))))
-
-;; (setq telephone-line-primary-left-separator
-;;       telephone-line-cubed-left)
-
-;; (setq telephone-line-secondary-left-separator
-;;       telephone-line-cubed-hollow-left)
-
-;; (setq telephone-line-primary-right-separator
-;;       telephone-line-cubed-right)
-
-;; (setq telephone-line-secondary-right-separator
-;;       telephone-line-cubed-hollow-right)
-
-(telephone-line-mode t)
-
-(require 'auto-package-update)
-(auto-package-update-maybe)
-(setq auto-package-update-delete-old-versions t)
-
-(add-hook 'auto-package-update-before-hook
-          (lambda () (message "I will update packages now")))
-
-(add-hook 'auto-package-update-after-hook
-          (lambda () (message "Ok, packages update completed")))
-
-(require 'smooth-scrolling)
-(smooth-scrolling-mode 1)
-
-(require 'smartscan)
-(global-smartscan-mode 1)
-
-(require 'neotree)
-(require 'all-the-icons)
-
-(setq-default neo-smart-open t)
-
-(setq neo-theme (if window-system 'icons 'arrow)) ; 'classic, 'nerd, 'ascii, 'arrow
-
-(setq neo-vc-integration '(face char))
-
-(setq neo-show-hidden-files t)
-
-(setq neo-toggle-window-keep-p t)
-
-;; (setq neo-force-change-root t)
-
-(add-hook 'neotree-mode-hook (lambda () (setq-local mode-line-format nil)))
-
-;; face customizations
-(set-face-attribute 'neo-vc-edited-face nil
-                    :foreground "#E2C08D")
-(set-face-attribute 'neo-vc-added-face nil
-		    :foreground "green4")
-(set-face-attribute 'neo-vc-removed-face nil
-		    :foreground "indianred1")
-
-(global-set-key [f5] 'neotree-toggle)
-
-(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
+(use-package all-the-icons)
 
 ;; Save all buffers on focus out
 (defun save-all ()
   (interactive)
   (save-some-buffers t))
 (add-hook 'focus-out-hook 'save-all)
+
+
+
+(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
