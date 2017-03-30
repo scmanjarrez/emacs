@@ -1,17 +1,28 @@
 
 ;; ----- smex-history -----
 (
- session-restore
- elpy-rpc-restart
- cd
- 5x5
- arp
- dbx
- dig
+ reload-dot-emacs
+ ruby-mode
+ package-list-packages
+ package-install
+ smartscan-mode
+ imenu
+ package-autoremove
 )
 
 ;; ----- smex-data -----
 (
  (elpy-rpc-restart . 1)
  (session-restore . 1)
+ (package-install . 7)
+ (eww . 1)
+ (eval-buffer . 7)
+ (load-file . 1)
+ (eval-region . 3)
+ (package-list-packages . 2)
+ (package-autoremove . 1)
+ (imenu . 1)
+ (smartscan-mode . 1)
+ (reload-dot-emacs . 10)
+ (ruby-mode . 1)
 )
