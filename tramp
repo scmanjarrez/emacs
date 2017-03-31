@@ -1,12 +1,8 @@
-;; -*- emacs-lisp -*- <17/03/23 19:22:16 /home/serchiman/.emacs.d/tramp>
+;; -*- emacs-lisp -*- <17/03/31 04:39:36 /home/serchiman/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
-((["scp" nil "ssh" nil nil]
-  nil)
- (["ssh" nil "github.com" nil nil]
-  nil)
- (["ssh" "sergiochica" "10.10.16.17" nil nil]
+((["ssh" "sergiochica" "10.10.16.17" nil nil]
   ("locale" "LC_ALL=en_US.utf8")
   ("uname" "Linux 4.4.0-67-generic")
   ("test" "test")
@@ -24,4 +20,9 @@
   ("readlink" "\\readlink")
   ("gid-integer" 1000)
   ("ls" "/bin/ls --color=never")
-  ("uid-integer" 1000)))
+  ("uid-integer" 1000)
+  ("ls-dired" t))
+ (["scp" nil "ssh" nil nil]
+  nil)
+ (["ssh" nil "10.10.16.17" nil nil]
+  nil))

@@ -10,7 +10,7 @@
  '(line-number-display-limit 67108864)
  '(package-selected-packages
    (quote
-    (all-the-icons-dired all-the-icons neotree smooth-scrolling auto-package-update telephone-line anzu company-quickhelp zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (spaceline powerline all-the-icons-dired all-the-icons neotree smooth-scrolling auto-package-update telephone-line anzu company-quickhelp zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -18,9 +18,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(mode-line ((t (:box nil))))
- '(mode-line-highlight ((t (:box nil))))
- '(mode-line-inactive ((t (:box nil)))))
+ )
 
 ;; Modify the comment symbol for asm 68k, '*' instead of ';'
 ;; (add-hook 'asm-mode-set-comment-hook '(lambda () (setq asm-comment-char ?*)))
@@ -49,11 +47,6 @@
       read-file-name-completion-ignore-case t)
 
 (setq initial-scratch-message ";; I am your editor. Please describe your program.\n")
-
-;; make buffer switch command auto suggestions, also for find-file command
-(ido-mode 1)
-(ido-everywhere 1)
-(setq magit-completing-read-function 'magit-ido-completing-read)
 
 ;; Set some variables in order to make below functions work
 (setq desktop-dirname             (getenv "PWD")
@@ -163,15 +156,6 @@ Also returns nil if pid is nil."
 ;; enable y/n answers to yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; See matching pairs of parentheses and other characters
-(show-paren-mode 1)
-
-;; Highlight brackets if visible, else entire expression
-(setq show-paren-style 'mixed)
-
-;; use Shift+arrow_keys to move cursor around split panes
-(windmove-default-keybindings)
-
 ;; truncate lines, don't break lines
 (set-default 'truncate-lines t)
 (setq truncate-partial-width-windows nil)
@@ -185,17 +169,11 @@ Also returns nil if pid is nil."
 ;; Highlight trailing whitespaces in lines
 (customize-set-variable 'show-trailing-whitespace t)
 
-;; No toolbar - icons
-(tool-bar-mode -1)
-
 ;; No menu bar
 (menu-bar-mode -1)
 
 ;; Highlight current line
 (global-hl-line-mode t)
-
-;; Toggle scroll-bar
-(toggle-scroll-bar -1)
 
 ;; Show current line and column in the mode line
 (line-number-mode t)
@@ -216,22 +194,53 @@ Also returns nil if pid is nil."
 (require 'diminish)
 (require 'bind-key)
 
-;;enable smartparens global mode
-(smartparens-global-mode t)
 
-(sp-pair "(" ")" :wrap "C-(")
-(sp-pair "[" "]" :wrap "C-M-[")
-(sp-pair "'" "'" :wrap "C-'")
-(sp-pair "\"" "\"" :wrap "C-\"")
-(sp-pair "{" "}" :wrap "C-{")
+(use-package ido
+  :ensure t
+  :config
+  (ido-mode 1)
+  (ido-everywhere 1))
 
-(require 'auto-complete)
-(global-auto-complete-mode t)  ;;enable global auto-complete
-;; (add-hook 'ciao-mode-hook 'auto-complete-mode)  ;;enable auto-complete ciao-mode
-(add-hook 'python-mode-hook (lambda () (auto-complete-mode -1))) ;;disable auto-complete in python-mode
 
-(require 'auto-complete-config)  ;;load auto-complete config
-(ac-config-default)
+(use-package paren
+  :init
+  (progn
+    (show-paren-mode 1)
+    (setq show-paren-style 'mixed)))
+
+(use-package tool-bar
+  :defer t
+  :config (tool-bar-mode -1))
+
+(use-package scroll-bar
+  :defer t
+  :config (scroll-bar-mode -1))
+
+;; use Shift+arrow_keys to move cursor around split panes
+(use-package windmove
+  :config
+  (windmove-default-keybindings))
+
+(use-package smartparens
+  :config
+  (smartparens-global-mode t)
+  (sp-pair "(" ")" :wrap "C-(")
+  (sp-pair "[" "]" :wrap "C-M-[")
+  (sp-pair "'" "'" :wrap "C-'")
+  (sp-pair "\"" "\"" :wrap "C-\"")
+  (sp-pair "{" "}" :wrap "C-{"))
+
+(use-package auto-complete
+  :config
+  (global-auto-complete-mode t)
+  (add-hook 'python-mode-hook
+	    (lambda () (global-auto-complete-mode -1)))
+  (use-package auto-complete-config
+    :config
+    (ac-config-default)))
+
+;; (add-hook 'ciao-mode-hook 'auto-complete-mode)
+
 
 ;; Activate auto-complete for latex modes (AUCTeX or Emacs' builtin one).
 (add-to-list 'ac-modes 'latex-mode)
@@ -243,17 +252,19 @@ Also returns nil if pid is nil."
      (require 'ac-math)
      (defun ac-latex-mode-setup ()       ; add ac-sources to default ac-sources
        (setq ac-sources
-         (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands)
-             ac-sources)))
+	     (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands)
+		     ac-sources)))
      (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
 
 
-(require 'yasnippet) ;;start yasnippet
-(yas-global-mode 1)
-(define-key yas-minor-mode-map [(tab)] nil)
-(define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-c k") 'yas-expand)
-
+(use-package yasnippet
+  :bind
+  (:map yas-minor-mode-map
+	("C-c k" . yas-expand)
+	([(tab)] . nil)
+	("TAB" . nil))
+  :config
+  (yas-global-mode 1))
 
 ;;function that triggers on c/c++ mode
 (defun my:ac-header-init ()
@@ -264,11 +275,15 @@ Also returns nil if pid is nil."
 (add-hook 'c++-mode-hook 'my:ac-header-init)
 (add-hook 'c-mode-hook 'my:ac-header-init)
 
-(define-key global-map (kbd "C-c ;") 'iedit-mode)
+(use-package iedit
+  :bind ("C-c ;" . iedit-mode))
 
 ;;turn on Semantic
-(semantic-mode 1)
-(add-hook 'python-mode-hook (lambda () (semantic-mode -1))) ;;disable semantic-mode in python-mode
+(use-package semantic
+  :init
+  (semantic-mode 1)
+  :config
+  (add-hook 'python-mode-hook (lambda () (semantic-mode -1))))
 
 (defun my:add-semantic-to-autocomplete()
   (add-to-list 'ac-sources 'ac-source-semantic))
@@ -278,9 +293,10 @@ Also returns nil if pid is nil."
 (global-semantic-idle-scheduler-mode 1)
 
 
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter programming mode
-(add-hook 'ciao-mode-hook 'rainbow-delimiters-mode) ;;activate rainbow-delimiter ciao-mode
+(use-package rainbow-delimiters
+  :config
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+  (add-hook 'ciao-mode-hook 'rainbow-delimiters-mode))
 
 (if (display-graphic-p)
     (load-theme 'zenburn t)  ;;enable zenburn-theme only GUI
@@ -308,50 +324,60 @@ Also returns nil if pid is nil."
 ;; (require 'hungry-delete)
 ;; (add-hook 'c-mode-hook 'hungry-delete-mode)
 
-(require 'flycheck) ;enable flycheck cppcheck style
-(add-hook 'c-mode-hook 'global-flycheck-mode) ;(global-flycheck-mode)
-(eval-after-load 'flycheck
-  '(progn
-     (require 'flycheck-cstyle)
-     (flycheck-cstyle-setup)
-     ;; chain after cppcheck since this is the last checker in the upstream
-     ;; configuration
-     (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))))
+(use-package flycheck
+  :config
+  (add-hook 'c-mode-hook 'global-flycheck-mode)
+  (progn
+    (require 'flycheck-cstyle)
+    (flycheck-cstyle-setup)
+    ;; chain after cppcheck since this is the last checker in the upstream
+    ;; configuration
+    (flycheck-add-next-checker 'c/c++-cppcheck '(warning . cstyle))));enable flycheck cppcheck style
 
 (use-package undo-tree
-  :init (global-undo-tree-mode)
-  :bind (("C-z" . undo-tree-undo)
-	 ("C-S-z" . undo-tree-redo)))
+  :ensure t
+  :init
+  (global-undo-tree-mode 1)
+  :bind
+  (("C-z" . undo-tree-undo)
+   ("C-S-z" . undo-tree-redo)))
 
-;; (require 'undo-tree)
-;; (global-undo-tree-mode) ;enable undo-tree package globally
-;; (global-set-key (kbd "C-z") 'undo-tree-undo)
-;; (global-set-key (kbd "C-S-z") 'undo-tree-redo)
+(use-package imenu
+  :bind ("M-s" . imenu)
+  :init (setq imenu-auto-rescan t)
+  :config (add-hook 'c-mode-hook 'imenu-add-menubar-index))
 
-(global-set-key (kbd "M-s") 'imenu)
-(setq imenu-auto-rescan t)
-(add-hook 'c-mode-hook 'imenu-add-menubar-index)
+(use-package magit
+  :bind ("C-x g" . magit-status)
+  :config
+  (setq magit-completing-read-function 'magit-ido-completing-read))
 
-(global-set-key (kbd "C-x g") 'magit-status)
+(use-package python
+  :ensure t
+  :mode ("\\.py" . python-mode)
+  :config
+  (defun scm/python-hook ()
+    (setq python-indent-offset 4)
+    (make-local-variable 'auto-indent-assign-indent-level)
+    (setq auto-indent-assign-indent-level 4)
+    (setq tab-width 4))
+  (add-hook 'python-mode-hook #'scm/python-hook)
+  (use-package elpy
+    :init (elpy-enable)
+    :ensure t
+    :config
+    (setq python-shell-completion-native-enable nil)
+    (setq elpy-rpc-backend "jedi")
+    (elpy-use-ipython)
+    (when (require 'flycheck nil t)
+      (setq elpy-modules
+	    (delq 'elpy-module-flymake elpy-modules))
+      (add-hook 'elpy-mode-hook 'flycheck-mode))
+    (add-hook 'python-mode-hook #'smartparens-strict-mode)
+    (add-hook 'python-mode-hook
+	      (lambda () (company-quickhelp-mode 1)))))
 
-(defun python-hook ()
-  (setq python-indent-offset 4)
-  (make-local-variable 'auto-indent-assign-indent-level)
-  (setq auto-indent-assign-indent-level 4)
-  (setq tab-width 4))
 
-(add-hook 'python-mode-hook 'python-hook)
-
-(elpy-enable)
-(setq python-shell-completion-native-enable nil) ;; disable shell native warning
-(setq elpy-rpc-backend "jedi")
-(elpy-use-ipython)
-(when (require 'flycheck nil t)
-  (setq elpy-modules
-	(delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-
-(add-hook 'python-mode-hook (lambda () (company-quickhelp-mode 1)))
 
 (eval-after-load 'company
   '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
@@ -380,36 +406,29 @@ Also returns nil if pid is nil."
     (let ((overlay-highlight (make-overlay
                               (line-beginning-position)
                               (+ 1 (line-end-position)))))
-        (overlay-put overlay-highlight 'face '(:background "honeydew4"))
-        (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))
+      (overlay-put overlay-highlight 'face '(:background "honeydew4"))
+      (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))
 
 
 (global-set-key [f9] 'highlight-or-dehighlight-line)
 
 (use-package xclip
-  :init (xclip-mode 1))
-;; (xclip-mode 1)
+  :config
+  (xclip-mode 1))
 
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[agj]sp\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.djhtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+(use-package web-mode
+  :mode
+  (("\\.html?\\'" . web-mode)
+   ("\\.erb\\'" . web-mode)
+   ("\\.mustache\\'" . web-mode)
+   ("\\.tpl\\.php\\'" . web-mode)
+   ("\\.[agj]sp\\'" . web-mode)
+   ("\\.as[cp]x\\'" . web-mode)
+   ("\\.djhtml\\'" . web-mode)))
 
-
-;; (require 'sublimity)
-;; (require 'sublimity-scroll)
-;; (require 'sublimity-map) ;; experimental
-;; (require 'sublimity-attractive)
-
-;; (sublimity-mode 1)
-
-(require 'ido-ubiquitous)
-(ido-ubiquitous-mode)
+(use-package ido-ubiquitous
+  :config
+  (ido-ubiquitous-mode))
 
 (use-package smex
   :init (smex-initialize)
@@ -421,6 +440,8 @@ Also returns nil if pid is nil."
   :init (global-anzu-mode +1)
   :bind (([remap query-replace] . anzu-query-replace)
 	 ([remap query-replace-regexp] . anzu-query-replace-regexp)))
+
+(use-package all-the-icons)
 
 ;; From shackra dotemacs: https://github.com/shackra/.emacs.d
 (use-package telephone-line
@@ -437,22 +458,22 @@ Also returns nil if pid is nil."
   :config
   (telephone-line-defsegment* shackra-buffer-vc-modified-segment
     (list (cond ((eq (shackra/vc-state) 'edited)
-                 (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+                 (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:foreground "yellow" :height 1.3 :family ,(all-the-icons-faicon-family))
                              'display '(raise -0.1) 'help-echo "Modified buffer, changes not committed."))
-                ((buffer-modified-p)
+		((buffer-modified-p)
                  (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:foreground "tomato" :height 1.3 :family ,(all-the-icons-faicon-family))
                              'display '(raise -0.1) 'help-echo "Modified buffer.")))
           (cond ((eq (shackra/vc-state) 'missing)
-                 (propertize (format " %s " (all-the-icons-faicon "trash")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+                 (propertize (format " %s" (all-the-icons-faicon "trash")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
                              'display '(raise -0.1) 'help-echo "File on CVS, not local."))
                 ((eq (shackra/vc-state) 'ignored)
-                 (propertize (format " %s " (all-the-icons-faicon "ban")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+                 (propertize (format " %s" (all-the-icons-faicon "ban")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
                              'display '(raise -0.1) 'help-echo "File ignored."))
                 ((eq (shackra/vc-state) 'added)
-                 (propertize (format " %s " (all-the-icons-faicon "plus")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+                 (propertize (format " %s" (all-the-icons-faicon "plus")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
                              'display '(raise -0.1) 'help-echo "File added to be committed."))
                 ((eq (shackra/vc-state) 'unregistered)
-                 (propertize (format " %s " (all-the-icons-faicon "question")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+                 (propertize (format " %s" (all-the-icons-faicon "question")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
                              'display '(raise -0.1) 'help-echo "File unregistered.")))))
 
   (telephone-line-defsegment shackra-line-buffer-segment
@@ -463,9 +484,9 @@ Also returns nil if pid is nil."
       (cond ((string-match "Git[:-]" vc-mode)
              (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
                (concat
-                (propertize (format " %s" (all-the-icons-alltheicon "git")) 'face `(:foreground "orange" :height 1.3) 'display '(raise -0.1))
+                (propertize (format " %s" (all-the-icons-alltheicon "git")) 'face `(:foreground "orange" :height 1.3 :family, (all-the-icons-alltheicon-family)) 'display '(raise -0.1))
                 " · "
-                (propertize (format "%s" (all-the-icons-octicon "git-branch"))
+                (propertize (format " %s" (all-the-icons-octicon "git-branch"))
                             'face `(:foreground "yellow" :height 1.3 :family ,(all-the-icons-octicon-family))
                             'display '(raise -0.1))
                 (propertize (format " %s" branch) 'face `(:foreground "yellow" :height 0.9)))))
@@ -480,16 +501,16 @@ Also returns nil if pid is nil."
                    (`finished (if flycheck-current-errors
                                   (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
                                                  (+ (or .warning 0) (or .error 0)))))
-                                    (propertize (format " ✖ %s problem%s" count (if (> count 1) "s" "")) 'face `(:foreground "orange")))
-                                (propertize " ✔ No problems." 'face `(:foreground "dark grey"))))
+                                    (propertize (format " ✖ %s Issue%s" count (if (> count 1) "s" "")) 'face `(:foreground "orange")))
+                                (propertize " ✔ No Issues." 'face `(:foreground "dark grey"))))
                    (`running     (propertize " ⟲ Running" 'face `(:foreground "deep sky blue")))
-                   (`no-checker  (propertize " ⚠ No checker" 'face `(:foreground "dim grey")))
-                   (`not-checked (propertize " ✖ Not checked" 'face `(:foreground "dim grey")))
-                   (`errored     (propertize " ⚠ Errored" 'face `(:foreground "tomato")))
+                   (`no-checker  (propertize " ⚠ No Checker" 'face `(:foreground "dim grey")))
+                   (`not-checked (propertize " ✖ Disabled" 'face `(:foreground "dim grey")))
+                   (`errored     (propertize " ⚠ Error" 'face `(:foreground "tomato")))
                    (`interrupted (propertize " ⛔ Interrupted" 'face `(:foreground "tomato")))
                    (`suspicious  ""))))
       (propertize text
-                  'help-echo "Show errors detected by flycheck"
+                  'help-echo "Show Flycheck Errors"
                   'local-map (make-mode-line-mouse-map
                               'mouse-1 (lambda () (interactive) (flycheck-list-errors))))))
 
@@ -539,14 +560,10 @@ Also returns nil if pid is nil."
 			:foreground "indianred1")
     (global-set-key [f5] 'neotree-toggle)))
 
-(use-package all-the-icons)
-
 ;; Save all buffers on focus out
 (defun save-all ()
   (interactive)
   (save-some-buffers t))
 (add-hook 'focus-out-hook 'save-all)
-
-
 
 (message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))

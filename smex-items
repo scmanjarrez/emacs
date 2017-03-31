@@ -1,12 +1,12 @@
 
 ;; ----- smex-history -----
 (
- smex-major-mode-commands
  reload-dot-emacs
- ruby-mode
- package-list-packages
  package-install
- smartscan-mode
+ package-list-packages
+ magit-status
+ magit-stash
+ describe-mode
  imenu
 )
 
@@ -14,16 +14,20 @@
 (
  (elpy-rpc-restart . 1)
  (session-restore . 1)
- (package-install . 7)
+ (package-install . 8)
  (eww . 1)
  (eval-buffer . 7)
  (load-file . 1)
  (eval-region . 3)
- (package-list-packages . 2)
+ (package-list-packages . 3)
  (package-autoremove . 1)
- (imenu . 1)
+ (imenu . 2)
  (smartscan-mode . 1)
- (reload-dot-emacs . 10)
+ (reload-dot-emacs . 11)
  (ruby-mode . 1)
  (smex-major-mode-commands . 1)
+ (describe-mode . 5)
+ (undo-tree-mode . 2)
+ (magit-stash . 1)
+ (magit-status . 1)
 )
