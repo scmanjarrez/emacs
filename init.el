@@ -10,7 +10,7 @@
  '(line-number-display-limit 67108864)
  '(package-selected-packages
    (quote
-    (spaceline powerline all-the-icons-dired all-the-icons neotree smooth-scrolling auto-package-update telephone-line anzu company-quickhelp zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (spaceline powerline all-the-icons neotree smooth-scrolling auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -148,15 +148,11 @@ Also returns nil if pid is nil."
   (message "Re-initialized!"))
 
 
-;; Enable source code pro font and set its size to 110
-;; https://github.com/adobe-fonts/source-code-pro
 (set-default-font "Source Code Pro" nil t)
 (set-face-attribute 'default nil :height 100)
 
-;; enable y/n answers to yes/no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; truncate lines, don't break lines
 (set-default 'truncate-lines t)
 (setq truncate-partial-width-windows nil)
 
@@ -280,17 +276,13 @@ Also returns nil if pid is nil."
 
 ;;turn on Semantic
 (use-package semantic
-  :init
-  (semantic-mode 1)
   :config
-  (add-hook 'python-mode-hook (lambda () (semantic-mode -1))))
-
-(defun my:add-semantic-to-autocomplete()
-  (add-to-list 'ac-sources 'ac-source-semantic))
-
-(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
-;;turn on automatic reparsing of open buffers in semantic
-(global-semantic-idle-scheduler-mode 1)
+  (add-hook 'c-mode-hook (lambda () (progn
+				      (semantic-mode 1)
+				      (global-semantic-idle-scheduler-mode 1))))
+  (defun my:add-semantic-to-autocomplete()
+    (add-to-list 'ac-sources 'ac-source-semantic))
+  (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete))
 
 
 (use-package rainbow-delimiters
@@ -373,14 +365,8 @@ Also returns nil if pid is nil."
       (setq elpy-modules
 	    (delq 'elpy-module-flymake elpy-modules))
       (add-hook 'elpy-mode-hook 'flycheck-mode))
-    (add-hook 'python-mode-hook #'smartparens-strict-mode)
-    (add-hook 'python-mode-hook
-	      (lambda () (company-quickhelp-mode 1)))))
+    (add-hook 'python-mode-hook #'smartparens-strict-mode)))
 
-
-
-(eval-after-load 'company
-  '(define-key company-active-map (kbd "C-c h") #'company-quickhelp-manual-begin))
 
 (global-set-key (kbd "M-<down>") 'shrink-window)
 (global-set-key (kbd "M-<up>") 'enlarge-window)
@@ -443,84 +429,133 @@ Also returns nil if pid is nil."
 
 (use-package all-the-icons)
 
+(require 'powerline)
+(powerline-default-theme)
 ;; From shackra dotemacs: https://github.com/shackra/.emacs.d
-(use-package telephone-line
-  :preface (defun shackra/vc-state ()
-             (if vc-mode
-                 (vc-state (buffer-file-name (current-buffer)))
-               nil))
-  :init
-  (setf telephone-line-height 30)
-  (custom-set-faces
-   '(mode-line ((t (:box nil))))
-   '(mode-line-inactive ((t (:box nil))))
-   '(mode-line-highlight ((t (:box nil)))))
-  :config
-  (telephone-line-defsegment* shackra-buffer-vc-modified-segment
-    (list (cond ((eq (shackra/vc-state) 'edited)
-                 (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:foreground "yellow" :height 1.3 :family ,(all-the-icons-faicon-family))
-                             'display '(raise -0.1) 'help-echo "Modified buffer, changes not committed."))
-		((buffer-modified-p)
-                 (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:foreground "tomato" :height 1.3 :family ,(all-the-icons-faicon-family))
-                             'display '(raise -0.1) 'help-echo "Modified buffer.")))
-          (cond ((eq (shackra/vc-state) 'missing)
-                 (propertize (format " %s" (all-the-icons-faicon "trash")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
-                             'display '(raise -0.1) 'help-echo "File on CVS, not local."))
-                ((eq (shackra/vc-state) 'ignored)
-                 (propertize (format " %s" (all-the-icons-faicon "ban")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
-                             'display '(raise -0.1) 'help-echo "File ignored."))
-                ((eq (shackra/vc-state) 'added)
-                 (propertize (format " %s" (all-the-icons-faicon "plus")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
-                             'display '(raise -0.1) 'help-echo "File added to be committed."))
-                ((eq (shackra/vc-state) 'unregistered)
-                 (propertize (format " %s" (all-the-icons-faicon "question")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
-                             'display '(raise -0.1) 'help-echo "File unregistered.")))))
 
-  (telephone-line-defsegment shackra-line-buffer-segment
-    (telephone-line-raw mode-line-buffer-identification t))
+;; (use-package telephone-line
+;;   :preface (defun shackra/vc-state ()
+;;              (if vc-mode
+;;                  (vc-state (buffer-file-name (current-buffer)))
+;;                nil))
+;;   :init
+;;   (setf telephone-line-height 30)
+;;   (custom-set-faces
+;;    '(mode-line ((t (:box nil))))
+;;    '(mode-line-inactive ((t (:box nil))))
+;;    '(mode-line-highlight ((t (:box nil)))))
+;;   :config
+;;   (telephone-line-defsegment* scm-file-info
+;;   ((let* ((config-alist
+;;             '(("*" all-the-icons-faicon-family all-the-icons-faicon "chain-broken" :height 1.2 :v-adjust -0.0)
+;;               ("-" all-the-icons-faicon-family all-the-icons-faicon "link" :height 1.2 :v-adjust -0.0)
+;;               ("%" all-the-icons-octicon-family all-the-icons-octicon "lock" :height 1.2 :v-adjust 0.1)))
+;;            (result (cdr (assoc (format-mode-line "%*") config-alist))))
+;;       (propertize (apply (cadr result) (cddr result))
+;;                   'face `(:family ,(funcall (car result)))))))
+;;   (telephone-line-defsegment* scm-region-info
+;;   (when mark-active
+;;     (let ((words (count-lines (region-beginning) (region-end)))
+;;           (chars (count-words (region-end) (region-beginning))))
+;;       (concat
+;;        (propertize (format "   %s" (all-the-icons-octicon "pencil") words chars)
+;;                    'face `(:family ,(all-the-icons-octicon-family))
+;;                    'display '(raise -0.0))
+;;        (propertize (format " (%s, %s)" words chars)
+;;                    'face `(:height 0.9))))))
 
-  (telephone-line-defsegment* shackra-vc-info
-    (when vc-mode
-      (cond ((string-match "Git[:-]" vc-mode)
-             (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-               (concat
-                (propertize (format " %s" (all-the-icons-alltheicon "git")) 'face `(:foreground "orange" :height 1.3 :family, (all-the-icons-alltheicon-family)) 'display '(raise -0.1))
-                " · "
-                (propertize (format " %s" (all-the-icons-octicon "git-branch"))
-                            'face `(:foreground "yellow" :height 1.3 :family ,(all-the-icons-octicon-family))
-                            'display '(raise -0.1))
-                (propertize (format " %s" branch) 'face `(:foreground "yellow" :height 0.9)))))
-            ((string-match "SVN-" vc-mode)
-             (let ((revision (cadr (split-string vc-mode "-"))))
-               (concat
-                (propertize (format " %s" (all-the-icons-faicon "cloud")) 'face `(:height 1.3) 'display '(raise -0.1))
-                (propertize (format " · %s" revision) 'face `(:height 0.9)))))
-            (t (format "%s" vc-mode)))))
-  (telephone-line-defsegment* shackra-flycheck-status
-    (let* ((text (pcase flycheck-last-status-change
-                   (`finished (if flycheck-current-errors
-                                  (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
-                                                 (+ (or .warning 0) (or .error 0)))))
-                                    (propertize (format " ✖ %s Issue%s" count (if (> count 1) "s" "")) 'face `(:foreground "orange")))
-                                (propertize " ✔ No Issues." 'face `(:foreground "dark grey"))))
-                   (`running     (propertize " ⟲ Running" 'face `(:foreground "deep sky blue")))
-                   (`no-checker  (propertize " ⚠ No Checker" 'face `(:foreground "dim grey")))
-                   (`not-checked (propertize " ✖ Disabled" 'face `(:foreground "dim grey")))
-                   (`errored     (propertize " ⚠ Error" 'face `(:foreground "tomato")))
-                   (`interrupted (propertize " ⛔ Interrupted" 'face `(:foreground "tomato")))
-                   (`suspicious  ""))))
-      (propertize text
-                  'help-echo "Show Flycheck Errors"
-                  'local-map (make-mode-line-mouse-map
-                              'mouse-1 (lambda () (interactive) (flycheck-list-errors))))))
+;;   (telephone-line-defsegment* scm-hour-segment
+;; 			      (let* ((hour (string-to-number (format-time-string "%I")))
+;; 				     (icon (all-the-icons-wicon (format "time-%s" hour) :height 1.3 :v-adjust 0.0)))
+;; 				(concat
+;; 				 (propertize (format-time-string " %H:%M ") 'face `(:height 0.9))
+;; 				 (propertize (format "%s " icon) 'face `(:height 1.0 :family ,(all-the-icons-wicon-family)) 'display '(raise -0.0)))))
 
-  (setf telephone-line-lhs
-        '((accent . (shackra-line-buffer-segment shackra-buffer-vc-modified-segment))
-          (nil .  (shackra-vc-info shackra-flycheck-status))))
+;;   (telephone-line-defsegment* scm-cvs-segment
+;; 			      (list (cond ((eq (shackra/vc-state) 'edited)
+;; 					   (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:foreground "yellow" :height 1.3 :family ,(all-the-icons-faicon-family))
+;; 						       'display '(raise -0.1) 'help-echo "Modified buffer, changes not committed."))
+;; 					  ((buffer-modified-p)
+;; 					   (propertize (format " %s" (all-the-icons-faicon "pencil")) 'face `(:foreground "tomato" :height 1.3 :family ,(all-the-icons-faicon-family))
+;; 						       'display '(raise -0.1) 'help-echo "Modified buffer.")))
+;; 				    (cond ((eq (shackra/vc-state) 'missing)
+;; 					   (propertize (format " %s" (all-the-icons-faicon "trash")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+;; 						       'display '(raise -0.1) 'help-echo "File on CVS, not local."))
+;; 					  ((eq (shackra/vc-state) 'ignored)
+;; 					   (propertize (format " %s" (all-the-icons-faicon "ban")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+;; 						       'display '(raise -0.1) 'help-echo "File ignored."))
+;; 					  ((eq (shackra/vc-state) 'added)
+;; 					   (propertize (format " %s" (all-the-icons-faicon "plus")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+;; 						       'display '(raise -0.1) 'help-echo "File added to be committed."))
+;; 					  ((eq (shackra/vc-state) 'unregistered)
+;; 					   (propertize (format " %s" (all-the-icons-faicon "question")) 'face `(:height 1.3 :family ,(all-the-icons-faicon-family))
+;; 						       'display '(raise -0.1) 'help-echo "File unregistered.")))))
 
-  (setf telephone-line-rhs '((nil . (telephone-line-misc-info-segment telephone-line-major-mode-segment))
-                             (accent . (telephone-line-minor-mode-segment telephone-line-position-segment))))
-  (telephone-line-mode 1))
+;;   (telephone-line-defsegment* scm-line-buffer-segment
+;; 			     (telephone-line-raw mode-line-buffer-identification t))
+
+;;   (telephone-line-defsegment* scm-major-mode-icon
+;; 			      (format " %s"
+;; 				      (propertize icon
+;; 						  'help-echo (format "Major-mode: `%s`" major-mode)
+;; 						  'face `(:height 1.2 :family ,(all-the-icons-icon-family-for-buffer)))))
+;;   (telephone-line-defsegment* scm-vc-info
+;; 			      (when vc-mode
+;; 				(cond ((string-match "Git[:-]" vc-mode)
+;; 				       (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
+;; 					 (concat
+;; 					  (propertize (format " %s" (all-the-icons-alltheicon "git")) 'face `(:foreground "orange" :height 1.3 :family, (all-the-icons-alltheicon-family)) 'display '(raise -0.1))
+;; 					  " · "
+;; 					  (propertize (format " %s" (all-the-icons-octicon "git-branch"))
+;; 						      'face `(:foreground "yellow" :height 1.3 :family ,(all-the-icons-octicon-family))
+;; 						      'display '(raise -0.1))
+;; 					  (propertize (format " %s" branch) 'face `(:foreground "yellow" :height 0.9)))))
+;; 				      ((string-match "SVN-" vc-mode)
+;; 				       (let ((revision (cadr (split-string vc-mode "-"))))
+;; 					 (concat
+;; 					  (propertize (format " %s" (all-the-icons-faicon "cloud")) 'face `(:height 1.3) 'display '(raise -0.1))
+;; 					  (propertize (format " · %s" revision) 'face `(:height 0.9)))))
+;; 				      (t (format "%s" vc-mode)))))
+;;   (telephone-line-defsegment* scm-flycheck-status
+;; 			      (let* ((text (pcase flycheck-last-status-change
+;; 					     (`finished (if flycheck-current-errors
+;; 							    (let ((count (let-alist (flycheck-count-errors flycheck-current-errors)
+;; 									   (+ (or .warning 0) (or .error 0)))))
+;; 							      (propertize (format " ✖ %s Issue%s" count (if (> count 1) "s" "")) 'face `(:foreground "orange")))
+;; 							  (propertize " ✔ No Issues." 'face `(:foreground "dark grey"))))
+;; 					     (`running     (propertize " ⟲ Running" 'face `(:foreground "deep sky blue")))
+;; 					     (`no-checker  (propertize " ⚠ No Checker" 'face `(:foreground "dim grey")))
+;; 					     (`not-checked (propertize " ✖ Disabled" 'face `(:foreground "dim grey")))
+;; 					     (`errored     (propertize " ⚠ Error" 'face `(:foreground "tomato")))
+;; 					     (`interrupted (propertize " ⛔ Interrupted" 'face `(:foreground "tomato")))
+;; 					     (`suspicious  ""))))
+;; 				(propertize text
+;; 					    'help-echo "Show Flycheck Errors"
+;; 					    'local-map (make-mode-line-mouse-map
+;; 							'mouse-1 (lambda () (interactive) (flycheck-list-errors))))))
+
+;;   (setf telephone-line-lhs
+;;         '((accent . (scm-cvs-segment scm-line-buffer-segment))
+;;           (nil .  (scm-vc-info scm-flycheck-status))))
+
+;;   (setf telephone-line-rhs '((nil . (scm-major-mode-icon telephone-line-major-mode-segment))
+;;                              (accent . (telephone-line-position-segment
+;; 					scm-hour-segment))))
+;;   (telephone-line-mode 1))
+;; (require 'telephone-line)
+;; (setq telephone-line-lhs
+;;         '((evil   . (telephone-line-evil-tag-segment))
+;;           (accent . (telephone-line-vc-segment
+;;                      telephone-line-erc-modified-channels-segment
+;;                      telephone-line-process-segment))
+;;           (nil    . (telephone-line-minor-mode-segment
+;;                      telephone-line-buffer-segment))))
+;; (setq telephone-line-rhs
+;;         '((nil    . (telephone-line-misc-info-segment))
+;;           (accent . (telephone-line-major-mode-segment))
+;;           (evil   . (telephone-line-airline-position-segment))))
+
+;; (telephone-line-mode t)
 
 (use-package auto-package-update
   :config
