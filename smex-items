@@ -1,13 +1,13 @@
 
 ;; ----- smex-history -----
 (
+ profiler-start
+ font-lock-mode
  package-list-packages
  describe-mode
  describe-bindings
- profiler-start
  reload-dot-emacs
- package-autoremove
- smooth-scrolling-mode
+ package-install
 )
 
 ;; ----- smex-data -----
@@ -31,7 +31,8 @@
  (magit-stash . 1)
  (magit-status . 1)
  (smooth-scrolling-mode . 1)
- (profiler-start . 5)
- (profiler-report . 2)
+ (profiler-start . 8)
+ (profiler-report . 5)
  (describe-bindings . 1)
+ (font-lock-mode . 1)
 )

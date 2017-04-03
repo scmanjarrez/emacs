@@ -10,7 +10,7 @@
  '(line-number-display-limit 67108864)
  '(package-selected-packages
    (quote
-    (spaceline auto-compile all-the-icons neotree smooth-scrolling auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (spaceline auto-compile all-the-icons neotree auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -430,7 +430,10 @@ Also returns nil if pid is nil."
 (use-package anzu
   :init (global-anzu-mode +1)
   :bind (([remap query-replace] . anzu-query-replace)
-	 ([remap query-replace-regexp] . anzu-query-replace-regexp)))
+	 ([remap query-replace-regexp] . anzu-query-replace-regexp))
+  :config
+  (setq anzu-cons-mode-line-p nil))
+
 
 (use-package all-the-icons)
 
@@ -450,9 +453,9 @@ Also returns nil if pid is nil."
     (add-hook 'auto-package-update-after-hook
 	      (lambda () (message "Ok, packages update completed")))))
 
-(use-package smooth-scrolling
-  :config
-  (smooth-scrolling-mode 1))
+(setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
+(setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
+(setq mouse-wheel-progressive-speed nil) ;; on a long mouse scroll keep scrolling by 1 line
 
 (use-package smartscan
   :config
