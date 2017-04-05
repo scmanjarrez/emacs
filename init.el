@@ -10,7 +10,7 @@
  '(line-number-display-limit 67108864)
  '(package-selected-packages
    (quote
-    (spaceline auto-compile all-the-icons neotree auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (visual-regexp spaceline auto-compile all-the-icons neotree auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -480,6 +480,12 @@ Also returns nil if pid is nil."
     (set-face-attribute 'neo-vc-removed-face nil
 			:foreground "indianred1")
     (global-set-key [f5] 'neotree-toggle)))
+
+
+(use-package visual-regexp
+  :bind
+  (("C-c r" . vr/replace)
+   ("C-c q" . vr/query-replace)))
 
 ;; Save all buffers on focus out
 (defun save-all ()

@@ -1,4 +1,8 @@
-((("all-the-icons-octicon" .
+((("vr/query-replace" .
+   [0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0])
+  ("vr/replace" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("all-the-icons-octicon" .
    [2 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
   ("all-the-icons-alltheicon-family" .
    [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 0 0 0 0 0 0 0 0 0 0])
@@ -23,11 +27,11 @@
   ("show-paren-mode" .
    [0 0 0 0 0 0 0 0 0 0 0 0 0 0 1])
   (":config" .
-   [20 0 0 0 0 0 0])
+   [19 0 0 0 0 0 0])
   ("paren-matching" .
    [0 0 0 0 0 1 0 1 0 0 0 0 0 0])
   (":bind" .
-   [7 0 0 0 0])
+   [8 0 0 0 0])
   ("progn" .
    [8 0 0 0 1])
   (":init" .
@@ -35,7 +39,7 @@
   ("anzu" .
    [1 0 0 0])
   ("use-package" .
-   [1 0 0 0 0 0 0 1 9 0 15])
+   [1 0 0 0 0 0 0 1 10 0 15])
   ("execute-extended-command" .
    [0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0])
   ("smex-major-mode-commands" .

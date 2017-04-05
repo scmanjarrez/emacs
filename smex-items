@@ -1,9 +1,9 @@
 
 ;; ----- smex-history -----
 (
+ package-list-packages
  profiler-start
  font-lock-mode
- package-list-packages
  describe-mode
  describe-bindings
  reload-dot-emacs
@@ -19,7 +19,7 @@
  (eval-buffer . 7)
  (load-file . 1)
  (eval-region . 3)
- (package-list-packages . 5)
+ (package-list-packages . 6)
  (package-autoremove . 2)
  (imenu . 2)
  (smartscan-mode . 1)
