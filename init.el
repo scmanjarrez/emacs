@@ -10,7 +10,7 @@
  '(line-number-display-limit 67108864)
  '(package-selected-packages
    (quote
-    (visual-regexp spaceline auto-compile all-the-icons neotree auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (lua-mode visual-regexp spaceline auto-compile all-the-icons neotree auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -148,7 +148,7 @@ Also returns nil if pid is nil."
   (message "Re-initialized!"))
 
 
-(set-default-font "Source Code Pro" nil t)
+(set-default-font "Hack" nil t)
 (set-face-attribute 'default nil :height 100)
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -181,6 +181,8 @@ Also returns nil if pid is nil."
 ;; (setq load-prefer-newer t)
 
 (package-initialize)
+
+;; (setq use-package-verbose t)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -369,8 +371,7 @@ Also returns nil if pid is nil."
     (when (require 'flycheck nil t)
       (setq elpy-modules
 	    (delq 'elpy-module-flymake elpy-modules))
-      (add-hook 'elpy-mode-hook 'flycheck-mode))
-    (add-hook 'python-mode-hook #'smartparens-strict-mode)))
+      (add-hook 'elpy-mode-hook 'flycheck-mode))))
 
 
 (global-set-key (kbd "M-<down>") 'shrink-window)
@@ -417,7 +418,7 @@ Also returns nil if pid is nil."
    ("\\.as[cp]x\\'" . web-mode)
    ("\\.djhtml\\'" . web-mode)))
 
-(use-package ido-ubiquitous
+(use-package ido-completing-read+
   :config
   (ido-ubiquitous-mode))
 
@@ -443,15 +444,15 @@ Also returns nil if pid is nil."
   (spaceline-emacs-theme)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
 
-(use-package auto-package-update
-  :config
-  (progn
-    (auto-package-update-maybe)
-    (setq auto-package-update-delete-old-versions t)
-    (add-hook 'auto-package-update-before-hook
-	      (lambda () (message "I will update packages now")))
-    (add-hook 'auto-package-update-after-hook
-	      (lambda () (message "Ok, packages update completed")))))
+;; (use-package auto-package-update
+;;   :config
+;;   (progn
+;;     (auto-package-update-maybe)
+;;     (setq auto-package-update-delete-old-versions t)
+;;     (add-hook 'auto-package-update-before-hook
+;; 	      (lambda () (message "I will update packages now")))
+;;     (add-hook 'auto-package-update-after-hook
+;; 	      (lambda () (message "Ok, packages update completed")))))
 
 (setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
 (setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
