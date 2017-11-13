@@ -46,7 +46,7 @@
 (setq completion-ignore-case t
       read-file-name-completion-ignore-case t)
 
-(setq initial-scratch-message ";; I am your editor. Please describe your program.\n")
+(setq initial-scratch-message ";; Hi boss! Use my space for whatever you want ^^.\n")
 
 ;; Set some variables in order to make below functions work
 (setq desktop-dirname             (getenv "PWD")
@@ -107,23 +107,27 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 
-;; Put backup files neatly away
-(let ((backup-dir "~/.emacs.d/backups")
-      (auto-saves-dir "~/.emacs.d/autosaves/"))
-  (dolist (dir (list backup-dir auto-saves-dir))
-    (when (not (file-directory-p dir))
-      (make-directory dir t)))
-  (setq backup-directory-alist `(("." . ,backup-dir))
-        auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
-        auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
-        tramp-backup-directory-alist `((".*" . ,backup-dir))
-        tramp-auto-save-directory auto-saves-dir))
 
-(setq backup-by-copying t    ;; Don't delink hardlinks
-      delete-old-versions t  ;; Clean up the backups
-      version-control t      ;; Use version numbers on backups,
-      kept-new-versions 5    ;; keep some new versions
-      kept-old-versions 2)   ;; and some old ones, too
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
+
+;; ;; Put backup files neatly away
+;; (let ((backup-dir "~/.emacs.d/backups")
+;;       (auto-saves-dir "~/.emacs.d/autosaves/"))
+;;   (dolist (dir (list backup-dir auto-saves-dir))
+;;     (when (not (file-directory-p dir))
+;;       (make-directory dir t)))
+;;   (setq backup-directory-alist `(("." . ,backup-dir))
+;;         auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
+;;         auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
+;;         tramp-backup-directory-alist `((".*" . ,backup-dir))
+;;         tramp-auto-save-directory auto-saves-dir))
+
+;; (setq backup-by-copying t    ;; Don't delink hardlinks
+;;       delete-old-versions t  ;; Clean up the backups
+;;       version-control t      ;; Use version numbers on backups,
+;;       kept-new-versions 5    ;; keep some new versions
+;;       kept-old-versions 2)   ;; and some old ones, too
 
 (defun wrap-text (b e txt)
   "simple wrapper"
