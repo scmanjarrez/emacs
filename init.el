@@ -20,18 +20,6 @@
  ;; If there is more than one, they won't work right.
  )
 
-;; Modify the comment symbol for asm 68k, '*' instead of ';'
-;; (add-hook 'asm-mode-set-comment-hook '(lambda () (setq asm-comment-char ?*)))
-
-;; If Ciao Prolog didn't get configured automatically, this function load ciao-mode-init.el
-;; (defun scm/ciao-config ()
-;;   (when (and (stringp buffer-file-name)
-;;              (string-match "\\.pl\\'" buffer-file-name))
-;;     (load "/usr/lib/ciao/ciao-mode-init")
-;;     (ciao-mode)))
-
-;; (add-hook 'find-file-hook 'my/ciao-config)
-
 ;; Loads emacs fullscreened
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
@@ -79,19 +67,6 @@
 	(message "Session not saved."))
     (desktop-save-in-desktop-dir)))
 
-;; Ask user to restore desktop at start-up
-;; (add-hook 'after-init-hook
-;; 	  '(lambda ()
-;; 	     (if (saved-session)
-;; 		 (if (y-or-n-p "Restore desktop? ")
-;; 		     (session-restore)))))
-
-;; Ask user to save desktop at start-up
-;; (add-hook 'kill-emacs-hook
-;; 	  '(lambda ()
-;; 	     (if (y-or-n-p "Save desktop? ")
-;; 		 (session-save))))
-
 (defun emacs-process-p (pid)
   "If pid is the process ID of an emacs process, return t, else nil.
 Also returns nil if pid is nil."
@@ -111,23 +86,6 @@ Also returns nil if pid is nil."
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
 
-;; ;; Put backup files neatly away
-;; (let ((backup-dir "~/.emacs.d/backups")
-;;       (auto-saves-dir "~/.emacs.d/autosaves/"))
-;;   (dolist (dir (list backup-dir auto-saves-dir))
-;;     (when (not (file-directory-p dir))
-;;       (make-directory dir t)))
-;;   (setq backup-directory-alist `(("." . ,backup-dir))
-;;         auto-save-file-name-transforms `((".*" ,auto-saves-dir t))
-;;         auto-save-list-file-prefix (concat auto-saves-dir ".saves-")
-;;         tramp-backup-directory-alist `((".*" . ,backup-dir))
-;;         tramp-auto-save-directory auto-saves-dir))
-
-;; (setq backup-by-copying t    ;; Don't delink hardlinks
-;;       delete-old-versions t  ;; Clean up the backups
-;;       version-control t      ;; Use version numbers on backups,
-;;       kept-new-versions 5    ;; keep some new versions
-;;       kept-old-versions 2)   ;; and some old ones, too
 
 (defun wrap-text (b e txt)
   "simple wrapper"
@@ -197,11 +155,6 @@ Also returns nil if pid is nil."
 (require 'diminish)
 (require 'bind-key)
 
-;; (require 'auto-compile)
-;; (auto-compile-on-load-mode)
-;; (auto-compile-on-save-mode)
-
-
 (use-package ido
   :ensure t
   :config
@@ -245,8 +198,6 @@ Also returns nil if pid is nil."
   (use-package auto-complete-config
     :config
     (ac-config-default)))
-
-;; (add-hook 'ciao-mode-hook 'auto-complete-mode)
 
 
 ;; Activate auto-complete for latex modes (AUCTeX or Emacs' builtin one).
@@ -322,10 +273,6 @@ Also returns nil if pid is nil."
  do
  (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
    (cl-callf color-saturate-name (face-foreground face) 80)))
-
-;; enable hungry-delete
-;; (require 'hungry-delete)
-;; (add-hook 'c-mode-hook 'hungry-delete-mode)
 
 (use-package flycheck
   :config
@@ -448,15 +395,6 @@ Also returns nil if pid is nil."
   (spaceline-emacs-theme)
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
 
-;; (use-package auto-package-update
-;;   :config
-;;   (progn
-;;     (auto-package-update-maybe)
-;;     (setq auto-package-update-delete-old-versions t)
-;;     (add-hook 'auto-package-update-before-hook
-;; 	      (lambda () (message "I will update packages now")))
-;;     (add-hook 'auto-package-update-after-hook
-;; 	      (lambda () (message "Ok, packages update completed")))))
 
 (setq scroll-conservatively 101) ;; move minimum when cursor exits view, instead of recentering
 (setq mouse-wheel-scroll-amount '(1)) ;; mouse scroll moves 1 line at a time, instead of 5 lines
