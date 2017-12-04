@@ -19,7 +19,7 @@
  (eval-buffer . 7)
  (load-file . 1)
  (eval-region . 3)
- (package-list-packages . 11)
+ (package-list-packages . 10)
  (package-autoremove . 2)
  (imenu . 2)
  (smartscan-mode . 1)

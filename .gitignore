@@ -4,3 +4,5 @@ emacs.desktop
 semanticdb
 ido.last
 scratches
+session.*
+ac-comphist.dat
