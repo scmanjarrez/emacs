@@ -113,6 +113,9 @@ Also returns nil if pid is nil."
 (set-default-font "Hack" nil t)
 (set-face-attribute 'default nil :height 100)
 
+;; Delete trailing whitespaces before save
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (set-default 'truncate-lines t)
