@@ -10,7 +10,7 @@
  '(line-number-display-limit 67108864)
  '(package-selected-packages
    (quote
-    (lua-mode visual-regexp spaceline auto-compile all-the-icons neotree auto-package-update telephone-line anzu zenburn-theme xclip web-mode undo-tree spinner smartparens scratches rainbow-delimiters markdown-mode latex-preview-pane latex-math-preview latex-extra iedit hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (lua-mode auto-compile all-the-icons auto-package-update anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -30,11 +30,13 @@
 
 (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/"))
 
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+
 ;; ignore case when completing, filenames too
 (setq completion-ignore-case t
       read-file-name-completion-ignore-case t)
 
-(setq initial-scratch-message ";; Hi boss! Use my space for whatever you want ^^.\n")
+(setq initial-scratch-message ";; Draft file.\n")
 
 ;; Set some variables in order to make below functions work
 (setq desktop-dirname             (getenv "PWD")
@@ -321,7 +323,6 @@ Also returns nil if pid is nil."
     :config
     (setq python-shell-completion-native-enable nil)
     (setq elpy-rpc-backend "jedi")
-    (elpy-use-ipython)
     (when (require 'flycheck nil t)
       (setq elpy-modules
 	    (delq 'elpy-module-flymake elpy-modules))
