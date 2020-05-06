@@ -404,10 +404,10 @@
                             (add-hook 'elpy-mode-hook 'flycheck-mode))))
 
 
-(global-set-key (kbd "M-s") 'shrink-window)
-(global-set-key (kbd "M-w") 'enlarge-window)
-(global-set-key (kbd "M-a") 'shrink-window-horizontally)
-(global-set-key (kbd "M-d") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-S-s") 'shrink-window)
+(global-set-key (kbd "C-S-w") 'enlarge-window)
+(global-set-key (kbd "C-S-a") 'shrink-window-horizontally)
+(global-set-key (kbd "C-S-d") 'enlarge-window-horizontally)
 
 (defun find-overlays-specifying (prop pos)
   (let ((overlays (overlays-at pos))
