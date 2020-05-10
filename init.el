@@ -6,11 +6,25 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi has-no-display-manager)
+      "dvi2tty")
+     ((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "Okular")
+     (output-pdf "Evince")
+     (output-html "xdg-open"))))
+ '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(line-number-display-limit 67108864)
+ '(lsp-file-watch-ignored
+   (quote
+    ("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$")))
  '(package-selected-packages
    (quote
-    (move-text go-mode lua-mode auto-compile all-the-icons auto-package-update anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons auto-package-update anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -270,62 +284,62 @@
              (sp-pair "\"" "\"" :wrap "C-\"")
              (sp-pair "{" "}" :wrap "C-{"))
 
-(use-package auto-complete
-             :config
-             (global-auto-complete-mode t)
-             (add-hook 'python-mode-hook
-                       (lambda () (global-auto-complete-mode -1)))
-             (use-package auto-complete-config
-                          :config
-                          (ac-config-default)))
-
+;(use-package auto-complete
+;             :config
+;             (global-auto-complete-mode t)
+;             (add-hook 'python-mode-hook
+;                       (lambda () (global-auto-complete-mode -1)))
+;             (use-package auto-complete-config
+;                          :config
+;                          (ac-config-default)))
+;
 
 ;; Activate auto-complete for latex modes (AUCTeX or Emacs' builtin one).
-(add-to-list 'ac-modes 'latex-mode)
+;(add-to-list 'ac-modes 'latex-mode)
 
 ;; Activate ac-math.
-(eval-after-load "latex"
-                 '(when (featurep 'auto-complete)
-                    ;; See https://github.com/vspinu/ac-math
-                    (require 'ac-math)
-                    (defun ac-latex-mode-setup ()       ; add ac-sources to default ac-sources
-                      (setq ac-sources
-                            (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands)
-                                    ac-sources)))
-                    (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
+;(eval-after-load "latex"
+;                 '(when (featurep 'auto-complete)
+;                    ;; See https://github.com/vspinu/ac-math
+;                    (require 'ac-math)
+;                    (defun ac-latex-mode-setup ()       ; add ac-sources to default ac-sources
+;                      (setq ac-sources
+;                            (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands)
+;                                    ac-sources)))
+;                    (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
+;
 
-
-(use-package yasnippet
-             :bind
-             (:map yas-minor-mode-map
-                   ("C-c k" . yas-expand)
-                   ([(tab)] . nil)
-                   ("TAB" . nil))
-             :config
-             (yas-global-mode 1))
+;(use-package yasnippet
+;             :bind
+;             (:map yas-minor-mode-map
+;                   ("C-c k" . yas-expand))
+;                   ([(tab)] . nil)
+;                   ("TAB" . nil))
+;             :config
+;             (yas-global-mode 1))
 
 ;;function that triggers on c/c++ mode
-(defun my:ac-header-init ()
-  (require 'auto-complete-c-headers)
-  (add-to-list 'ac-sources 'ac-source-c-headers)
-  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-linux-gnu/5/include"))
-;;function call on c/c++ hooks
-(add-hook 'c++-mode-hook 'my:ac-header-init)
-(add-hook 'c-mode-hook 'my:ac-header-init)
-
+;(defun my:ac-header-init ()
+;  (require 'auto-complete-c-headers)
+;  (add-to-list 'ac-sources 'ac-source-c-headers)
+;  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-linux-gnu/5/include"))
+;;;function call on c/c++ hooks
+;(add-hook 'c++-mode-hook 'my:ac-header-init)
+;(add-hook 'c-mode-hook 'my:ac-header-init)
+;
 (use-package iedit
              :bind ("C-c ;" . iedit-mode))
 
 ;;turn on Semantic
-(use-package semantic
-             :config
-             (add-hook 'c-mode-hook (lambda () (progn
-                                                 (semantic-mode 1)
-                                                 (global-semantic-idle-scheduler-mode 1))))
-             (defun my:add-semantic-to-autocomplete()
-               (add-to-list 'ac-sources 'ac-source-semantic))
-             (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete))
-
+;(use-package semantic
+;             :config
+;             (add-hook 'c-mode-hook (lambda () (progn
+;                                                 (semantic-mode 1)
+;                                                 (global-semantic-idle-scheduler-mode 1))))
+;             (defun my:add-semantic-to-autocomplete()
+;               (add-to-list 'ac-sources 'ac-source-semantic))
+;             (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete))
+;
 
 (use-package rainbow-delimiters
              :config
@@ -529,3 +543,74 @@
 (global-set-key (kbd "<menu>") nil)
 
 (message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
+
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp lsp-deferred)
+  :hook (go-mode . lsp-deferred))
+
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+;; Optional - provides fancier overlays.
+(use-package lsp-ui
+  :ensure t
+  :commands lsp-ui-mode)
+
+;; Company mode is a standard completion package that works well with lsp-mode.
+(use-package company
+  :ensure t
+  :config
+  ;; Optionally enable completion-as-you-type behavior.
+  (setq company-idle-delay 0)
+  (setq company-minimum-prefix-length 1))
+
+;; company-lsp integrates company mode completion with lsp-mode.
+;; completion-at-point also works out of the box but doesn't support snippets.
+(use-package company-lsp
+  :ensure t
+  :commands company-lsp)
+
+;; Optional - provides snippet support.
+;(use-package yasnippet
+;  :ensure t
+;  :commands yas-minor-mode
+;  :hook (go-mode . yas-minor-mode))
+;
+(add-hook 'go-mode-hook 'lsp-deferred)
+(add-hook 'go-mode-hook
+          (lambda() (setq indent-tabs-mode nil)))
+
+(add-hook 'text-mode-hook 'flyspell-mode)
+(setq TeX-save-query nil)
+
+;; Add yasnippet support for all company backends
+;; https://github.com/syl20bnr/spacemacs/pull/179
+;(defvar company-mode/enable-yas t
+;  "Enable yasnippet for all backends.")
+;
+;(defun company-mode/backend-with-yas (backend)
+;  (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+;      backend
+;    (append (if (consp backend) backend (list backend))
+;            '(:with company-yasnippet))))
+;
+;(setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+
+;; set default tab char's display width to 4 spaces
+(setq-default tab-width 4) ; emacs 23.1 to 26 default to 8
+
+;; set current buffer's tab char's display width to 4 spaces
+(setq tab-width 4)
+
+(progn
+  ;; make indent commands use space only (never tab character)
+  (setq-default indent-tabs-mode nil)
+  ;; emacs 23.1 to 26, default to t
+  ;; if indent-tabs-mode is t, it means it may use tab, resulting mixed space and tab
+  )
+
