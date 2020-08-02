@@ -16,6 +16,9 @@
      (output-pdf "Okular")
      (output-pdf "Evince")
      (output-html "xdg-open"))))
+ '(elpy-modules
+   (quote
+    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-django elpy-module-sane-defaults)))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(line-number-display-limit 67108864)
@@ -24,7 +27,7 @@
     ("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$")))
  '(package-selected-packages
    (quote
-    (company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons auto-package-update anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra hydra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+    (yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -187,28 +190,28 @@
 
 ;; https://stackoverflow.com/a/35183657 thanks :)
 (defun indent-region-custom(numSpaces)
-    (progn
-        ; default to start and end of current line
-        (setq regionStart (line-beginning-position))
-        (setq regionEnd (line-end-position))
+  (progn
+    ; default to start and end of current line
+    (setq regionStart (line-beginning-position))
+    (setq regionEnd (line-end-position))
 
-        ; if there's a selection, use that instead of the current line
-        (when (use-region-p)
-            (setq regionStart (region-beginning))
-            (setq regionEnd (region-end))
-        )
+    ; if there's a selection, use that instead of the current line
+    (when (use-region-p)
+      (setq regionStart (region-beginning))
+      (setq regionEnd (region-end))
+      )
 
-        (save-excursion ; restore the position afterwards
-            (goto-char regionStart) ; go to the start of region
-            (setq start (line-beginning-position)) ; save the start of the line
-            (goto-char regionEnd) ; go to the end of region
-            (setq end (line-end-position)) ; save the end of the line
+    (save-excursion ; restore the position afterwards
+      (goto-char regionStart) ; go to the start of region
+      (setq start (line-beginning-position)) ; save the start of the line
+      (goto-char regionEnd) ; go to the end of region
+      (setq end (line-end-position)) ; save the end of the line
 
-            (indent-rigidly start end numSpaces) ; indent between start and end
-            (setq deactivate-mark nil) ; restore the selected region
-        )
+      (indent-rigidly start end numSpaces) ; indent between start and end
+      (setq deactivate-mark nil) ; restore the selected region
+      )
     )
-)
+  )
 
 ;; https://emacs.stackexchange.com/a/16407
 
@@ -218,40 +221,40 @@
   (package-refresh-contents)
   (let (upgrades)
     (cl-flet ((get-version (name where)
-                (let ((pkg (cadr (assq name where))))
-                  (when pkg
-                    (package-desc-version pkg)))))
-      (dolist (package (mapcar #'car package-alist))
-        (let ((in-archive (get-version package package-archive-contents)))
-          (when (and in-archive
-                     (version-list-< (get-version package package-alist)
-                                     in-archive))
-            (push (cadr (assq package package-archive-contents))
-                  upgrades)))))
+                           (let ((pkg (cadr (assq name where))))
+                             (when pkg
+                               (package-desc-version pkg)))))
+             (dolist (package (mapcar #'car package-alist))
+               (let ((in-archive (get-version package package-archive-contents)))
+                 (when (and in-archive
+                            (version-list-< (get-version package package-alist)
+                                            in-archive))
+                   (push (cadr (assq package package-archive-contents))
+                         upgrades)))))
     (if upgrades
-        (when (yes-or-no-p
-               (message "Upgrade %d package%s (%s)? "
-                        (length upgrades)
-                        (if (= (length upgrades) 1) "" "s")
-                        (mapconcat #'package-desc-full-name upgrades ", ")))
-          (save-window-excursion
-            (dolist (package-desc upgrades)
-              (let ((old-package (cadr (assq (package-desc-name package-desc)
-                                             package-alist))))
-                (package-install package-desc)
-                (package-delete  old-package)))))
+      (when (yes-or-no-p
+              (message "Upgrade %d package%s (%s)? "
+                       (length upgrades)
+                       (if (= (length upgrades) 1) "" "s")
+                       (mapconcat #'package-desc-full-name upgrades ", ")))
+        (save-window-excursion
+          (dolist (package-desc upgrades)
+            (let ((old-package (cadr (assq (package-desc-name package-desc)
+                                           package-alist))))
+              (package-install package-desc)
+              (package-delete  old-package)))))
       (message "All packages are up to date"))))
 
 
 (defun untab-region (N)
-    (interactive "p")
-    (indent-region-custom -4)
-)
+  (interactive "p")
+  (indent-region-custom -4)
+  )
 
 (defun tab-region (N)
-    (interactive "p")
-    (indent-region-custom 4)
-)
+  (interactive "p")
+  (indent-region-custom 4)
+  )
 
 (global-set-key (kbd "M-<left>") 'untab-region)
 (global-set-key (kbd "M-<right>") 'tab-region)
@@ -284,31 +287,6 @@
              (sp-pair "\"" "\"" :wrap "C-\"")
              (sp-pair "{" "}" :wrap "C-{"))
 
-;(use-package auto-complete
-;             :config
-;             (global-auto-complete-mode t)
-;             (add-hook 'python-mode-hook
-;                       (lambda () (global-auto-complete-mode -1)))
-;             (use-package auto-complete-config
-;                          :config
-;                          (ac-config-default)))
-;
-
-;; Activate auto-complete for latex modes (AUCTeX or Emacs' builtin one).
-;(add-to-list 'ac-modes 'latex-mode)
-
-;; Activate ac-math.
-;(eval-after-load "latex"
-;                 '(when (featurep 'auto-complete)
-;                    ;; See https://github.com/vspinu/ac-math
-;                    (require 'ac-math)
-;                    (defun ac-latex-mode-setup ()       ; add ac-sources to default ac-sources
-;                      (setq ac-sources
-;                            (append '(ac-source-math-unicode ac-source-math-latex ac-source-latex-commands)
-;                                    ac-sources)))
-;                    (add-hook 'LaTeX-mode-hook 'ac-latex-mode-setup)))
-;
-
 ;(use-package yasnippet
 ;             :bind
 ;             (:map yas-minor-mode-map
@@ -318,15 +296,7 @@
 ;             :config
 ;             (yas-global-mode 1))
 
-;;function that triggers on c/c++ mode
-;(defun my:ac-header-init ()
-;  (require 'auto-complete-c-headers)
-;  (add-to-list 'ac-sources 'ac-source-c-headers)
-;  (add-to-list 'achead:include-directories '"/usr/lib/gcc/x86_64-linux-gnu/5/include"))
-;;;function call on c/c++ hooks
-;(add-hook 'c++-mode-hook 'my:ac-header-init)
-;(add-hook 'c-mode-hook 'my:ac-header-init)
-;
+
 (use-package iedit
              :bind ("C-c ;" . iedit-mode))
 
@@ -545,9 +515,15 @@
 (message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
 
 (use-package lsp-mode
-  :ensure t
-  :commands (lsp lsp-deferred)
-  :hook (go-mode . lsp-deferred))
+             :ensure t
+             :commands (lsp lsp-deferred)
+             :hook
+             (go-mode . lsp-deferred)
+             (LaTeX-mode . lsp-deferred))
+
+(use-package yasnippet
+             :hook
+             (LaTeX-mode . yas-minor-mode))
 
 ;; Set up before-save hooks to format buffer and add/delete imports.
 ;; Make sure you don't have other gofmt/goimports hooks enabled.
@@ -558,22 +534,22 @@
 
 ;; Optional - provides fancier overlays.
 (use-package lsp-ui
-  :ensure t
-  :commands lsp-ui-mode)
+             :ensure t
+             :commands lsp-ui-mode)
 
 ;; Company mode is a standard completion package that works well with lsp-mode.
 (use-package company
-  :ensure t
-  :config
-  ;; Optionally enable completion-as-you-type behavior.
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 1))
+             :ensure t
+             :config
+             ;; Optionally enable completion-as-you-type behavior.
+             (setq company-idle-delay 0)
+             (setq company-minimum-prefix-length 1))
 
 ;; company-lsp integrates company mode completion with lsp-mode.
 ;; completion-at-point also works out of the box but doesn't support snippets.
 (use-package company-lsp
-  :ensure t
-  :commands company-lsp)
+             :ensure t
+             :commands company-lsp)
 
 ;; Optional - provides snippet support.
 ;(use-package yasnippet
@@ -613,4 +589,49 @@
   ;; emacs 23.1 to 26, default to t
   ;; if indent-tabs-mode is t, it means it may use tab, resulting mixed space and tab
   )
+(company-tng-configure-default)
+(global-set-key (kbd "C-S-n") 'forward-paragraph)
+(global-set-key (kbd "C-S-p") 'backward-paragraph)
 
+(defun duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+  )
+(global-set-key (kbd "C-d") 'duplicate-line)
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+(global-set-key (kbd "M-[") 'hs-toggle-hiding)
+
+(defvar winstack-stack '()
+  "A Stack holding window configurations.
+  Use `winstack-push' and
+  `winstack-pop' to modify it.")
+
+(defun winstack-push()
+  "Push the current window configuration onto `winstack-stack'."
+  (interactive)
+  (if (and (window-configuration-p (first winstack-stack))
+           (compare-window-configurations (first winstack-stack) (current-window-configuration)))
+    (message "Current config already pushed")
+    (progn (push (current-window-configuration) winstack-stack)
+           (message (concat "pushed " (number-to-string
+                                        (length (window-list (selected-frame)))) " frame config")))))
+
+(global-set-key (kbd "<f7>") 'winstack-push)
+(global-set-key (kbd "<S-f7>") 'window-configuration-to-register)
+
+(defun winstack-pop()
+  "Pop the last window configuration off `winstack-stack' and apply it."
+  (interactive)
+  (if (first winstack-stack)
+    (progn (set-window-configuration (pop winstack-stack))
+           (message "popped"))
+    (message "End of window stack")))
+
+(global-set-key (kbd "<f8>") 'winstack-pop)
+(global-set-key (kbd "<S-f8>") 'jump-to-register)
+(add-hook 'after-init-hook 'global-company-mode)
