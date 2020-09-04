@@ -129,7 +129,7 @@
   (message "Re-initialized!"))
 
 
-(set-default-font "Hack" nil t)
+(set-frame-font "Hack" nil t)
 (set-face-attribute 'default nil :height 100)
 
 ;; Delete trailing whitespaces before save
