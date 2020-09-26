@@ -7,27 +7,23 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-view-program-selection
-   (quote
-    (((output-dvi has-no-display-manager)
+   '(((output-dvi has-no-display-manager)
       "dvi2tty")
      ((output-dvi style-pstricks)
       "dvips and gv")
      (output-dvi "xdvi")
      (output-pdf "Okular")
      (output-pdf "Evince")
-     (output-html "xdg-open"))))
+     (output-html "xdg-open")))
  '(elpy-modules
-   (quote
-    (elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-django elpy-module-sane-defaults)))
+   '(elpy-module-company elpy-module-eldoc elpy-module-pyvenv elpy-module-highlight-indentation elpy-module-django elpy-module-sane-defaults))
  '(indent-tabs-mode nil)
  '(inhibit-startup-screen t)
  '(line-number-display-limit 67108864)
  '(lsp-file-watch-ignored
-   (quote
-    ("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$")))
+   '("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$"))
  '(package-selected-packages
-   (quote
-    (yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math)))
+   '(visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -136,6 +132,9 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (fset 'yes-or-no-p 'y-or-n-p)
+
+;; disable python guest offset warning
+(setq python-indent-guess-indent-offset-verbose nil)
 
 (set-default 'truncate-lines t)
 (setq truncate-partial-width-windows nil)
@@ -489,9 +488,15 @@
 
 
 (use-package visual-regexp
-             :bind
-             (("C-c r" . vr/replace)
-              ("C-c q" . vr/query-replace)))
+             :defer) ; prevent loading this package before visual-regexp-steroids!
+
+(use-package visual-regexp-steroids
+             :demand ; load this package immediately, regardless of :bind
+             :bind (("C-c r" . vr/replace)
+                    ("C-c q" . vr/query-replace)
+                    ("C-c m" . vr/mc-mark)
+                    ("C-M-r" . vr/isearch-backward)
+                    ("C-M-s" . vr/isearch-forward)))
 
 ;; Save all buffers on focus out
 (defun save-all ()
