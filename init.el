@@ -23,7 +23,7 @@
  '(lsp-file-watch-ignored
    '("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$"))
  '(package-selected-packages
-   '(visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
+   '(multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
  '(show-trailing-whitespace t))
 
 (custom-set-faces
@@ -180,7 +180,8 @@
              :ensure t
              :config
              (ido-mode 1)
-             (ido-everywhere 1))
+             (ido-everywhere 1)
+             (setq ido-ignore-buffers '("\\` " "^\*")))
 
 
 (use-package move-text
@@ -381,6 +382,7 @@
                           :config
                           (setq python-shell-completion-native-enable nil)
                           (setq elpy-rpc-backend "jedi")
+                          (setq elpy-rpc-timeout nil)
                           (when (require 'flycheck nil t)
                             (setq elpy-modules
                                   (delq 'elpy-module-flymake elpy-modules))
@@ -492,11 +494,11 @@
 
 (use-package visual-regexp-steroids
              :demand ; load this package immediately, regardless of :bind
-             :bind (("C-c r" . vr/replace)
+             :bind (("C-c p" . vr/replace)
                     ("C-c q" . vr/query-replace)
                     ("C-c m" . vr/mc-mark)
-                    ("C-M-r" . vr/isearch-backward)
-                    ("C-M-s" . vr/isearch-forward)))
+                    ("C-c r" . vr/isearch-backward)
+                    ("C-c s" . vr/isearch-forward)))
 
 ;; Save all buffers on focus out
 (defun save-all ()

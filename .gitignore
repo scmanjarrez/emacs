@@ -10,3 +10,4 @@ session.*
 ac-comphist.dat
 smex-items
 tramp
+elpy/rpc-venv
