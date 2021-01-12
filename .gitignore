@@ -11,3 +11,5 @@ ac-comphist.dat
 smex-items
 tramp
 elpy/rpc-venv
+company*
+bookmarks
