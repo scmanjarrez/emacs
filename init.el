@@ -541,8 +541,6 @@
 (global-set-key (kbd "M-;") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "<menu>") nil)
 
-(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
-
 (use-package lsp-mode
   :ensure t
   :commands (lsp lsp-deferred)
@@ -721,3 +719,29 @@
 (global-set-key (kbd "<f8>") 'winstack-pop)
 (global-set-key (kbd "<S-f8>") 'jump-to-register)
 (add-hook 'after-init-hook 'global-company-mode)
+
+(use-package tex
+  :defer t
+  :ensure auctex
+  :config
+  (setq TeX-auto-save t))
+
+(defun tag-word-or-region (text-begin text-end)
+  "Surround current word or region with given text."
+  (interactive "sStart tag: \nsEnd tag: ")
+  (let (pos1 pos2 bds)
+    (if (and transient-mark-mode mark-active)
+        (progn
+          (goto-char (region-end))
+          (insert text-end)
+          (goto-char (region-beginning))
+          (insert text-begin))
+      (progn
+        (setq bds (bounds-of-thing-at-point 'symbol))
+        (goto-char (cdr bds))
+        (insert text-end)
+        (goto-char (car bds))
+        (insert text-begin)))))
+
+(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
+
