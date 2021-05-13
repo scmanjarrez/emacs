@@ -24,8 +24,10 @@
  '(line-number-display-limit 67108864)
  '(lsp-file-watch-ignored
    '("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$"))
+ '(lsp-file-watch-ignored-directories
+   '("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$"))
  '(package-selected-packages
-   '(company-box company-try-hard company-web company-quickhelp company-statistics multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
+   '(desktop+ json-mode company-lua dumb-jump company-box company-try-hard company-web company-quickhelp company-statistics multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
  '(python-shell-interpreter "python3")
  '(show-trailing-whitespace t))
 
@@ -523,10 +525,10 @@
          ("C-c s" . vr/isearch-forward)))
 
 ;; Save all buffers on focus out
-(defun save-all ()
-  (interactive)
-  (save-some-buffers t))
-(add-hook 'focus-out-hook 'save-all)
+; (defun save-all ()
+;   (interactive)
+;   (save-some-buffers t))
+; (add-hook 'focus-out-hook 'save-all)
 
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
@@ -743,5 +745,26 @@
         (goto-char (car bds))
         (insert text-begin)))))
 
-(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))
+(defun tag-italic ()
+    (interactive)
+    (tag-word-or-region "<i>" "</i>"))
 
+(defun tag-bold ()
+    (interactive)
+    (tag-word-or-region "<b>" "</b>"))
+
+(defun tag-quote ()
+    (interactive)
+    (tag-word-or-region "'" "'"))
+
+(defun tag-dquote ()
+    (interactive)
+    (tag-word-or-region "\"" "\""))
+
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(global-set-key (kbd "C-S-f") 'forward-word)
+(global-set-key (kbd "C-S-b") 'backward-word)
+(global-set-key (kbd "C-f") 'forward-char)
+(global-set-key (kbd "C-b") 'backward-char)
+
+(message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))

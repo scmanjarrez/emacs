@@ -1,0 +1,103 @@
+;; -*- mode: emacs-lisp; lexical-binding:t; coding: utf-8-emacs; -*-
+;; --------------------------------------------------------------------------
+;; Desktop File for Emacs
+;; --------------------------------------------------------------------------
+;; Created Thu May 13 14:19:07 2021
+;; Desktop file format version 208
+;; Emacs version 27.2
+
+;; Global section:
+(setq desktop-saved-frameset [frameset 1 (24733 6459 788702 12000) (desktop . "208") "schica@schica-laptop" nil nil ((((minibuffer . t) (undecorated) (override-redirect) (font . "-SRC-Hack-normal-normal-normal-*-18-*-*-*-m-0-iso10646-1") (font-parameter) (border-width . 0) (internal-border-width . 0) (right-divider-width . 0) (bottom-divider-width . 0) (vertical-scroll-bars) (horizontal-scroll-bars) (foreground-color . "#DCDCCC") (background-color . "#3F3F3F") (mouse-color . "black") (border-color . "black") (screen-gamma) (line-spacing) (left-fringe . 8) (right-fringe . 8) (no-special-glyphs) (scroll-bar-foreground) (scroll-bar-background) (menu-bar-lines . 0) (tab-bar-lines . 0) (height . 49) (tool-bar-lines . 0) (title) (wait-for-wm . t) (tool-bar-position . top) (inhibit-double-buffering) (icon-type . t) (auto-raise) (auto-lower) (cursor-type . box) (scroll-bar-width . 16) (scroll-bar-height . 16) (alpha) (no-focus-on-map) (no-accept-focus) (fullscreen . maximized) (visibility . t) (skip-taskbar) (z-group) (display-type . color) (background-mode . dark) (cursor-color . "#FFFFEF") (sticky) (environment) (powerline-cache) (last-focus-update . t) (frameset--id . "4528-2944-2E01-B22A") (frameset--mini t . t) (modeline . t) (unsplittable) (icon-name) (display . ":0.0") (explicit-name) (width . 173) (left . 1920) (top . 0)) ((min-height . 8) (min-width . 20) (min-height-ignore . 4) (min-width-ignore . 8) (min-height-safe . 2) (min-width-safe . 4) (min-pixel-height . 176) (min-pixel-width . 220) (min-pixel-height-ignore . 88) (min-pixel-width-ignore . 88) (min-pixel-height-safe . 44) (min-pixel-width-safe . 44)) hc (pixel-width . 1920) (pixel-height . 1058) (total-width . 175) (total-height . 48) (normal-height . 1.0) (normal-width . 1.0) (combination-limit) (vc (pixel-width . 968) (pixel-height . 1058) (total-width . 88) (total-height . 48) (normal-height . 1.0) (normal-width . 0.5041666666666667) (combination-limit) (leaf (pixel-width . 968) (pixel-height . 506) (total-width . 88) (total-height . 23) (normal-height . 0.48841698841698844) (normal-width . 1.0) (buffer "pbc_ext.c" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 0 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 25252) (start . 24804)) (prev-buffers ("bn_c_impl.hpp" 8198 8451) ("pbc_ext.c" 24802 25252) ("gml.c<ps16>" 723 1113) ("gml.c<groupsig>" 3476 3819) ("gml.h" 5211 6514) ("gml_handles.h" 783 1613) ("*scratch*" 1 16))) (leaf (last . t) (pixel-width . 968) (pixel-height . 552) (total-width . 88) (total-height . 25) (normal-height . 0.5115830115830116) (normal-width . 1.0) (buffer "gml.c<ps16>" (selected . t) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 0 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 9397) (start . 9356)) (prev-buffers ("gml.c<ps16>" 9351 9397) ("gml.c<groupsig>" 3933 4245)))) (leaf (last . t) (pixel-width . 952) (pixel-height . 1058) (total-width . 87) (total-height . 48) (normal-height . 1.0) (normal-width . 0.49583333333333335) (buffer "gml.c<ps16>" (selected) (hscroll . 0) (fringes 8 8 nil nil) (margins nil) (scroll-bars nil 0 t nil 0 t nil) (vscroll . 0) (dedicated) (point . 5464) (start . 4727)) (prev-buffers ("gml.c<ps16>" 4727 5464) ("gml.h" 5211 6322) ("gml_handles.h" 663 1382) ("gml.c<groupsig>" 2759 3893)))))])
+(setq desktop-missing-file-warning nil)
+(setq tags-file-name nil)
+(setq tags-table-list nil)
+(setq search-ring '(#("pbcext_element_g1_from_bytes" 0 28 (isearch-case-fold-search t isearch-regexp-function nil)) #("pbcext_get_element_g1_bytes" 0 27 (isearch-case-fold-search t isearch-regexp-function nil)) #("entry id" 0 8 (isearch-case-fold-search t isearch-regexp-function nil)) #("pbcext_element_g2_to_string" 0 27 (isearch-case-fold-search t isearch-regexp-function nil)) #("pbcext_get" 0 7 (isearch-case-fold-search t isearch-regexp-function nil) 7 10 (isearch-case-fold-search t isearch-regexp-function nil)) #("pbcext_get_element_G1_bytes" 0 7 (isearch-regexp-function nil isearch-case-fold-search nil) 7 10 (isearch-regexp-function nil isearch-case-fold-search nil) 10 27 (isearch-case-fold-search nil isearch-regexp-function nil)) #("pbcext_" 0 7 (isearch-case-fold-search t isearch-regexp-function nil)) #("error:" 0 6 (isearch-case-fold-search t isearch-regexp-function nil)) #("gml_handle_from_code:" 0 21 (isearch-case-fold-search t isearch-regexp-function nil)) #("code" 0 4 (isearch-case-fold-search t isearch-regexp-function nil)) #("conde" 0 5 (isearch-case-fold-search t isearch-regexp-function nil)) #("handle" 0 6 (isearch-case-fold-search t isearch-regexp-function nil)) #("gimport" 0 7 (isearch-case-fold-search t isearch-regexp-function nil))))
+(setq regexp-search-ring nil)
+(setq register-alist nil)
+(setq file-name-history '("/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/shim/pbc_ext.c" "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/groupsig/ps16/gml.c" "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/groupsig/ps16/gml.h" "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/include/gml_handles.h"))
+
+;; Buffer section -- buffers listed in same order as in buffer list:
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/groupsig/ps16/gml.c"
+  "gml.c"
+  'c-mode
+  '(abbrev-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode)
+  9397
+  '(5572 nil)
+  nil
+  nil
+  '((buffer-display-time 24733 6447 861981 993000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (9310 10622 10269 4937 9839 5662 5663 11312 11319 11306 11110 11110 10777 11110 10898 9397))))
+
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/test.py"
+  "test.py"
+  'python-mode
+  '(eldoc-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode elpy-mode highlight-indentation-mode)
+  277
+  '(2283 nil)
+  nil
+  nil
+  '((tab-width . 4) (indent-tabs-mode) (buffer-display-time 24733 6412 248650 818000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (461 2221 2214 1202 201 2184 1193 1146 1075 1121 1076 1086 1086 113 223 973))))
+
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/shim/pbc_ext.c"
+  "pbc_ext.c"
+  'c-mode
+  '(abbrev-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode)
+  25252
+  '(25086 nil)
+  nil
+  nil
+  '((buffer-display-time 24733 6447 861979 729000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (52465 52437 51929 51929 51929 55973 56294 56294 56331 56336 56289 56251 56070 55973 52790 25252))))
+
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/build/external/include/mcl/impl/bn_c_impl.hpp"
+  "bn_c_impl.hpp"
+  'c++-mode
+  '(abbrev-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode)
+  8451
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24733 2795 766847 83000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/groupsig/gml.c"
+  "gml.c"
+  'c-mode
+  '(abbrev-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode)
+  3819
+  '(3686 nil)
+  nil
+  nil
+  '((buffer-display-time 24733 440 237952 159000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (1670 3893 3695 978 978 978 978 932 839 1085 1166 3857 3893 3930 3686 1574))))
+
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/groupsig/ps16/gml.h"
+  "gml.h"
+  'c-mode
+  '(abbrev-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode)
+  6514
+  '(7194 nil)
+  nil
+  nil
+  '((buffer-display-time 24732 63146 530371 371000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring (6322))))
+
+(desktop-create-buffer 208
+  "/home/schica/auditor/sergio/autoauditor/libgroupsig/libgroupsig/src/include/gml_handles.h"
+  "gml_handles.h"
+  'c-mode
+  '(abbrev-mode override-global-mode smartparens-mode rainbow-delimiters-mode flycheck-mode undo-tree-mode anzu-mode company-mode company-box-mode hs-minor-mode)
+  1613
+  '(nil nil)
+  nil
+  nil
+  '((buffer-display-time 24733 6431 341919 129000) (buffer-file-coding-system . undecided-unix))
+  '((mark-ring nil)))
+
