@@ -27,7 +27,7 @@
  '(lsp-file-watch-ignored-directories
    '("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$"))
  '(package-selected-packages
-   '(desktop+ json-mode company-lua dumb-jump company-box company-try-hard company-web company-quickhelp company-statistics multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
+   '(transpose-frame desktop+ json-mode company-lua dumb-jump company-box company-try-hard company-web company-quickhelp company-statistics multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
  '(python-shell-interpreter "python3")
  '(show-trailing-whitespace t))
 
@@ -617,6 +617,8 @@
      :map company-active-map
      ("C-<tab>" . company-try-hard))))
 
+(setq company-dabbrev-downcase nil)
+
 (use-package company-box
   :ensure t
   :hook (company-mode . company-box-mode))
@@ -642,7 +644,8 @@
                                         ;  :ensure t
                                         ;  :commands yas-minor-mode
                                         ;  :hook (go-mode . yas-minor-mode))
-                                        ;
+(setq company-global-modes '(not yaml-mode))
+
 (add-hook 'go-mode-hook 'lsp-deferred)
 (add-hook 'go-mode-hook
           (lambda() (setq indent-tabs-mode nil)))
