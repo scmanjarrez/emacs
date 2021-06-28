@@ -27,7 +27,7 @@
  '(lsp-file-watch-ignored-directories
    '("[/\\\\]\\.git$" "[/\\\\]\\.hg$" "[/\\\\]\\.bzr$" "[/\\\\]_darcs$" "[/\\\\]\\.svn$" "[/\\\\]_FOSSIL_$" "[/\\\\]\\.idea$" "[/\\\\]\\.ensime_cache$" "[/\\\\]\\.eunit$" "[/\\\\]node_modules$" "[/\\\\]\\.fslckout$" "[/\\\\]\\.tox$" "[/\\\\]\\.stack-work$" "[/\\\\]\\.bloop$" "[/\\\\]\\.metals$" "[/\\\\]target$" "[/\\\\]\\.ccls-cache$" "[/\\\\]\\.deps$" "[/\\\\]build-aux$" "[/\\\\]autom4te.cache$" "[/\\\\]\\.reference$" "[/\\\\]\\.py$" "[/\\\\]\\.pyc$"))
  '(package-selected-packages
-   '(transpose-frame desktop+ json-mode company-lua dumb-jump company-box company-try-hard company-web company-quickhelp company-statistics multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
+   '(bash-completion transpose-frame desktop+ json-mode company-lua dumb-jump company-box company-try-hard company-web company-quickhelp company-statistics multiple-cursors visual-regexp-steroids yaml-mode company-auctex company-lsp lsp-ui lsp-mode move-text go-mode lua-mode auto-compile all-the-icons anzu undo-tree spinner latex-preview-pane latex-math-preview latex-extra flycheck-cstyle elpy auto-complete-c-headers auto-complete-auctex ac-math))
  '(python-shell-interpreter "python3")
  '(show-trailing-whitespace t))
 
