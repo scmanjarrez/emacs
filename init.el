@@ -126,6 +126,10 @@
 ;; Long scroll use the same amount as short scroll
 ;; (setq mouse-wheel-progressive-speed nil)
 
+;; Keybinds to navigate between paragraphs
+(global-set-key (kbd "C-S-n") 'forward-paragraph)
+(global-set-key (kbd "C-S-p") 'backward-paragraph)
+
 ;; Smart completion with find file
 (use-package ido
 	     :custom
@@ -231,11 +235,6 @@
 	     (("C-z" . undo-tree-undo)
 	      ("C-S-z" . undo-tree-redo)))
 
-;; (global-set-key (kbd "C-S-s") 'shrink-window)
-;; (global-set-key (kbd "C-S-w") 'enlarge-window)
-;; (global-set-key (kbd "C-S-a") 'shrink-window-horizontally)
-;; (global-set-key (kbd "C-S-d") 'enlarge-window-horizontally)
-
 ;; Highlight line with F9
 (defun find-overlays-specifying (prop pos)
   (let ((overlays (overlays-at pos))
@@ -328,6 +327,7 @@
 	     :custom
 	     (lsp-pylsp-plugins-pydocstyle-enabled nil)
 	     (lsp-pylsp-plugins-mccabe-enabled nil)
+         (lsp-enable-snippet t)
 	     :hook
 	     (python-mode . lsp-deferred)
 	     (go-mode . lsp-deferred)
@@ -351,28 +351,18 @@
 
 ;; Code snippets
 (use-package yasnippet
-	     :hook
-	     (python-mode . yas-minor-mode)
-	     (LaTeX-mode . yas-minor-mode))
+         :config
+         (yas-global-mode t))
+
+;; Code snippets templates
+(use-package yasnippet-snippets)
+
+;; Major mode for golang
+(use-package go-mode
+  :defer)
 
 ;; Better emacs sessions
 (use-package desktop+)
-
-;; ;; Set up before-save hooks to format buffer and add/delete imports.
-;; ;; Make sure you don't have other gofmt/goimports hooks enabled.
-;; (defun lsp-go-install-save-hooks ()
-;;   (add-hook 'before-save-hook #'lsp-format-buffer t t)
-;;   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-;; (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-;; (add-hook 'go-mode-hook
-;;           (lambda() (setq indent-tabs-mode nil)))
-
-;; (add-hook 'text-mode-hook 'flyspell-mode)
-;; (setq TeX-save-query nil)
-
-;; (global-set-key (kbd "C-S-n") 'forward-paragraph)
-;; (global-set-key (kbd "C-S-p") 'backward-paragraph)
 
 ;; Duplicate lines with C-d
 (defun duplicate-line()
@@ -419,49 +409,8 @@
 (global-set-key (kbd "<f8>") 'winstack-pop)
 (global-set-key (kbd "<S-f8>") 'jump-to-register)
 
-;; (use-package tex
-;;   :defer t
-;;   :ensure auctex
-;;   :config
-;;   (setq TeX-auto-save t))
-
-;; (defun tag-word-or-region (text-begin text-end)
-;;   "Surround current word or region with given text."
-;;   (interactive "sStart tag: \nsEnd tag: ")
-;;   (let (pos1 pos2 bds)
-;;     (if (and transient-mark-mode mark-active)
-;;         (progn
-;;           (goto-char (region-end))
-;;           (insert text-end)
-;;           (goto-char (region-beginning))
-;;           (insert text-begin))
-;;       (progn
-;;         (setq bds (bounds-of-thing-at-point 'symbol))
-;;         (goto-char (cdr bds))
-;;         (insert text-end)
-;;         (goto-char (car bds))
-;;         (insert text-begin)))))
-
-;; (defun tag-italic ()
-;;     (interactive)
-;;     (tag-word-or-region "<i>" "</i>"))
-
-;; (defun tag-bold ()
-;;     (interactive)
-;;     (tag-word-or-region "<b>" "</b>"))
-
-;; (defun tag-quote ()
-;;     (interactive)
-;;     (tag-word-or-region "'" "'"))
-
-;; (defun tag-dquote ()
-;;     (interactive)
-;;     (tag-word-or-region "\"" "\""))
-
-;; (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-;; (global-set-key (kbd "C-S-f") 'forward-word)
-;; (global-set-key (kbd "C-S-b") 'backward-word)
-;; (global-set-key (kbd "C-f") 'forward-char)
-;; (global-set-key (kbd "C-b") 'backward-char)
+;; LaTeX package
+(use-package auctex
+  :defer)
 
 (message "Start up time %.2fs" (float-time (time-subtract (current-time) my-start-time)))

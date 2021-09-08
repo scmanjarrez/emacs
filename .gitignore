@@ -1,6 +1,9 @@
 .cache/
 desktops/
 auto-save-list/
-straight/
+straight/build/
+straight/repos/
 ido.last
 smex-items
+.lsp-session-v1
+build-cache.el
