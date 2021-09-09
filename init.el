@@ -76,6 +76,9 @@
   ;; Change line-max-length bar length
   (setq-default fill-column 79)
 
+  ;; Change color of line-max-length bar
+  (set-face-attribute 'fill-column-indicator nil :foreground "#424270")
+
   ;; Show column number
   (setq column-number-mode t)
 
