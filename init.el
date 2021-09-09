@@ -377,6 +377,10 @@
   (use-package go-mode
     :defer)
 
+    ;; Major mode for lua
+  (use-package lua-mode
+    :defer)
+
   ;; Better emacs sessions
   (use-package desktop+)
 
