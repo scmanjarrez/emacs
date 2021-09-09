@@ -224,7 +224,7 @@
   ;; Intelligent variable name edit
   (use-package iedit
 	:bind
-	("C-;" . iedit-mode))
+	("C-c e" . iedit-mode))
 
   ;; Show parentheses/brackets/braces colored
   (use-package rainbow-delimiters
@@ -282,16 +282,18 @@
   (use-package smex
 	:init
 	(smex-initialize)
-	:bind (("M-x" . smex)
-		   ("M-X" . smex-major-mode-commands)
-		   ("C-c C-c M-x" . execute-extended-command)))
+	:bind
+    (("M-x" . smex)
+	 ("M-X" . smex-major-mode-commands)
+	 ("C-c C-c M-x" . execute-extended-command)))
 
   ;; Show current/total numbers in search
   (use-package anzu
 	:init
 	(global-anzu-mode 1)
-	:bind (([remap query-replace] . anzu-query-replace)
-		   ([remap query-replace-regexp] . anzu-query-replace-regexp))
+	:bind
+    (([remap query-replace] . anzu-query-replace)
+	 ([remap query-replace-regexp] . anzu-query-replace-regexp))
 	:custom
 	(anzu-cons-mode-line-p nil))
 
@@ -317,17 +319,24 @@
 	:custom
 	(esup-depth 0))
 
+  ;; Multiple cursors
+  (use-package multiple-cursors
+    :defer
+    :bind
+    ("C-c c" . mc/edit-lines))
+
   ;; Python regexps
   (use-package visual-regexp
     :defer)
 
   (use-package visual-regexp-steroids
     :demand
-    :bind (("C-c p" . vr/replace)
-           ("C-c q" . vr/query-replace)
-           ("C-c m" . vr/mc-mark)
-           ("C-c r" . vr/isearch-backward)
-           ("C-c s" . vr/isearch-forward)))
+    :bind
+    (("C-c r" . vr/replace)
+     ("C-c q" . vr/query-replace)
+     ("C-c m" . vr/mc-mark)
+     ("C-r" . vr/isearch-backward)
+     ("C-s" . vr/isearch-forward)))
 
   ;; Toggle comments with M-;
   (defun toggle-comment ()

@@ -5,5 +5,6 @@ straight/build/
 straight/repos/
 ido.last
 smex-items
-.lsp-session-v1
 build-cache.el
+.lsp-session-v1
+.mc-lists.el
