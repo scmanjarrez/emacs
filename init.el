@@ -321,19 +321,19 @@
 
   ;; Performance package
   (use-package esup
-	:defer
+	:defer t
 	:custom
 	(esup-depth 0))
 
   ;; Multiple cursors
   (use-package multiple-cursors
-    :defer
+    :defer t
     :bind
     ("C-c c" . mc/edit-lines))
 
   ;; Python regexps
   (use-package visual-regexp
-    :defer)
+    :defer t)
 
   (use-package visual-regexp-steroids
     :demand
@@ -377,11 +377,10 @@
 	(company-minimum-prefix-length 2)
 	(company-selection-wrap-around t)
 	(company-tooltip-align-annotations t)
+    (global-company-mode t)
 	:bind
 	(:map company-active-map
-		  ("<tab>" . company-complete-selection))
-	:hook
-	(after-init-hook . global-company-mode))
+		  ("<tab>" . company-complete-selection)))
 
   ;; Code snippets
   (use-package yasnippet
@@ -393,11 +392,16 @@
 
   ;; Major mode for golang
   (use-package go-mode
-    :defer)
+    :defer t)
 
-    ;; Major mode for lua
+  ;; Major mode for lua
   (use-package lua-mode
-    :defer)
+    :mode "\\.\\(lua\\|nse\\)\\'"
+    :defer t)
+
+  ;; Major mode for json
+  (use-package json-mode
+    :defer t)
 
   ;; Better emacs sessions
   (use-package desktop+)
@@ -449,5 +453,5 @@
 
   ;; LaTeX package
   (use-package auctex
-    :defer)
+    :defer t)
   )
