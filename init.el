@@ -79,6 +79,9 @@
   ;; Change color of line-max-length bar
   (set-face-attribute 'fill-column-indicator nil :foreground "#424270")
 
+  ;; Change window separator line color
+  (face-spec-set 'vertical-border '((t (:foreground "#af5fff"))))
+
   ;; Show column number
   (setq column-number-mode t)
 
@@ -302,16 +305,19 @@
 	:init
 	(doom-modeline-mode 1)
 	:custom
-    (doom-modeline-height 30)
+    (doom-modeline-height 20)
     (doom-modeline-bar-width 0)
     (doom-modeline-enable-word-count t)
     (doom-modeline-buffer-file-name-style 'truncate-upto-root)
     (doom-modeline-env-version nil)
 	(inhibit-compacting-font-caches t)
     (lsp-modeline-diagnostics-enable nil)
+    (all-the-icons-scale-factor 1)
+    (all-the-icons-default-adjust 0.2)
+    (doom-modeline-major-mode-color-icon nil)
     :config
-    (set-face-attribute 'mode-line nil :family "Hack" :height 110)
-    (set-face-attribute 'mode-line-inactive nil :family "Hack" :height 110))
+    (set-face-attribute 'mode-line nil :family "Hack" :height 93)
+    (set-face-attribute 'mode-line-inactive nil :family "Hack" :height 93))
 
   ;; Performance package
   (use-package esup
