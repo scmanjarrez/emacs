@@ -3,6 +3,7 @@ desktops/
 auto-save-list/
 straight/build/
 straight/repos/
+elpa/
 ido.last
 smex-items
 build-cache.el

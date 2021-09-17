@@ -406,6 +406,16 @@
   ;; Better emacs sessions
   (use-package desktop+)
 
+  ;; Change colors of whitespace-mode to be compatible with rebecca theme
+  (use-package whitespace
+    :defer t
+    :config
+    (set-face-attribute 'whitespace-space nil :background nil :foreground "#af5fff")
+    (set-face-attribute 'whitespace-space-before-tab nil :background "#424270" :foreground "#af5fff")
+    (set-face-attribute 'whitespace-newline nil :background nil :foreground "#8700d7")
+    (set-face-attribute 'whitespace-empty nil :background "#ff79c6" :foreground nil)
+    )
+
   ;; Duplicate lines with C-d
   (defun duplicate-line()
     (interactive)
