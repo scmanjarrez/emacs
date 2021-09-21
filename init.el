@@ -365,7 +365,8 @@
 	:hook
 	(python-mode . lsp-deferred)
 	(go-mode . lsp-deferred)
-	(LaTeX-mode . lsp-deferred))
+	(LaTeX-mode . lsp-deferred)
+    (lua-mode . lsp-deferred))
 
   ;; LSP dependency
   (use-package lsp-ui
