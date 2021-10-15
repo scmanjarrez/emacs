@@ -37,17 +37,38 @@
   (setq package-enable-at-startup nil)
 
   (custom-set-variables
+   ;; custom-set-variables was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   '(TeX-expand-list
+     '(("%(masterdir)"
+        (lambda nil
+          (file-truename
+           (TeX-master-directory))))))
+   '(TeX-source-correlate-method 'synctex)
+   '(TeX-source-correlate-mode t)
+   '(TeX-source-correlate-start-server t)
+   '(TeX-view-program-list
+     '(("Okular"
+        ("okular --unique %o#src:%n%(masterdir)./%b"))))
    '(TeX-view-program-selection
-     '(((output-dvi has-no-display-manager)
+     '((output-pdf "Okular")
+       ((output-dvi has-no-display-manager)
         "dvi2tty")
        ((output-dvi style-pstricks)
         "dvips and gv")
        (output-dvi "xdvi")
-       (output-pdf "Okular")
        (output-pdf "Evince")
        (output-html "xdg-open")))
    '(inhibit-startup-screen t)
    '(python-shell-interpreter "python3"))
+  (custom-set-faces
+   ;; custom-set-faces was added by Custom.
+   ;; If you edit it by hand, you could mess it up, so be careful.
+   ;; Your init file should contain only one such instance.
+   ;; If there is more than one, they won't work right.
+   )
 
   ;; Loads emacs fullscreened
   (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -106,6 +127,9 @@
   ;; Highlight bracket if visible or expression
   (setq show-paren-style 'mixed)
 
+  ;; Disable menubar
+  (menu-bar-mode -1)
+
   ;; Disable toolbar
   (tool-bar-mode -1)
 
@@ -145,6 +169,53 @@
   ;; Silence emacs can't guess python indent offset message
   (setq python-indent-guess-indent-offset-verbose nil)
 
+  ;; Show tab line
+  (global-tab-line-mode 1)
+
+  (setq tab-line-new-button-show nil)
+  (setq tab-line-close-button-show nil)
+  ;; Close the selected tab, https://andreyorst.gitlab.io/posts/2020-05-07-making-emacs-tabs-work-like-in-atom/
+  ;; If tab is presented in another window, close the tab by using `bury-buffer` function.
+  ;; If tab is unique to all existing windows, kill the buffer with `kill-buffer` function.
+  ;; If no tabs left in the window, it is deleted with `delete-window` function.
+  (defun tab-line-close-tab (&optional e)
+    (interactive "e")
+    (let* ((posnp (event-start e))
+           (window (posn-window posnp))
+           (buffer (get-pos-property 1 'tab (car (posn-string posnp)))))
+      (with-selected-window window
+        (let ((tab-list (tab-line-tabs-window-buffers))
+              (buffer-list (flatten-list
+                            (seq-reduce (lambda (list window)
+                                          (select-window window t)
+                                          (cons (tab-line-tabs-window-buffers) list))
+                                        (window-list) nil))))
+          (select-window window)
+          (if (> (seq-count (lambda (b) (eq b buffer)) buffer-list) 1)
+              (progn
+                (if (eq buffer (current-buffer))
+                    (bury-buffer)
+                  (set-window-prev-buffers window (assq-delete-all buffer (window-prev-buffers)))
+                  (set-window-next-buffers window (delq buffer (window-next-buffers))))
+                (unless (cdr tab-list)
+                  (ignore-errors (delete-window window))))
+            (and (kill-buffer buffer)
+                 (unless (cdr tab-list)
+                   (ignore-errors (delete-window window)))))))
+      (force-mode-line-update)))
+
+  (set-face-attribute 'tab-line nil ;; background behind tabs
+                      :background "#292a44"
+                      :distant-foreground "#666699" ;; current window, inactive text color
+                      :family "Hack" :height 0.85 :box nil)
+  (set-face-attribute 'tab-line-tab nil ;; active tab in another window
+                      :foreground "#663399" :background "#383a62" :box nil)
+  (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
+                      :background "#663399" :foreground "#f1eff8" :box nil)
+  (set-face-attribute 'tab-line-tab-inactive nil ;; inactive tab
+                      :background "#292a44" :foreground "#53495d" :box nil)
+  (set-face-attribute 'tab-line-highlight nil ;; mouseover
+                      :background "#ff5faf" :foreground "#663399")
 
   ;; Keybinds to navigate between paragraphs
   (global-set-key (kbd "C-S-n") 'forward-paragraph)
@@ -363,6 +434,7 @@
 	(lsp-pylsp-plugins-mccabe-enabled nil)
     (lsp-enable-snippet t)
 	:hook
+	(sh-mode . lsp-deferred)
 	(python-mode . lsp-deferred)
 	(go-mode . lsp-deferred)
 	(LaTeX-mode . lsp-deferred)
