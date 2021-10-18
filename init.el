@@ -92,10 +92,14 @@
   (setq truncate-partial-width-windows t)
 
   ;; Display line-max-length bar
-  (add-hook 'python-mode-hook #'display-fill-column-indicator-mode)
+  (global-display-fill-column-indicator-mode t)
 
-  ;; Change line-max-length bar length
-  (setq-default fill-column 79)
+  ;; Change line-max-length bar length, all modes, 86 characters
+  (setq-default fill-column 86)
+
+  ;; Change line-max-length bar length, python 79 characters
+  (add-hook 'python-mode-hook (lambda ()
+                                (setq fill-column 79)))
 
   ;; Change color of line-max-length bar
   (set-face-attribute 'fill-column-indicator nil :foreground "#424270")
