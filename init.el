@@ -457,10 +457,16 @@
     (global-company-mode t)
 	:bind
 	(:map company-active-map
-		  ("<tab>" . company-complete-selection)))
+		  ("<tab>" . company-complete-selection)
+          ("TAB" . company-complete-selection)))
 
   ;; Code snippets
   (use-package yasnippet
+    :bind
+    (:map yas-minor-mode-map
+          ("<tab>" . nil)
+          ("TAB" . nil)
+          ("<backtab>" . yas-expand))
     :config
     (yas-global-mode t))
 
