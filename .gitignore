@@ -9,3 +9,4 @@ smex-items
 build-cache.el
 .lsp-session-v1
 .mc-lists.el
+session.*

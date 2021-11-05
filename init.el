@@ -239,6 +239,11 @@
 	:custom
 	(ido-ubiquitous-mode 1))
 
+  ;; Find declared functions in buffer
+  (use-package imenu
+	:bind
+    ("M-i" . imenu))
+
   ;; Move line/region, M-Up M-Down
   (use-package move-text
 	:config
@@ -270,11 +275,15 @@
 
   (defun untab-region ()
     (interactive)
-    (indent-region-custom -4))
+    (if (eq major-mode 'lua-mode)
+        (indent-region-custom (* lua-indent-level -1))
+      (indent-region-custom -4)))
 
   (defun tab-region ()
     (interactive)
-    (indent-region-custom 4))
+    (if (eq major-mode 'lua-mode)
+        (indent-region-custom lua-indent-level)
+      (indent-region-custom 4)))
 
   (defun tab-untab-n (n)
     (interactive "nHow many tabs?: ")
@@ -417,7 +426,14 @@
      ("C-c q" . vr/query-replace)
      ("C-c m" . vr/mc-mark)
      ("C-r" . vr/isearch-backward)
-     ("C-s" . vr/isearch-forward)))
+     ("C-s" . vr/isearch-forward))
+    :custom
+    (isearch-message-prefix-add "(?i) ")
+    :config
+    ;; Make vr--isearch always case insensitive
+    (defadvice vr--isearch (around add-case-insensitive (forward string &optional bound noerror count) activate)
+      (setq string (concat "(?i)" string))
+      ad-do-it))
 
   ;; Toggle comments with M-;
   (defun toggle-comment ()
