@@ -453,6 +453,7 @@
 	(lsp-pylsp-plugins-pydocstyle-enabled nil)
 	(lsp-pylsp-plugins-mccabe-enabled nil)
     (lsp-enable-snippet t)
+    (lsp-lua-completion-call-snippet "Replace")
 	:hook
 	(sh-mode . lsp-deferred)
 	(python-mode . lsp-deferred)
