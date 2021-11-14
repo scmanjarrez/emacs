@@ -77,7 +77,7 @@
   (menu-bar-mode nil)
 
   ;; Set Hack font
-  (set-frame-font "Hack" nil t)
+  (set-frame-font "Hack 15" nil t)
 
   ;; Delete trailing whitespaces before save
   (add-hook 'before-save-hook 'delete-trailing-whitespace)
