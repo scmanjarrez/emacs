@@ -309,9 +309,9 @@
 	(sp-pair "{" "}" :wrap "C-{"))
 
   ;; Intelligent variable name edit
-  ;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
   (use-package iedit
     :config
+    ;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
     (defun iedit-dwim (arg)
       "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
       (interactive "P")
@@ -327,7 +327,9 @@
               ;; functions.
               (narrow-to-defun)
               (iedit-start (current-word) (point-min) (point-max)))))))
-    (global-set-key (kbd "C-c e") 'iedit-dwim))
+    (global-set-key (kbd "C-;") 'iedit-dwim)
+    :bind
+    ("C-c e" . iedit-mode))
 
   ;; Show parentheses/brackets/braces colored
   (use-package rainbow-delimiters
