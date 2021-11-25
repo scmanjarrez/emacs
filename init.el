@@ -469,6 +469,7 @@
   (use-package lsp-mode
 	:custom
 	(lsp-pylsp-plugins-pydocstyle-enabled nil)
+    (lsp-pylsp-plugins-jedi-hover-enabled nil)
 	(lsp-pylsp-plugins-mccabe-enabled nil)
     (lsp-enable-snippet t)
     (lsp-lua-completion-call-snippet "Replace")
