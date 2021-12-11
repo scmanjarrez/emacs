@@ -444,14 +444,7 @@
      ("C-c q" . vr/query-replace)
      ("C-c m" . vr/mc-mark)
      ("C-r" . vr/isearch-backward)
-     ("C-s" . vr/isearch-forward))
-    :custom
-    (isearch-message-prefix-add "(?i) ")
-    :config
-    ;; Make vr--isearch always case insensitive
-    (defadvice vr--isearch (around add-case-insensitive (forward string &optional bound noerror count) activate)
-      (setq string (concat "(?i)" string))
-      ad-do-it))
+     ("C-s" . vr/isearch-forward)))
 
   ;; Toggle comments with M-;
   (defun toggle-comment ()
@@ -513,6 +506,7 @@
   (use-package go-mode
     :defer t)
 
+
   ;; Major mode for lua
   (use-package lua-mode
     :mode "\\.\\(lua\\|nse\\)\\'"
@@ -521,6 +515,23 @@
   ;; Major mode for json
   (use-package json-mode
     :defer t)
+
+  ;; FIX: Only workins in emacs >27.2
+  ;; ;; Minor mode for json
+  ;; (use-package json-navigator
+  ;;   :ensure hierarchy
+  ;;   :bind
+  ;;   ("C-c g" . json-navigator-navigator))
+
+  ;; Major mode for yaml
+  (use-package yaml-mode
+    :defer t)
+
+  ;; Minor mode for python/yaml
+  (use-package indent-tools
+    :defer t
+    :bind
+     ("C-c f" . indent-tools-hydra/body))
 
   ;; Better emacs sessions
   (use-package desktop+)
