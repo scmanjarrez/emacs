@@ -137,7 +137,7 @@
   ;; Disable toolbar
   (tool-bar-mode -1)
 
-  ;; Disable scrolbar
+  ;; Disable scrollbar
   (scroll-bar-mode -1)
 
   ;; Ignore case when completing
@@ -166,6 +166,9 @@
 
   ;; Short scroll 1 line at a time, shift + scroll 5 lines
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 5)))
+
+  ;; Enable mouse horizontal scrolling
+  (setq mouse-wheel-tilt-scroll t)
 
   ;; Long scroll use the same amount as short scroll
   ;; (setq mouse-wheel-progressive-speed nil)
