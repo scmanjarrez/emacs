@@ -170,6 +170,9 @@
   ;; Enable mouse horizontal scrolling
   (setq mouse-wheel-tilt-scroll t)
 
+  ;; Invert horizon scrolling direction
+  (setq mouse-wheel-flip-direction t)
+
   ;; Long scroll use the same amount as short scroll
   ;; (setq mouse-wheel-progressive-speed nil)
 
@@ -474,7 +477,9 @@
 	(python-mode . lsp-deferred)
 	(go-mode . lsp-deferred)
 	(LaTeX-mode . lsp-deferred)
-    (lua-mode . lsp-deferred))
+    (lua-mode . lsp-deferred)
+    :bind
+    ("<C-tab>" . company-complete))
 
   ;; LSP dependency
   (use-package lsp-ui
@@ -488,9 +493,9 @@
 	(company-tooltip-align-annotations t)
     (global-company-mode t)
 	:bind
-	(:map company-active-map
-		  ("<tab>" . company-complete-selection)
-          ("TAB" . company-complete-selection)))
+	(("<C-iso-lefttab>" . company-files)
+     :map company-active-map
+	 ("<tab>" . company-complete-selection)))
 
   ;; Code snippets
   (use-package yasnippet
@@ -534,7 +539,8 @@
   (use-package indent-tools
     :defer t
     :bind
-     ("C-c f" . indent-tools-hydra/body))
+    ("C-c f" . indent-tools-hydra/body)
+    ("C-c F" . yafolding-toggle-element))
 
   ;; Better emacs sessions
   (use-package desktop+)
