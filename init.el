@@ -173,17 +173,18 @@
   ;; Invert horizon scrolling direction
   (setq mouse-wheel-flip-direction t)
 
-  ;; Long scroll use the same amount as short scroll
-  ;; (setq mouse-wheel-progressive-speed nil)
-
   ;; Silence emacs can't guess python indent offset message
   (setq python-indent-guess-indent-offset-verbose nil)
 
   ;; Show tab line
   (global-tab-line-mode 1)
 
+  ;; Hide new tab button
   (setq tab-line-new-button-show nil)
+
+  ;; Hide close tab button
   (setq tab-line-close-button-show nil)
+
   ;; Close the selected tab, https://andreyorst.gitlab.io/posts/2020-05-07-making-emacs-tabs-work-like-in-atom/
   ;; If tab is presented in another window, close the tab by using `bury-buffer` function.
   ;; If tab is unique to all existing windows, kill the buffer with `kill-buffer` function.
@@ -562,6 +563,10 @@
     ("C-c f" . indent-tools-hydra/body)
     ("C-c F" . yafolding-toggle-element))
 
+  ;; Major mode for qml (pyqt)
+  (use-package qml-mode
+    :defer t)
+
   ;; Better emacs sessions
   (use-package desktop+)
 
@@ -619,6 +624,10 @@
   (global-set-key (kbd "<S-f7>") 'window-configuration-to-register)
   (global-set-key (kbd "<f8>") 'winstack-pop)
   (global-set-key (kbd "<S-f8>") 'jump-to-register)
+
+  (defun rename-window(name)
+    (interactive "sNew name?: ")
+    (setq-default frame-title-format (format "%s" name)))
 
   ;; LaTeX package
   (use-package auctex
