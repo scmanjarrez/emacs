@@ -232,6 +232,10 @@
   (global-set-key (kbd "C-S-n") 'forward-paragraph)
   (global-set-key (kbd "C-S-p") 'backward-paragraph)
 
+  ;; Disable transpose chars and words keybinds
+  (global-set-key (kbd "C-t") nil)
+  (global-set-key (kbd "M-t") nil)
+
 
   ;; Delete non-matching text or the last character
   ;; https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0
