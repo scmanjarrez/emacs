@@ -62,7 +62,9 @@
        (output-pdf "Evince")
        (output-html "xdg-open")))
    '(inhibit-startup-screen t)
-   '(python-shell-interpreter "python3"))
+   '(python-shell-interpreter "python3")
+   '(help-at-pt-timer-delay 3)
+   '(help-at-pt-display-when-idle '(flymake-diagnostic)))
   (custom-set-faces
    ;; custom-set-faces was added by Custom.
    ;; If you edit it by hand, you could mess it up, so be careful.
@@ -139,6 +141,12 @@
 
   ;; Disable scrollbar
   (scroll-bar-mode -1)
+
+  ;; Keep cursor at same position when scrolling
+  (setq scroll-preserve-screen-position 1)
+  ;; Scroll window up/down by one line
+  (global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
+  (global-set-key (kbd "M-p") (kbd "C-u 1 M-v"))
 
   ;; Ignore case when completing
   (setq completion-ignore-case t)
@@ -495,8 +503,10 @@
 	(lsp-pylsp-plugins-pydocstyle-enabled nil)
     (lsp-pylsp-plugins-jedi-hover-enabled nil)
 	(lsp-pylsp-plugins-mccabe-enabled nil)
+    (lsp-ui-doc-show-with-mouse nil)
     (lsp-enable-snippet t)
     (lsp-lua-completion-call-snippet "Replace")
+    (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
 	:hook
 	(sh-mode . lsp-deferred)
 	(python-mode . lsp-deferred)
@@ -539,7 +549,6 @@
   (use-package go-mode
     :defer t)
 
-
   ;; Major mode for lua
   (use-package lua-mode
     :mode "\\.\\(lua\\|nse\\)\\'"
@@ -569,6 +578,14 @@
 
   ;; Major mode for qml (pyqt)
   (use-package qml-mode
+    :defer t)
+
+  ;; Major mode for Dockerfiles
+  (use-package dockerfile-mode
+    :defer t)
+
+  ;; Major mode for Docker compose
+  (use-package docker-compose-mode
     :defer t)
 
   ;; Better emacs sessions
