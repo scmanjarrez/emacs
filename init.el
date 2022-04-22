@@ -559,11 +559,12 @@
     :defer t)
 
   ;; FIX: Only workins in emacs >27.2
-  ;; ;; Minor mode for json
-  ;; (use-package json-navigator
-  ;;   :ensure hierarchy
-  ;;   :bind
-  ;;   ("C-c g" . json-navigator-navigator))
+  ;; Need to delete hierarchy.elc
+  ;; Minor mode for json
+  (use-package json-navigator
+    :ensure hierarchy
+    :bind
+    ("C-c g" . json-navigator-region))
 
   ;; Major mode for yaml
   (use-package yaml-mode
