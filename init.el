@@ -394,6 +394,7 @@
   (use-package undo-tree
 	:custom
 	(global-undo-tree-mode 1)
+    (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
 	:bind
 	(("C-z" . undo-tree-undo)
 	 ("C-S-z" . undo-tree-redo)))
@@ -564,7 +565,7 @@
   (use-package json-navigator
     :ensure hierarchy
     :bind
-    ("C-c g" . json-navigator-region))
+    ("C-c g" . json-navigator-navigate-region))
 
   ;; Major mode for yaml
   (use-package yaml-mode
