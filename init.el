@@ -1,5 +1,7 @@
 ;; Minimize garbage collection during startup
-(setq gc-cons-threshold most-positive-fixnum)
+(setq gc-cons-threshold 100000000)
+
+(setq read-process-output-max (* 1024 1024))
 
 (let ((file-name-handler-alist nil))
   ;; Startup time and garbage collector threshold
@@ -8,10 +10,10 @@
              (format "%.2f seconds"
                      (float-time
                       (time-subtract after-init-time before-init-time)))
-             gcs-done)
-    (setq gc-cons-threshold (expt 2 26)))
+             gcs-done))
   (add-hook 'emacs-startup-hook #'startup)
-
+  ;; Reduce start up time from straight due to 'find' on start
+  (setq straight-check-for-modifications '(check-on-save find-when-checking))
   ;; Install straight.el
   (defvar bootstrap-version)
   (let ((bootstrap-file
@@ -70,7 +72,7 @@
    ;; If you edit it by hand, you could mess it up, so be careful.
    ;; Your init file should contain only one such instance.
    ;; If there is more than one, they won't work right.
-    '(font-latex-sedate-face ((t (:foreground "#adc8ff"))))
+   '(font-latex-sedate-face ((t (:foreground "#adc8ff"))))
    )
 
   ;; Loads emacs fullscreened
@@ -265,29 +267,15 @@
     (isearch-update))
   (define-key isearch-mode-map (kbd "<backspace>") #'isearch-delete-something)
 
-  ;; Smart completion with find file
-  (use-package ido
-	:custom
-	(ido-mode 1)
-	(ido-everywhere 1)
-	:config
-	(setq ido-ignore-buffers '("\\` " "^\*")))
-
-  ;; Try to use ido everywhere
-  (use-package ido-completing-read+
-	:requires ido
-	:custom
-	(ido-ubiquitous-mode 1))
-
-  ;; Find declared functions in buffer
-  (use-package imenu
-	:bind
-    ("M-i" . imenu))
+  ;; ;; Find declared functions in buffer
+  ;; (use-package imenu
+  ;;   :bind
+  ;;   ("M-i" . imenu))
 
   ;; Move line/region, M-Up M-Down
   (use-package move-text
-	:config
-	(move-text-default-bindings))
+    :config
+    (move-text-default-bindings))
 
   ;; Indent region functions, https://stackoverflow.com/a/35183657
   (defun indent-region-custom(spaces)
@@ -334,19 +322,19 @@
 
   ;; Use S-arrow to move between panes
   (use-package windmove
-	:config
-	(windmove-default-keybindings))
+    :config
+    (windmove-default-keybindings))
 
   ;; Auto insert parens
   (use-package smartparens
-	:custom
-	(smartparens-global-mode t)
-	:config
-	(sp-pair "(" ")" :wrap "C-(")
-	(sp-pair "[" "]" :wrap "C-M-[")
-	(sp-pair "'" "'" :wrap "C-'")
-	(sp-pair "\"" "\"" :wrap "C-\"")
-	(sp-pair "{" "}" :wrap "C-{"))
+    :custom
+    (smartparens-global-mode t)
+    :config
+    (sp-pair "(" ")" :wrap "C-(")
+    (sp-pair "[" "]" :wrap "C-M-[")
+    (sp-pair "'" "'" :wrap "C-'")
+    (sp-pair "\"" "\"" :wrap "C-\"")
+    (sp-pair "{" "}" :wrap "C-{"))
 
   ;; Intelligent variable name edit
   (use-package iedit
@@ -373,32 +361,32 @@
 
   ;; Show parentheses/brackets/braces colored
   (use-package rainbow-delimiters
-	:hook
-	(prog-mode . rainbow-delimiters-mode)
-	:config
-	;; makes rainbow-mode colors more contrasted
-	(require 'cl-lib)
-	(require 'color)
-	(cl-loop
-	 for index from 1 to rainbow-delimiters-max-face-count
-	 do
-	 (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-	   (cl-callf color-saturate-name (face-foreground face) 80)))
-	)
+    :hook
+    (prog-mode . rainbow-delimiters-mode)
+    :config
+    ;; makes rainbow-mode colors more contrasted
+    (require 'cl-lib)
+    (require 'color)
+    (cl-loop
+     for index from 1 to rainbow-delimiters-max-face-count
+     do
+     (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
+       (cl-callf color-saturate-name (face-foreground face) 80)))
+    )
 
   ;; Rebecca theme
   (use-package rebecca-theme
-	:config
-	(load-theme 'rebecca t))
+    :config
+    (load-theme 'rebecca t))
 
   ;; Show undo as a tree
   (use-package undo-tree
-	:custom
-	(global-undo-tree-mode 1)
+    :custom
+    (global-undo-tree-mode 1)
     (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
-	:bind
-	(("C-z" . undo-tree-undo)
-	 ("C-S-z" . undo-tree-redo)))
+    :bind
+    (("C-z" . undo-tree-undo)
+     ("C-S-z" . undo-tree-redo)))
 
   ;; Highlight line with F9
   (defun find-overlays-specifying (prop pos)
@@ -425,35 +413,51 @@
   (global-set-key [f9] 'toggle-highlight-line)
 
   ;; Better M-x menu
-  (use-package smex
-	:init
-	(smex-initialize)
-	:bind
-    (("M-x" . smex)
-	 ("M-X" . smex-major-mode-commands)
-	 ("C-c C-c M-x" . execute-extended-command)))
+  (use-package helm
+    :defer t
+    :bind
+    (("M-x" . helm-M-x)
+     ("C-x C-f" . helm-find-files)
+     ("C-x b" . helm-mini)
+     ("C-h f" . helm-apropos)
+     ("C-h v" . helm-apropos)
+     ("M-i" . helm-imenu))
+    :custom
+    (helm-boring-buffer-regexp-list '("\\*.*")))
+
+  ;; Helm git
+  (use-package helm-ls-git
+    :defer t
+    :bind
+    ("C-x g" . helm-ls-git))
+
+  ;; Better bindings information
+  (use-package helm-descbinds
+    :defer t
+    :bind
+    ("C-h b" . helm-descbinds))
 
   ;; Show current/total numbers in search
   (use-package anzu
-	:init
-	(global-anzu-mode 1)
-	:bind
+    :init
+    (global-anzu-mode 1)
+    :bind
     (([remap query-replace] . anzu-query-replace)
-	 ([remap query-replace-regexp] . anzu-query-replace-regexp))
-	:custom
-	(anzu-cons-mode-line-p nil))
+     ([remap query-replace-regexp] . anzu-query-replace-regexp))
+    :custom
+    (anzu-cons-mode-line-p nil))
 
   ;; Better powerline
   (use-package doom-modeline
-	:init
-	(doom-modeline-mode 1)
-	:custom
+    :init
+    (doom-modeline-mode 1)
+    :custom
     (doom-modeline-height 20)
     (doom-modeline-bar-width 0)
     (doom-modeline-enable-word-count t)
     (doom-modeline-buffer-file-name-style 'truncate-upto-root)
     (doom-modeline-env-version nil)
-	(inhibit-compacting-font-caches t)
+    (inhibit-compacting-font-caches t)
     (lsp-modeline-diagnostics-enable nil)
     (all-the-icons-scale-factor 1)
     (all-the-icons-default-adjust 0.2)
@@ -464,9 +468,9 @@
 
   ;; Performance package
   (use-package esup
-	:defer t
-	:custom
-	(esup-depth 0))
+    :defer t
+    :custom
+    (esup-depth 0))
 
   ;; Multiple cursors
   (use-package multiple-cursors
@@ -501,20 +505,31 @@
 
   ;; LSP mode
   (use-package lsp-mode
-	:custom
-	(lsp-pylsp-plugins-pydocstyle-enabled nil)
+    :custom
+    (lsp-use-plists t)
+    (lsp-pylsp-plugins-pydocstyle-enabled nil)
     (lsp-pylsp-plugins-jedi-hover-enabled nil)
-	(lsp-pylsp-plugins-mccabe-enabled nil)
+    (lsp-pylsp-plugins-mccabe-enabled nil)
     (lsp-ui-doc-show-with-mouse nil)
     (lsp-enable-snippet t)
     (lsp-lua-completion-call-snippet "Replace")
     (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-	:hook
-	(sh-mode . lsp-deferred)
-	(python-mode . lsp-deferred)
-	(go-mode . lsp-deferred)
-	(LaTeX-mode . lsp-deferred)
+    (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
+    (lsp-enable-file-watchers nil)
+    ;; (lsp-log-io t)
+    :hook
+    (sh-mode . lsp-deferred)
+    (python-mode . lsp-deferred)
+    (go-mode . lsp-deferred)
+    (LaTeX-mode . lsp-deferred)
     (lua-mode . lsp-deferred)
+    (html-mode . lsp-deferred)
+    (css-mode . lsp-deferred)
+    (ansible-mode . lsp-deferred)
+    (terraform-mode . lsp-deferred)
+    (dockerfile-mode . lsp-deferred)
+    (json-mode . lsp-deferred)
+    (yaml-mode . lsp-deferred)
     :bind
     ("<C-tab>" . company-complete))
 
@@ -524,15 +539,15 @@
 
   ;; Buffer completion
   (use-package company
-	:custom
-	(company-minimum-prefix-length 2)
-	(company-selection-wrap-around t)
-	(company-tooltip-align-annotations t)
+    :custom
+    (company-minimum-prefix-length 2)
+    (company-selection-wrap-around t)
+    (company-tooltip-align-annotations t)
     (global-company-mode t)
-	:bind
-	(("<C-iso-lefttab>" . company-files)
+    :bind
+    (("<C-iso-lefttab>" . company-files)
      :map company-active-map
-	 ("<tab>" . company-complete-selection)))
+     ("<tab>" . company-complete-selection)))
 
   ;; Code snippets
   (use-package yasnippet
@@ -542,10 +557,12 @@
           ("TAB" . nil)
           ("<backtab>" . yas-expand))
     :config
-    (yas-global-mode t))
+    (yas-global-mode t)
+    (setq yasnippet-snippets-dir "~/.emacs.d/snippets"))
 
   ;; Code snippets templates
-  (use-package yasnippet-snippets)
+  (use-package yasnippet-snippets
+    :after (yasnippet))
 
   ;; Major mode for golang
   (use-package go-mode
@@ -655,5 +672,23 @@
 
   ;; LaTeX package
   (use-package auctex
+    :defer t)
+
+  ;; Terraform package
+  (use-package terraform-mode
+    :defer t)
+
+  ;; Ansible package
+  (use-package ansible
+    :defer t)
+
+  ;; Treemacs package
+  (use-package treemacs
+    :defer t
+    :bind
+    ("<f5>" . treemacs-display-current-project-exclusively))
+
+  ;; Treemacs sync with lsp
+  (use-package lsp-treemacs
     :defer t)
   )
