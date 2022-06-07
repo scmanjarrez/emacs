@@ -674,6 +674,11 @@
   (use-package auctex
     :defer t)
 
+  (use-package flyspell
+    :hook
+    (text-mode . flyspell-mode)
+    (flyspell-mode . flyspell-buffer))
+
   ;; Terraform package
   (use-package terraform-mode
     :defer t)
@@ -686,7 +691,8 @@
   (use-package treemacs
     :defer t
     :bind
-    ("<f5>" . treemacs-display-current-project-exclusively))
+    ("<f5>" . treemacs-display-current-project-exclusively)
+    ("C-<f5>" . treemacs))
 
   ;; Treemacs sync with lsp
   (use-package lsp-treemacs
