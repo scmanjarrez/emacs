@@ -676,7 +676,7 @@
 
   (use-package flyspell
     :hook
-    (text-mode . flyspell-mode)
+    (LaTeX-mode . flyspell-mode)
     (flyspell-mode . flyspell-buffer))
 
   ;; Terraform package
