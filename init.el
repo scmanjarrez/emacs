@@ -436,6 +436,7 @@
    ("C-h v" . helm-apropos)
    ("M-i" . helm-imenu))
   :custom
+  (helm-buffers-fuzzy-matching t)
   (helm-boring-buffer-regexp-list '("\\*.*")))
 
 ;; Helm git
