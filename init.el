@@ -147,6 +147,9 @@
 ;; Disable scrollbar
 (scroll-bar-mode -1)
 
+;; Disable minimize on Ctrl-x Ctrl-z
+(global-unset-key "\C-x\C-z")
+
 ;; Keep cursor at same position when scrolling
 (setq scroll-preserve-screen-position 1)
 ;; Scroll window up/down by one line
