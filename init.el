@@ -542,6 +542,8 @@
   (lua-mode . lsp-deferred)
   (terraform-mode . lsp-deferred)
   (dockerfile-mode . lsp-deferred)
+  (c-mode . lsp-deferred)
+  (c++-mode . lsp-deferred)
   :bind
   ("<C-tab>" . company-complete))
 
@@ -580,6 +582,13 @@
 ;; Major mode for golang
 (use-package go-mode
   :defer t)
+
+;; Major mode for C. Generate compile_command.json with cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+(use-package cc-mode
+  :defer t
+  :bind
+  (:map c-mode-map
+        ("C-d" . nil)))
 
 ;; Major mode for lua
 (use-package lua-mode
