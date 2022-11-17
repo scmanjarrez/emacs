@@ -523,6 +523,7 @@
 ;; LSP mode
 (use-package lsp-mode
   :custom
+  (lsp-keymap-prefix "C-:")
   (lsp-use-plists t)
   (lsp-pylsp-plugins-pydocstyle-enabled nil)
   (lsp-pylsp-plugins-jedi-hover-enabled nil)
@@ -545,6 +546,7 @@
   (c-mode . lsp-deferred)
   (c++-mode . lsp-deferred)
   :bind
+
   ("<C-tab>" . company-complete))
 
 ;; LSP dependency
