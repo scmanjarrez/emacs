@@ -711,6 +711,10 @@ Use `winstack-push' and
 (use-package ansible
   :defer t)
 
+;; Jinja2 package
+(use-package jinja2-mode
+  :defer t)
+
 (run-with-idle-timer
  5 nil
  (lambda ()
