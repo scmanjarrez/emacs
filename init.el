@@ -265,7 +265,7 @@
 ;; Delete non-matching text or the last character
 ;; https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0
 ;; https://emacs.stackexchange.com/questions/10359/delete-portion-of-isearch-string-that-does-not-match-or-last-char-if-complete-m
-(defun isearch-delete-something ()
+(defun my-isearch-delete-something ()
   (interactive)
   (if (= 0 (length isearch-string))
       (ding)
@@ -279,7 +279,7 @@
   (isearch-search)
   (isearch-push-state)
   (isearch-update))
-(define-key isearch-mode-map (kbd "<backspace>") #'isearch-delete-something)
+(define-key isearch-mode-map (kbd "<backspace>") #'my-isearch-delete-something)
 
 ;; ;; Find declared functions in buffer
 ;; (use-package imenu
@@ -292,7 +292,7 @@
   (move-text-default-bindings))
 
 ;; Indent region functions, https://stackoverflow.com/a/35183657
-(defun indent-region-custom(spaces)
+(defun my-indent-region-custom(spaces)
   (progn
     (setq region-start (line-beginning-position)) ; default to line-start and line-end of current line
     (setq region-end (line-end-position))
@@ -315,24 +315,24 @@
     )
   )
 
-(defun untab-region ()
+(defun my-untab-region ()
   (interactive)
   (if (eq major-mode 'lua-mode)
-      (indent-region-custom (* lua-indent-level -1))
-    (indent-region-custom -4)))
+      (my-indent-region-custom (* lua-indent-level -1))
+    (my-indent-region-custom -4)))
 
-(defun tab-region ()
+(defun my-tab-region ()
   (interactive)
   (if (eq major-mode 'lua-mode)
-      (indent-region-custom lua-indent-level)
-    (indent-region-custom 4)))
+      (my-indent-region-custom lua-indent-level)
+    (my-indent-region-custom 4)))
 
-(defun tab-untab-n (n)
+(defun my-tab-untab-n (n)
   (interactive "nHow many tabs?: ")
-  (indent-region-custom n))
+  (my-indent-region-custom n))
 
-(global-set-key (kbd "M-<left>") 'untab-region)
-(global-set-key (kbd "M-<right>") 'tab-region)
+(global-set-key (kbd "M-<left>") 'my-untab-region)
+(global-set-key (kbd "M-<right>") 'my-tab-region)
 
 ;; Use S-arrow to move between panes
 (use-package windmove
@@ -350,26 +350,27 @@
   (sp-pair "\"" "\"" :wrap "C-\"")
   (sp-pair "{" "}" :wrap "C-{"))
 
+;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
+(defun my-iedit-dwim (arg)
+"Starts iedit but uses \\[narrow-to-defun] to limit its scope."
+(interactive "P")
+(if arg
+    (iedit-mode)
+  (save-excursion
+    (save-restriction
+      (widen)
+      ;; this function determines the scope of `iedit-start'.
+      (if iedit-mode
+          (iedit-done)
+        ;; `current-word' can of course be replaced by other
+        ;; functions.
+        (narrow-to-defun)
+        (iedit-start (current-word) (point-min) (point-max)))))))
+
 ;; Intelligent variable name edit
 (use-package iedit
   :config
-  ;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
-  (defun iedit-dwim (arg)
-    "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
-    (interactive "P")
-    (if arg
-        (iedit-mode)
-      (save-excursion
-        (save-restriction
-          (widen)
-          ;; this function determines the scope of `iedit-start'.
-          (if iedit-mode
-              (iedit-done)
-            ;; `current-word' can of course be replaced by other
-            ;; functions.
-            (narrow-to-defun)
-            (iedit-start (current-word) (point-min) (point-max)))))))
-  (global-set-key (kbd "C-;") 'iedit-dwim)
+  (global-set-key (kbd "C-;") 'my-iedit-dwim)
   :bind
   ("C-c e" . iedit-mode))
 
@@ -405,7 +406,7 @@
    ("C-S-z" . undo-tree-redo)))
 
 ;; Highlight line with F9
-(defun find-overlays-specifying (prop pos)
+(defun my-find-overlays-specifying (prop pos)
   (let ((overlays (overlays-at pos))
         found)
     (while overlays
@@ -415,9 +416,9 @@
       (setq overlays (cdr overlays)))
     found))
 
-(defun toggle-highlight-line ()
+(defun my-toggle-highlight-line ()
   (interactive)
-  (if (find-overlays-specifying
+  (if (my-find-overlays-specifying
        'line-highlight-overlay-marker
        (line-beginning-position))
       (remove-overlays (line-beginning-position) (+ 1 (line-end-position)))
@@ -426,7 +427,129 @@
                               (+ 1 (line-end-position)))))
       (overlay-put overlay-highlight 'face '(:background "HotPink"))
       (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))
-(global-set-key [f9] 'toggle-highlight-line)
+(global-set-key [f9] 'my-toggle-highlight-line)
+
+(defun my-helm-display-frame-center (buffer &optional resume)
+  "Display `helm-buffer' in a separate frame which centered in
+parent frame."
+  (if (not (display-graphic-p))
+      ;; Fallback to default when frames are not usable.
+      (helm-default-display-buffer buffer)
+    (setq helm--buffer-in-new-frame-p t)
+    (let* ((parent (selected-frame))
+           (frame-pos (frame-position parent))
+           (parent-left (car frame-pos))
+           (parent-top (cdr frame-pos))
+           (width (/ (frame-width parent) 2))
+           (height (/ (frame-height parent) 3))
+           tab-bar-mode
+           (default-frame-alist
+             (if resume
+                 (buffer-local-value 'helm--last-frame-parameters
+                                     (get-buffer buffer))
+               `((parent . ,parent)
+                 (width . ,width)
+                 (height . ,height)
+                 (undecorated . ,helm-use-undecorated-frame-option)
+                 (left-fringe . 0)
+                 (right-fringe . 0)
+                 (tool-bar-lines . 0)
+                 (line-spacing . 0)
+                 (desktop-dont-save . t)
+                 (no-special-glyphs . t)
+                 (inhibit-double-buffering . t)
+                 (tool-bar-lines . 0)
+                 (left . ,(+ parent-left (/ (* (frame-char-width parent) (frame-width parent)) 4)))
+                 (top . ,(+ parent-top (/ (* (frame-char-width parent) (frame-height parent)) 6)))
+                 (title . "Helm")
+                 (vertical-scroll-bars . nil)
+                 (menu-bar-lines . 0)
+                 (fullscreen . nil)
+                 (visible . ,(null helm-display-buffer-reuse-frame))
+                 ;; (internal-border-width . ,(if IS-MAC 1 0))
+                )))
+           display-buffer-alist)
+      (set-face-background 'internal-border (face-foreground 'default))
+      (helm-display-buffer-popup-frame buffer default-frame-alist))
+    (helm-log-run-hook 'helm-window-configuration-hook)))
+
+;; Custom function to display helm mini-frame in the center of the screen
+;; original code: https://github.com/emacs-helm/helm/blob/master/helm-core.el
+;; original modification: https://www.reddit.com/r/emacs/comments/jj269n/display_helm_frames_in_the_center_of_emacs/
+(defun my-helm-display-buffer-in-own-frame (buffer &optional resume)
+  "Display Helm buffer BUFFER in a separate frame.
+Function suitable for `helm-display-function',
+`helm-completion-in-region-display-function' and/or
+`helm-show-completion-default-display-function'.
+See `helm-display-buffer-height' and `helm-display-buffer-width'
+to configure frame size.
+Note that this feature is available only with emacs-25+.
+Note also it is not working properly in helm nested session with emacs
+version < emacs-28."
+  (cl-assert (and (fboundp 'window-absolute-pixel-edges)
+                  (fboundp 'frame-geometry))
+             nil "Helm buffer in own frame is only available starting at emacs-25+")
+  (if (not (display-graphic-p))
+      ;; Fallback to default when frames are not usable.
+      (helm-default-display-buffer buffer)
+    (setq helm--buffer-in-new-frame-p t)
+    (let* (;; Custom code, center helm frame in screen
+           (parent (selected-frame))
+           (parent-left (car (frame-position parent)))
+           (parent-top (cdr (frame-position parent)))
+           ;;
+           (pos (window-absolute-pixel-position))
+           (half-screen-size (/ (display-pixel-height x-display-name) 2))
+           tab-bar-mode
+           (new-frame-alist
+             (if resume
+                 (buffer-local-value 'helm--last-frame-parameters
+                                     (get-buffer buffer))
+               `((parent . ,parent)
+                 (width . ,helm-display-buffer-width)
+                 (height . ,helm-display-buffer-height)
+                 (tool-bar-lines . 0)
+                 ;; Custom code, center helm frame in screen
+                 (left . ,(+ parent-left (/ (* (frame-char-width parent) (frame-width parent)) 4)))
+                 (top . ,(+ parent-top (/ (* (frame-char-width parent) (frame-height parent)) 2)))
+                 ;;
+                 (title . "Helm")
+                 (undecorated . ,helm-use-undecorated-frame-option)
+                 (background-color . ,(or helm-frame-background-color
+                                          (face-attribute 'default :background)))
+                 (foreground-color . ,(or helm-frame-foreground-color
+                                          (face-attribute 'default :foreground)))
+                 (alpha . ,(or helm-frame-alpha 100))
+                 (font . ,(assoc-default 'font (frame-parameters)))
+                 (vertical-scroll-bars . nil)
+                 (menu-bar-lines . 0)
+                 (fullscreen . nil)
+                 (visibility . ,(null helm-display-buffer-reuse-frame))
+                 (minibuffer . t))))
+           display-buffer-alist)
+      ;; Display minibuffer above or below only in initial session,
+      ;; not on a session triggered by action, this way if user have
+      ;; toggled minibuffer and header-line manually she keeps this
+      ;; setting in next action.
+      (unless (or helm--executing-helm-action resume)
+        ;; Add the hook inconditionally, if
+        ;; helm-echo-input-in-header-line is nil helm-hide-minibuffer-maybe
+        ;; will have anyway no effect so no need to remove the hook.
+        (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
+        (with-helm-buffer
+          (setq-local helm-echo-input-in-header-line
+                      (not (> (cdr pos) half-screen-size)))))
+      (helm-display-buffer-popup-frame buffer new-frame-alist)
+      ;; When frame size have been modified manually by user restore
+      ;; it to default value unless resuming or not using
+      ;; `helm-display-buffer-reuse-frame'.
+      ;; This have to be done AFTER raising the frame otherwise
+      ;; minibuffer visibility is lost until next session.
+      (unless (or resume (not helm-display-buffer-reuse-frame))
+        (set-frame-size helm-popup-frame
+                        helm-display-buffer-width
+                        helm-display-buffer-height)))
+    (helm-log-run-hook "helm-display-buffer-in-own-frame" 'helm-window-configuration-hook)))
 
 ;; Better M-x menu
 (use-package helm
@@ -440,7 +563,10 @@
    ("M-i" . helm-imenu))
   :custom
   (helm-buffers-fuzzy-matching t)
-  (helm-boring-buffer-regexp-list '("\\*.*")))
+  (helm-boring-buffer-regexp-list '("\\*.*"))
+  (helm-display-function 'my-helm-display-buffer-in-own-frame)
+  (helm-display-buffer-reuse-frame t)
+  (helm-use-undecorated-frame-option t))
 
 ;; Helm git
 (use-package helm-ls-git
@@ -509,7 +635,7 @@
    ("C-s" . vr/isearch-forward)))
 
 ;; Toggle comments with M-;
-(defun toggle-comment ()
+(defun my-toggle-comment ()
   "Comments or uncomments the region/line."
   (interactive)
   (let (beg line-end)
@@ -518,7 +644,7 @@
       (setq beg (line-beginning-position) line-end (line-end-position)))
     (comment-or-uncomment-region beg line-end)
     (next-line)))
-(global-set-key (kbd "M-;") 'toggle-comment)
+(global-set-key (kbd "M-;") 'my-toggle-comment)
 
 ;; LSP mode
 (use-package lsp-mode
@@ -646,7 +772,7 @@
   )
 
 ;; Duplicate lines with C-d
-(defun duplicate-line()
+(defun my-duplicate-line()
   (interactive)
   (move-beginning-of-line 1)
   (kill-line)
@@ -655,7 +781,7 @@
   (next-line 1)
   (yank)
   )
-(global-set-key (kbd "C-d") 'duplicate-line)
+(global-set-key (kbd "C-d") 'my-duplicate-line)
 
 ;; Enable hideshow minor mode
 (add-hook 'prog-mode-hook #'hs-minor-mode)
@@ -664,33 +790,33 @@
 ;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
 (defvar winstack-stack '()
   "A Stack holding window configurations.
-Use `winstack-push' and
-`winstack-pop' to modify it.")
+Use `my-winstack-push' and
+`my-winstack-pop' to modify it.")
 
-(defun winstack-push()
+(defun my-winstack-push()
   "Push the current window configuration onto `winstack-stack'."
   (interactive)
-  (if (and (window-configuration-p (first winstack-stack))
-           (compare-window-configurations (first winstack-stack) (current-window-configuration)))
+  (if (and (window-configuration-p (cl-first winstack-stack))
+           (compare-window-configurations (cl-first winstack-stack) (current-window-configuration)))
       (message "Current config already pushed")
     (progn (push (current-window-configuration) winstack-stack)
            (message (concat "pushed " (number-to-string
                                        (length (window-list (selected-frame)))) " frame config")))))
 
-(defun winstack-pop()
+(defun my-winstack-pop()
   "Pop the last window configuration off `winstack-stack' and apply it."
   (interactive)
-  (if (first winstack-stack)
+  (if (cl-first winstack-stack)
       (progn (set-window-configuration (pop winstack-stack))
              (message "popped"))
     (message "End of window stack")))
 
-(global-set-key (kbd "<f7>") 'winstack-push)
+(global-set-key (kbd "<f7>") 'my-winstack-push)
 (global-set-key (kbd "<S-f7>") 'window-configuration-to-register)
-(global-set-key (kbd "<f8>") 'winstack-pop)
+(global-set-key (kbd "<f8>") 'my-winstack-pop)
 (global-set-key (kbd "<S-f8>") 'jump-to-register)
 
-(defun rename-window(name)
+(defun my-rename-window(name)
   (interactive "sNew name?: ")
   (setq-default frame-title-format (format "%s" name)))
 
