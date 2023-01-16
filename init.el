@@ -69,7 +69,7 @@
  '(inhibit-startup-screen t)
  '(python-shell-interpreter "python3")
  '(warning-suppress-log-types '((comp) (comp) (comp)))
- '(warning-suppress-types '((comp) (comp))))
+ '(warning-suppress-types '((lsp-mode) (comp) (comp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -615,6 +615,8 @@ version < emacs-28."
   (lsp-lua-completion-call-snippet "Replace")
   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
   (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
+  (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
+  (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
   (lsp-enable-file-watchers nil)
   ;; (lsp-log-io t)
   :hook
