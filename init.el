@@ -683,7 +683,9 @@ version < emacs-28."
 
 ;; Major mode for json
 (use-package json-mode
-  :defer t)
+  :defer t
+  :custom
+  (js-indent-level 2))
 
 ;; FIX: Only workins in emacs >27.2
 ;; Need to delete hierarchy.elc
