@@ -1,3 +1,6 @@
+;; Emacs 29.x fix for native comp error on start
+(defvar native-comp-deferred-compilation-deny-list nil)
+
 ;; Minimize garbage collection during startup
 (setq gc-cons-threshold (* 1024 1024 100))
 
@@ -602,36 +605,35 @@ version < emacs-28."
     (next-line)))
 (global-set-key (kbd "M-;") 'my-toggle-comment)
 
-;; LSP mode
-(use-package lsp-mode
-  :custom
-  (lsp-keymap-prefix "C-:")
-  (lsp-use-plists t)
-  (lsp-pylsp-plugins-pydocstyle-enabled nil)
-  (lsp-pylsp-plugins-jedi-hover-enabled nil)
-  (lsp-pylsp-plugins-mccabe-enabled nil)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-enable-snippet t)
-  (lsp-lua-completion-call-snippet "Replace")
-  (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-  (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
-  (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
-  (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
-  (lsp-enable-file-watchers nil)
-  ;; (lsp-log-io t)
-  :hook
-  (sh-mode . lsp-deferred)
-  (python-mode . lsp-deferred)
-  (go-mode . lsp-deferred)
-  (LaTeX-mode . lsp-deferred)
-  (lua-mode . lsp-deferred)
-  (terraform-mode . lsp-deferred)
-  (dockerfile-mode . lsp-deferred)
-  (c-mode . lsp-deferred)
-  (c++-mode . lsp-deferred)
-  :bind
-
-  ("<C-tab>" . company-complete))
+;; ;; LSP mode
+;; (use-package lsp-mode
+;;   :custom
+;;   (lsp-keymap-prefix "C-:")
+;;   (lsp-use-plists t)
+;;   (lsp-pylsp-plugins-pydocstyle-enabled nil)
+;;   (lsp-pylsp-plugins-jedi-hover-enabled nil)
+;;   (lsp-pylsp-plugins-mccabe-enabled nil)
+;;   (lsp-ui-doc-show-with-mouse nil)
+;;   (lsp-enable-snippet t)
+;;   (lsp-lua-completion-call-snippet "Replace")
+;;   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
+;;   (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
+;;   (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
+;;   (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
+;;   (lsp-enable-file-watchers nil)
+;;   ;; (lsp-log-io t)
+;;   :hook
+;;   (sh-mode . lsp-deferred)
+;;   (python-mode . lsp-deferred)
+;;   (go-mode . lsp-deferred)
+;;   (LaTeX-mode . lsp-deferred)
+;;   (lua-mode . lsp-deferred)
+;;   (terraform-mode . lsp-deferred)
+;;   (dockerfile-mode . lsp-deferred)
+;;   (c-mode . lsp-deferred)
+;;   (c++-mode . lsp-deferred)
+;;   :bind
+;;   ("<C-tab>" . company-complete))
 
 ;; LSP dependency
 (use-package lsp-ui
@@ -656,14 +658,14 @@ version < emacs-28."
   (:map yas-minor-mode-map
         ("<tab>" . nil)
         ("TAB" . nil)
-        ("<backtab>" . yas-expand))
-  :config
-  (yas-global-mode t))
+        ("C-<tab>" . yas-expand)))
 
 ;; Code snippets templates
 (use-package yasnippet-snippets
   :defer t
   :after (yasnippet))
+
+(add-hook 'prog-mode-hook #'yas-minor-mode)
 
 ;; Major mode for golang
 (use-package go-mode
@@ -746,6 +748,19 @@ version < emacs-28."
 ;; Enable hideshow minor mode
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (global-set-key (kbd "M-[") 'hs-toggle-hiding)
+
+;; Add eglot for programming modes
+(add-hook 'prog-mode-hook #'eglot-ensure)
+
+;; Github copilot
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t
+  :hook
+  (prog-mode . copilot-mode)
+  :bind
+  ("M-q" . 'copilot-accept-completion)
+  ("M-e" . 'copilot-accept-completion-by-word))
 
 ;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
 (defvar winstack-stack '()
