@@ -667,6 +667,10 @@ version < emacs-28."
 
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
+;; Use grip from emacs
+(use-package grip-mode
+  :defer t)
+
 ;; Major mode for golang
 (use-package go-mode
   :defer t)
