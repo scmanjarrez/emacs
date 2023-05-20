@@ -1,4 +1,4 @@
-;; Emacs 29.x fix for native comp error on start
+t;; Emacs 29.x fix for native comp error on start
 (defvar native-comp-deferred-compilation-deny-list nil)
 
 ;; Minimize garbage collection during startup
@@ -87,7 +87,7 @@
 (menu-bar-mode nil)
 
 ;; Set Hack font
-(set-frame-font "Hack 15" nil t)
+(set-frame-font "HackNerdFontMono 15" nil t)
 
 ;; Delete trailing whitespaces before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -549,24 +549,27 @@ version < emacs-28."
   :custom
   (anzu-cons-mode-line-p nil))
 
+;; Nerd icons package
+(use-package nerd-icons)
+
 ;; Better powerline
 (use-package doom-modeline
   :init
   (doom-modeline-mode 1)
   :custom
-  (doom-modeline-height 20)
+  (doom-modeline-height 25)
   (doom-modeline-bar-width 0)
   (doom-modeline-enable-word-count t)
   (doom-modeline-buffer-file-name-style 'truncate-upto-root)
   (doom-modeline-env-version nil)
   (inhibit-compacting-font-caches t)
   (lsp-modeline-diagnostics-enable nil)
-  (all-the-icons-scale-factor 1)
-  (all-the-icons-default-adjust 0.2)
+  (nerd-icons-scale-factor 1.3)
+  (nerd-icons-default-adjust 0.0)
   (doom-modeline-major-mode-color-icon nil)
   :config
-  (set-face-attribute 'mode-line nil :family "Hack" :height 93)
-  (set-face-attribute 'mode-line-inactive nil :family "Hack" :height 93))
+  (set-face-attribute 'mode-line nil :family "HackNerdFontMono" :height 95)
+  (set-face-attribute 'mode-line-inactive nil :family "HackNerdFontMono" :height 95))
 
 ;; Performance package
 (use-package esup
@@ -605,35 +608,35 @@ version < emacs-28."
     (next-line)))
 (global-set-key (kbd "M-;") 'my-toggle-comment)
 
-;; ;; LSP mode
-;; (use-package lsp-mode
-;;   :custom
-;;   (lsp-keymap-prefix "C-:")
-;;   (lsp-use-plists t)
-;;   (lsp-pylsp-plugins-pydocstyle-enabled nil)
-;;   (lsp-pylsp-plugins-jedi-hover-enabled nil)
-;;   (lsp-pylsp-plugins-mccabe-enabled nil)
-;;   (lsp-ui-doc-show-with-mouse nil)
-;;   (lsp-enable-snippet t)
-;;   (lsp-lua-completion-call-snippet "Replace")
-;;   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-;;   (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
-;;   (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
-;;   (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
-;;   (lsp-enable-file-watchers nil)
-;;   ;; (lsp-log-io t)
-;;   :hook
-;;   (sh-mode . lsp-deferred)
-;;   (python-mode . lsp-deferred)
-;;   (go-mode . lsp-deferred)
-;;   (LaTeX-mode . lsp-deferred)
-;;   (lua-mode . lsp-deferred)
-;;   (terraform-mode . lsp-deferred)
-;;   (dockerfile-mode . lsp-deferred)
-;;   (c-mode . lsp-deferred)
-;;   (c++-mode . lsp-deferred)
-;;   :bind
-;;   ("<C-tab>" . company-complete))
+;; LSP mode
+(use-package lsp-mode
+  :custom
+  (lsp-keymap-prefix "C-:")
+  (lsp-use-plists t)
+  (lsp-pylsp-plugins-pydocstyle-enabled nil)
+  (lsp-pylsp-plugins-jedi-hover-enabled nil)
+  (lsp-pylsp-plugins-mccabe-enabled nil)
+  (lsp-ui-doc-show-with-mouse nil)
+  (lsp-enable-snippet t)
+  (lsp-lua-completion-call-snippet "Replace")
+  (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
+  (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
+  (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
+  (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
+  (lsp-enable-file-watchers nil)
+  ;; (lsp-log-io t)
+  :hook
+  (sh-mode . lsp-deferred)
+  (python-mode . lsp-deferred)
+  (go-mode . lsp-deferred)
+  (LaTeX-mode . lsp-deferred)
+  (lua-mode . lsp-deferred)
+  (terraform-mode . lsp-deferred)
+  (dockerfile-mode . lsp-deferred)
+  (c-mode . lsp-deferred)
+  (c++-mode . lsp-deferred)
+  :bind
+  ("<C-tab>" . company-complete))
 
 ;; LSP dependency
 (use-package lsp-ui
@@ -673,6 +676,10 @@ version < emacs-28."
 
 ;; Major mode for golang
 (use-package go-mode
+  :defer t)
+
+;; Major mode for cmake
+(use-package cmake-mode
   :defer t)
 
 ;; Major mode for C. Generate compile_command.json with cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
@@ -753,18 +760,19 @@ version < emacs-28."
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (global-set-key (kbd "M-[") 'hs-toggle-hiding)
 
-;; Add eglot for programming modes
-(add-hook 'prog-mode-hook #'eglot-ensure)
+;; ;; Add eglot for programming modes
+;; (add-hook 'prog-mode-hook #'eglot-ensure)
+;; (global-set-key (kbd "C-: r") 'eglot-rename)
 
 ;; Github copilot
-(use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :ensure t
-  :hook
-  (prog-mode . copilot-mode)
-  :bind
-  ("M-q" . 'copilot-accept-completion)
-  ("M-e" . 'copilot-accept-completion-by-word))
+;; (use-package copilot
+;;   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+;;   :ensure t
+;;   :hook
+;;   (prog-mode . copilot-mode)
+;;   :bind
+;;   ("M-q" . 'copilot-accept-completion)
+;;   ("M-e" . 'copilot-accept-completion-by-word))
 
 ;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
 (defvar winstack-stack '()
