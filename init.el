@@ -89,6 +89,10 @@ t;; Emacs 29.x fix for native comp error on start
 ;; Set Hack font
 (set-frame-font "HackNerdFontMono 15" nil t)
 
+(when (member "Noto Color Emoji" (font-family-list))
+  (set-fontset-font
+    t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+
 ;; Delete trailing whitespaces before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -246,7 +250,7 @@ t;; Emacs 29.x fix for native comp error on start
 (set-face-attribute 'tab-line nil ;; background behind tabs
                     :background "#292a44"
                     :distant-foreground "#666699" ;; current window, inactive text color
-                    :family "Hack" :height 0.85 :box nil)
+                    :family "HackNerdFontMono" :height 0.85 :box nil)
 (set-face-attribute 'tab-line-tab nil ;; active tab in another window
                     :foreground "#663399" :background "#383a62" :box nil)
 (set-face-attribute 'tab-line-tab-current nil ;; active tab in current window
@@ -595,6 +599,24 @@ version < emacs-28."
    ("C-c m" . vr/mc-mark)
    ("C-r" . vr/isearch-backward)
    ("C-s" . vr/isearch-forward)))
+
+;; Togle case sensitiveness for vr/isearch
+(defun toggle-vr-case-insensitive ()
+  "Toggle case-insensitive search for visual-regexp."
+  (interactive)
+  (setq advice-list (list))
+  (advice-mapc (lambda (advice _props) (push advice advice-list)) 'vr--isearch)
+  (message "advices %d" (length advice-list))
+  (if (= (length advice-list) 0)
+      (message "Enabling case-insensitive search"
+               (defadvice vr--isearch (around add-case-insensitive (forward string &optional bound noerror count) activate)
+                 (setq string (concat "(?i)" string))
+                 ad-do-it))
+    (message "Disabling case-insensitive search"
+             (advice-mapc (lambda (advice _props) (advice-remove 'vr--isearch advice)) 'vr--isearch)))
+  )
+(global-set-key (kbd "C-c t") 'toggle-vr-case-insensitive)
+
 
 ;; Toggle comments with M-;
 (defun my-toggle-comment ()
