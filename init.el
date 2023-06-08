@@ -1,4 +1,4 @@
-t;; Emacs 29.x fix for native comp error on start
+;; Emacs 29.x fix for native comp error on start
 (defvar native-comp-deferred-compilation-deny-list nil)
 
 ;; Minimize garbage collection during startup
@@ -642,7 +642,7 @@ version < emacs-28."
   (lsp-enable-snippet t)
   (lsp-lua-completion-call-snippet "Replace")
   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-  (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
+  ;; (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
   (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
   (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
   (lsp-enable-file-watchers nil)
@@ -650,10 +650,10 @@ version < emacs-28."
   :hook
   (sh-mode . lsp-deferred)
   (python-mode . lsp-deferred)
-  (go-mode . lsp-deferred)
+  ;; (go-mode . lsp-deferred)
   (LaTeX-mode . lsp-deferred)
   (lua-mode . lsp-deferred)
-  (terraform-mode . lsp-deferred)
+  ;; (terraform-mode . lsp-deferred)
   (dockerfile-mode . lsp-deferred)
   (c-mode . lsp-deferred)
   (c++-mode . lsp-deferred)
@@ -696,9 +696,9 @@ version < emacs-28."
 (use-package grip-mode
   :defer t)
 
-;; Major mode for golang
-(use-package go-mode
-  :defer t)
+;; ;; Major mode for golang
+;; (use-package go-mode
+;;   :defer t)
 
 ;; Major mode for cmake
 (use-package cmake-mode
@@ -741,9 +741,9 @@ version < emacs-28."
   ("C-c f" . indent-tools-hydra/body)
   ("C-c F" . yafolding-toggle-element))
 
-;; Major mode for qml (pyqt)
-(use-package qml-mode
-  :defer t)
+;; ;; Major mode for qml (pyqt)
+;; (use-package qml-mode
+;;   :defer t)
 
 ;; Major mode for Dockerfiles
 (use-package dockerfile-mode
@@ -787,14 +787,14 @@ version < emacs-28."
 ;; (global-set-key (kbd "C-: r") 'eglot-rename)
 
 ;; Github copilot
-;; (use-package copilot
-;;   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-;;   :ensure t
-;;   :hook
-;;   (prog-mode . copilot-mode)
-;;   :bind
-;;   ("M-q" . 'copilot-accept-completion)
-;;   ("M-e" . 'copilot-accept-completion-by-word))
+(use-package copilot
+  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+  :ensure t
+  :hook
+  (prog-mode . copilot-mode)
+  :bind
+  ("M-q" . 'copilot-accept-completion)
+  ("M-e" . 'copilot-accept-completion-by-word))
 
 ;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
 (defvar winstack-stack '()
@@ -838,17 +838,17 @@ Use `my-winstack-push' and
   (LaTeX-mode . flyspell-mode)
   (flyspell-mode . flyspell-buffer))
 
-;; Terraform package
-(use-package terraform-mode
-  :defer t)
+;; ;; Terraform package
+;; (use-package terraform-mode
+;;   :defer t)
 
-;; Ansible package
-(use-package ansible
-  :defer t)
+;; ;; Ansible package
+;; (use-package ansible
+;;   :defer t)
 
-;; Jinja2 package
-(use-package jinja2-mode
-  :defer t)
+;; ;; Jinja2 package
+;; (use-package jinja2-mode
+;;   :defer t)
 
 (run-with-idle-timer
  5 nil
