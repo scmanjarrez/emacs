@@ -694,7 +694,9 @@ version < emacs-28."
 
 ;; Use grip from emacs
 (use-package grip-mode
-  :defer t)
+  :defer t
+  :custom
+  (grip-update-after-change nil))
 
 ;; ;; Major mode for golang
 ;; (use-package go-mode
