@@ -641,8 +641,8 @@ version < emacs-28."
   (lsp-ui-doc-show-with-mouse nil)
   (lsp-enable-snippet t)
   (lsp-lua-completion-call-snippet "Replace")
+  (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-  ;; (lsp-terraform-ls-server "~/.emacs.d/.cache/lsp/terraform-language-server/terraform-ls")
   (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
   (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
   (lsp-enable-file-watchers nil)
@@ -788,15 +788,15 @@ version < emacs-28."
 ;; (add-hook 'prog-mode-hook #'eglot-ensure)
 ;; (global-set-key (kbd "C-: r") 'eglot-rename)
 
-;; Github copilot
-(use-package copilot
-  :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
-  :ensure t
-  :hook
-  (prog-mode . copilot-mode)
-  :bind
-  ("M-q" . 'copilot-accept-completion)
-  ("M-e" . 'copilot-accept-completion-by-word))
+;; ;; Github copilot
+;; (use-package copilot
+;;   :straight (:host github :repo "zerolfx/copilot.el" :files ("dist" "*.el"))
+;;   :ensure t
+;;   :hook
+;;   (prog-mode . copilot-mode)
+;;   :bind
+;;   ("M-q" . 'copilot-accept-completion)
+;;   ("M-e" . 'copilot-accept-completion-by-word))
 
 ;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
 (defvar winstack-stack '()
