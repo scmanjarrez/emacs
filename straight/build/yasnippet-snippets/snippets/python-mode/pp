@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: pprint
+# key: pp
+# group: debug
+# --
+from pprint import pprint; pprint($0)

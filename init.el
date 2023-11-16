@@ -593,6 +593,9 @@ version < emacs-28."
 
 (use-package visual-regexp-steroids
   :demand
+  :custom
+  (vr/command-custom (format "python3 %s" (expand-file-name "regexp.py" (file-name-directory load-file-name))))
+  (vr/engine 'custom)
   :bind
   (("C-c r" . vr/replace)
    ("C-c q" . vr/query-replace)
@@ -630,51 +633,51 @@ version < emacs-28."
     (next-line)))
 (global-set-key (kbd "M-;") 'my-toggle-comment)
 
-;; LSP mode
-(use-package lsp-mode
-  :custom
-  (lsp-keymap-prefix "C-:")
-  (lsp-use-plists t)
-  (lsp-pylsp-plugins-pydocstyle-enabled nil)
-  (lsp-pylsp-plugins-jedi-hover-enabled nil)
-  (lsp-pylsp-plugins-mccabe-enabled nil)
-  (lsp-ui-doc-show-with-mouse nil)
-  (lsp-enable-snippet t)
-  (lsp-lua-completion-call-snippet "Replace")
-  (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
-  (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-  (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
-  (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
-  (lsp-enable-file-watchers nil)
-  ;; (lsp-log-io t)
-  :hook
-  (sh-mode . lsp-deferred)
-  (python-mode . lsp-deferred)
-  ;; (go-mode . lsp-deferred)
-  (LaTeX-mode . lsp-deferred)
-  (lua-mode . lsp-deferred)
-  ;; (terraform-mode . lsp-deferred)
-  (dockerfile-mode . lsp-deferred)
-  (c-mode . lsp-deferred)
-  (c++-mode . lsp-deferred)
-  :bind
-  ("<C-tab>" . company-complete))
+;; ;; LSP mode
+;; (use-package lsp-mode
+;;   :custom
+;;   (lsp-keymap-prefix "C-:")
+;;   (lsp-use-plists t)
+;;   (lsp-pylsp-plugins-pydocstyle-enabled nil)
+;;   (lsp-pylsp-plugins-jedi-hover-enabled nil)
+;;   (lsp-pylsp-plugins-mccabe-enabled nil)
+;;   (lsp-ui-doc-show-with-mouse nil)
+;;   (lsp-enable-snippet t)
+;;   (lsp-lua-completion-call-snippet "Replace")
+;;   (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
+;;   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
+;;   (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
+;;   (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
+;;   (lsp-enable-file-watchers nil)
+;;   ;; (lsp-log-io t)
+;;   :hook
+;;   (sh-mode . lsp-deferred)
+;;   (python-mode . lsp-deferred)
+;;   ;; (go-mode . lsp-deferred)
+;;   (LaTeX-mode . lsp-deferred)
+;;   (lua-mode . lsp-deferred)
+;;   ;; (terraform-mode . lsp-deferred)
+;;   (dockerfile-mode . lsp-deferred)
+;;   (c-mode . lsp-deferred)
+;;   (c++-mode . lsp-deferred)
+;;   :bind
+;;   ("<C-tab>" . company-complete))
 
-;; LSP dependency
-(use-package lsp-ui
-  :commands lsp-ui-mode)
+;; ;; LSP dependency
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode)
 
-;; Buffer completion
-(use-package company
-  :custom
-  (company-minimum-prefix-length 2)
-  (company-selection-wrap-around t)
-  (company-tooltip-align-annotations t)
-  (global-company-mode t)
-  :bind
-  (("<C-iso-lefttab>" . company-files)
-   :map company-active-map
-   ("<tab>" . company-complete-selection)))
+;; ;; Buffer completion
+;; (use-package company
+;;   :custom
+;;   (company-minimum-prefix-length 2)
+;;   (company-selection-wrap-around t)
+;;   (company-tooltip-align-annotations t)
+;;   (global-company-mode t)
+;;   :bind
+;;   (("<C-iso-lefttab>" . company-files)
+;;    :map company-active-map
+;;    ("<tab>" . company-complete-selection)))
 
 ;; Code snippets
 (use-package yasnippet
@@ -691,6 +694,14 @@ version < emacs-28."
   :after (yasnippet))
 
 (add-hook 'prog-mode-hook #'yas-minor-mode)
+
+
+(use-package lsp-bridge
+  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
+            :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
+            :build (:not compile))
+  :init
+  (global-lsp-bridge-mode))
 
 ;; Use grip from emacs
 (use-package grip-mode
@@ -783,10 +794,6 @@ version < emacs-28."
 ;; Enable hideshow minor mode
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (global-set-key (kbd "M-[") 'hs-toggle-hiding)
-
-;; ;; Add eglot for programming modes
-;; (add-hook 'prog-mode-hook #'eglot-ensure)
-;; (global-set-key (kbd "C-: r") 'eglot-rename)
 
 ;; ;; Github copilot
 ;; (use-package copilot
