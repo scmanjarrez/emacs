@@ -706,6 +706,10 @@ version < emacs-28."
   (lsp-bridge-python-command "~/lsp-bridge/bin/python")
   (lsp-bridge-user-langserver-dir "~/lsp-bridge/configs-server")
   (lsp-bridge-user-multiserver-dir "~/lsp-bridge/configs-multiserver")
+  (lsp-bridge-enable-hover-diagnostic t)
+  :bind
+  ("M-." . lsp-bridge-find-def)
+  ("M-," . lsp-bridge-find-def-return)
   :init
   (global-lsp-bridge-mode))
 
