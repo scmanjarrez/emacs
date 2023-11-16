@@ -527,6 +527,8 @@ version < emacs-28."
   :custom
   (helm-buffers-fuzzy-matching t)
   (helm-boring-buffer-regexp-list '("\\*.*"))
+  (helm-ff-skip-boring-files t)
+  (helm-boring-file-regexp-list '("__pycache__"))
   (helm-display-function 'my-helm-display-buffer-in-own-frame)
   (helm-display-buffer-reuse-frame t)
   (helm-use-undecorated-frame-option t))
