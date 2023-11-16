@@ -695,11 +695,15 @@ version < emacs-28."
 
 (add-hook 'prog-mode-hook #'yas-minor-mode)
 
-
+;; lsp-bridge to replace lsp-mode
 (use-package lsp-bridge
   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
             :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
             :build (:not compile))
+  :custom
+  (lsp-bridge-python-command "~/lsp-bridge/bin/python")
+  (lsp-bridge-user-langserver-dir "~/lsp-bridge/configs-server")
+  (lsp-bridge-user-multiserver-dir "~/lsp-bridge/configs-multiserver")
   :init
   (global-lsp-bridge-mode))
 
