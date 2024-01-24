@@ -268,6 +268,9 @@
 (global-set-key (kbd "C-t") nil)
 (global-set-key (kbd "M-t") nil)
 
+;; Fix delete-indentation not working
+(global-set-key (kbd "M-<dead-circumflex>") 'delete-indentation)
+
 
 ;; Delete non-matching text or the last character
 ;; https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0
@@ -703,11 +706,12 @@ version < emacs-28."
             :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
             :build (:not compile))
   :custom
-  (lsp-bridge-python-command "~/lsp-bridge/bin/python")
-  (lsp-bridge-user-langserver-dir "~/lsp-bridge/configs-server")
-  (lsp-bridge-user-multiserver-dir "~/lsp-bridge/configs-multiserver")
+  (lsp-bridge-python-command "~/.config/lsp-bridge/bin/python")
+  (lsp-bridge-user-langserver-dir "~/.config/lsp-bridge/configs-server")
+  (lsp-bridge-user-multiserver-dir "~/.config/lsp-bridge/configs-multiserver")
   (lsp-bridge-enable-hover-diagnostic t)
   :bind
+  ("C-: r" . lsp-bridge-rename)
   ("M-." . lsp-bridge-find-def)
   ("M-," . lsp-bridge-find-def-return)
   :init
