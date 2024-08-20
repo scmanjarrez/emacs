@@ -87,6 +87,7 @@
 (menu-bar-mode nil)
 
 ;; Set Hack font
+;; (set-frame-font "HackNerdFontMono 14" nil t)
 (set-frame-font "HackNerdFontMono 15" nil t)
 
 (when (member "Noto Color Emoji" (font-family-list))
@@ -638,7 +639,106 @@ version < emacs-28."
     (next-line)))
 (global-set-key (kbd "M-;") 'my-toggle-comment)
 
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
+
+;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;              lsp-use-plists
+;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;              (executable-find "emacs-lsp-booster"))
+;;         (progn
+;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;           (cons "emacs-lsp-booster" orig-result))
+;;       orig-result)))
+;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+
 ;; ;; LSP mode
+;; (use-package lsp-mode
+;;   :init
+;;   ;; (setq lsp-use-plists t)
+;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
+;;   (setq lsp-keymap-prefix "C-c l")
+;;   (defun my/lsp-mode-setup-completion ()
+;;     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+;;           '(basic)))
+;;   :hook
+;;   (python-mode . lsp-deferred)
+;;   (lsp-completion-mode . my/lsp-mode-setup-completion)
+;;   :config
+;;   (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))
+;;   :custom
+;;   (lsp-pylsp-plugins-black-enabled t)
+;;   (lsp-pylsp-plugins-mypy-enabled t)
+;;   (lsp-completion-provider :none) ;; we use Corfu!
+;;   :commands
+;;   (lsp lsp-deferred))
+
+;; ;; optionally
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode
+;;   :custom
+;;   (lsp-ui-sideline-enable nil)
+;;   (lsp-ui-sideline-show-diagnostics t) ; show diagnostics messages in sideline, eg type errors.
+;;   (lsp-ui-sideline-show-hover t) ; show hover messages in sideline. Often type info.
+;;   (lsp-ui-sideline-show-code-actions t) ; show code actions in sideline. Example??
+;;   (lsp-ui-sideline-update-mode "point") ; When set to 'line' the information will be updated when
+;;   ;; user changes current line otherwise the information will be updated when user changes current point.
+;;   (lsp-ui-sideline-delay 0.02) ; seconds to wait before showing sideline
+;;   (lsp-ui-doc-enable t) ; docstrings on hover.
+;;   (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
+;;   (lsp-ui-peek-always-show t)
+;;   :config
+;;   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+;;   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
+
+;; (use-package corfu
+;;   :custom
+;;   (global-corfu-mode t)
+;;   (completion-cycle t)
+;;   (completion-cycle-threshold 3)
+;;   (read-extended-command-predicate #'command-completion-default-include-p)
+;;   (corfu-auto t)
+;;   (corfu-auto-delay 0.1)
+;;   (corfu-auto-prefix 3)
+;;   (completion-styles '(basic))
+;;   (corfu-quit-no-match 'separator)
+;;   (corfu-echo-documentation nil)
+;;   (corfu-popupinfo-mode t)
+;;   (corfu-echo-mode nil)
+;;   (corfu-history-mode t)
+;;   :bind
+;;   ("M-q" . corfu-quick-complete)
+;;   ("C-q" . corfu-quick-insert))
+
+;; (use-package kind-icon
+;;   :after corfu
+;;   :custom
+;;   (kind-icon-use-icons t)
+;;   (kind-icon-default-face 'corfu-default) ; Have background color be the same as `corfu' face background
+;;   (kind-icon-blend-background nil)  ; Use midpoint color between foreground and background colors ("blended")?
+;;   (kind-icon-blend-frac 0.08)
+
+;;   (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" user-emacs-directory)) ; Change cache dir
+;;   :config
+;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
+;;   )
+
 ;; (use-package lsp-mode
 ;;   :custom
 ;;   (lsp-keymap-prefix "C-:")
@@ -709,7 +809,10 @@ version < emacs-28."
   (lsp-bridge-python-command "~/.config/lsp-bridge/bin/python")
   (lsp-bridge-user-langserver-dir "~/.config/lsp-bridge/configs-server")
   (lsp-bridge-user-multiserver-dir "~/.config/lsp-bridge/configs-multiserver")
+  ;; (lsp-bridge-python-lsp-server "pylsp")
+  ;; (lsp-bridge-python-amulti-lsp-server "basedpyright_ruff")
   (lsp-bridge-enable-hover-diagnostic t)
+  ;; (lsp-bridge-enable-debug t)
   :bind
   ("C-: r" . lsp-bridge-rename)
   ("M-." . lsp-bridge-find-def)
