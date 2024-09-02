@@ -276,7 +276,7 @@
 ;; Delete non-matching text or the last character
 ;; https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0
 ;; https://emacs.stackexchange.com/questions/10359/delete-portion-of-isearch-string-that-does-not-match-or-last-char-if-complete-m
-(defun my-isearch-delete-something ()
+(defun my/isearch-delete-something ()
   (interactive)
   (if (= 0 (length isearch-string))
       (ding)
@@ -290,7 +290,7 @@
   (isearch-search)
   (isearch-push-state)
   (isearch-update))
-(define-key isearch-mode-map (kbd "<backspace>") #'my-isearch-delete-something)
+(define-key isearch-mode-map (kbd "<backspace>") #'my/isearch-delete-something)
 
 ;; ;; Find declared functions in buffer
 ;; (use-package imenu
@@ -303,7 +303,7 @@
   (move-text-default-bindings))
 
 ;; Indent region functions, https://stackoverflow.com/a/35183657
-(defun my-indent-region-custom(spaces)
+(defun my/indent-region-custom(spaces)
   (progn
     (setq region-start (line-beginning-position)) ; default to line-start and line-end of current line
     (setq region-end (line-end-position))
@@ -326,24 +326,24 @@
     )
   )
 
-(defun my-untab-region ()
+(defun my/untab-region ()
   (interactive)
   (if (eq major-mode 'lua-mode)
-      (my-indent-region-custom (* lua-indent-level -1))
-    (my-indent-region-custom -4)))
+      (my/indent-region-custom (* lua-indent-level -1))
+    (my/indent-region-custom -4)))
 
-(defun my-tab-region ()
+(defun my/tab-region ()
   (interactive)
   (if (eq major-mode 'lua-mode)
-      (my-indent-region-custom lua-indent-level)
-    (my-indent-region-custom 4)))
+      (my/indent-region-custom lua-indent-level)
+    (my/indent-region-custom 4)))
 
-(defun my-tab-untab-n (n)
+(defun my/tab-untab-n (n)
   (interactive "nHow many tabs?: ")
-  (my-indent-region-custom n))
+  (my/indent-region-custom n))
 
-(global-set-key (kbd "M-<left>") 'my-untab-region)
-(global-set-key (kbd "M-<right>") 'my-tab-region)
+(global-set-key (kbd "M-<left>") 'my/untab-region)
+(global-set-key (kbd "M-<right>") 'my/tab-region)
 
 ;; Use S-arrow to move between panes
 (use-package windmove
@@ -362,7 +362,7 @@
   (sp-pair "{" "}" :wrap "C-{"))
 
 ;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
-(defun my-iedit-dwim (arg)
+(defun my/iedit-dwim (arg)
 "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
 (interactive "P")
 (if arg
@@ -381,7 +381,7 @@
 ;; Intelligent variable name edit
 (use-package iedit
   :config
-  (global-set-key (kbd "C-;") 'my-iedit-dwim)
+  (global-set-key (kbd "C-;") 'my/iedit-dwim)
   :bind
   ("C-c e" . iedit-mode))
 
@@ -417,7 +417,7 @@
    ("C-S-z" . undo-tree-redo)))
 
 ;; Highlight line with F9
-(defun my-find-overlays-specifying (prop pos)
+(defun my/find-overlays-specifying (prop pos)
   (let ((overlays (overlays-at pos))
         found)
     (while overlays
@@ -427,9 +427,9 @@
       (setq overlays (cdr overlays)))
     found))
 
-(defun my-toggle-highlight-line ()
+(defun my/toggle-highlight-line ()
   (interactive)
-  (if (my-find-overlays-specifying
+  (if (my/find-overlays-specifying
        'line-highlight-overlay-marker
        (line-beginning-position))
       (remove-overlays (line-beginning-position) (+ 1 (line-end-position)))
@@ -438,12 +438,12 @@
                               (+ 1 (line-end-position)))))
       (overlay-put overlay-highlight 'face '(:background "HotPink"))
       (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))
-(global-set-key [f9] 'my-toggle-highlight-line)
+(global-set-key [f9] 'my/toggle-highlight-line)
 
 ;; Custom function to display helm mini-frame in the center of the screen
 ;; original code: https://github.com/emacs-helm/helm/blob/master/helm-core.el
 ;; original modification: https://www.reddit.com/r/emacs/comments/jj269n/display_helm_frames_in_the_center_of_emacs/
-(defun my-helm-display-buffer-in-own-frame (buffer &optional resume)
+(defun my/helm-display-buffer-in-own-frame (buffer &optional resume)
   "Display Helm buffer BUFFER in a separate frame.
 Function suitable for `helm-display-function',
 `helm-completion-in-region-display-function' and/or
@@ -533,7 +533,7 @@ version < emacs-28."
   (helm-boring-buffer-regexp-list '("\\*.*"))
   (helm-ff-skip-boring-files t)
   (helm-boring-file-regexp-list '("__pycache__"))
-  (helm-display-function 'my-helm-display-buffer-in-own-frame)
+  (helm-display-function 'my/helm-display-buffer-in-own-frame)
   (helm-display-buffer-reuse-frame t)
   (helm-use-undecorated-frame-option t))
 
@@ -628,7 +628,7 @@ version < emacs-28."
 
 
 ;; Toggle comments with M-;
-(defun my-toggle-comment ()
+(defun my/toggle-comment ()
   "Comments or uncomments the region/line."
   (interactive)
   (let (beg line-end)
@@ -637,152 +637,124 @@ version < emacs-28."
       (setq beg (line-beginning-position) line-end (line-end-position)))
     (comment-or-uncomment-region beg line-end)
     (next-line)))
-(global-set-key (kbd "M-;") 'my-toggle-comment)
+(global-set-key (kbd "M-;") 'my/toggle-comment)
 
-;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
-;;   "Try to parse bytecode instead of json."
-;;   (or
-;;    (when (equal (following-char) ?#)
-;;      (let ((bytecode (read (current-buffer))))
-;;        (when (byte-code-function-p bytecode)
-;;          (funcall bytecode))))
-;;    (apply old-fn args)))
-;; (advice-add (if (progn (require 'json)
-;;                        (fboundp 'json-parse-buffer))
-;;                 'json-parse-buffer
-;;               'json-read)
-;;             :around
-;;             #'lsp-booster--advice-json-parse)
+;; LSP mode
+(use-package lsp-mode
+  :preface
+  ;; documentation https://github.com/blahgeek/emacs-lsp-booster
+  ;; and https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc88562e
+  (defun lsp-booster--advice-json-parse (old-fn &rest args)
+    "Try to parse bytecode instead of json."
+    (or
+     (when (equal (following-char) ?#)
+       (let ((bytecode (read (current-buffer))))
+         (when (byte-code-function-p bytecode)
+           (funcall bytecode))))
+     (apply old-fn args)))
+  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+    "Prepend emacs-lsp-booster command to lsp CMD."
+    (let ((orig-result (funcall old-fn cmd test?)))
+      (if (and (not test?)                             ;; for check lsp-server-present?
+               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+               lsp-use-plists
+               (not (functionp 'json-rpc-connection))  ;; native json-rpc
+               (executable-find "emacs-lsp-booster"))
+          (progn
+            (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+              (setcar orig-result command-from-exec-path))
+            (message "Using emacs-lsp-booster for %s!" orig-result)
+            (cons "emacs-lsp-booster" orig-result))
+        orig-result)))
+  :init
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(basic)))
+  (setq lsp-use-plists t)
+  (advice-add (if (progn (require 'json)
+                         (fboundp 'json-parse-buffer))
+                  'json-parse-buffer
+                'json-read)
+              :around
+              #'lsp-booster--advice-json-parse)
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  :hook
+  (python-mode . lsp-deferred)
+  (sh-mode . lsp-deferred)
+  ;; (go-mode . lsp-deferred)
+  (LaTeX-mode . lsp-deferred)
+  (lua-mode . lsp-deferred)
+  ;; (terraform-mode . lsp-deferred)
+  (dockerfile-mode . lsp-deferred)
+  (c-mode . lsp-deferred)
+  (c++-mode . lsp-deferred)
+  (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
+  :config
+  (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))  ;; allow loading pylsp in custom path
+  :custom
+  (lsp-keymap-prefix "C-c l")
+  ;; (lsp-pylsp-plugins-black-enabled t)
+  (lsp-pylsp-plugins-mypy-enabled t)
+  (lsp-completion-provider :none) ;; we use Corfu!
+  (lsp-lua-completion-call-snippet "Replace")
+  ;; (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
+  ;; (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
+  ;; (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
+  ;; (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
+  :commands
+  (lsp lsp-deferred))
 
-;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-;;   "Prepend emacs-lsp-booster command to lsp CMD."
-;;   (let ((orig-result (funcall old-fn cmd test?)))
-;;     (if (and (not test?)                             ;; for check lsp-server-present?
-;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-;;              lsp-use-plists
-;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
-;;              (executable-find "emacs-lsp-booster"))
-;;         (progn
-;;           (message "Using emacs-lsp-booster for %s!" orig-result)
-;;           (cons "emacs-lsp-booster" orig-result))
-;;       orig-result)))
-;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+;; optionally
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :custom
+  (lsp-ui-sideline-enable nil)
+  (lsp-ui-sideline-show-diagnostics t) ; show diagnostics messages in sideline, eg type errors.
+  (lsp-ui-sideline-show-hover t) ; show hover messages in sideline. Often type info.
+  (lsp-ui-sideline-show-code-actions t) ; show code actions in sideline. Example??
+  (lsp-ui-sideline-update-mode "point") ; When set to 'line' the information will be updated when
+  ;; user changes current line otherwise the information will be updated when user changes current point.
+  (lsp-ui-sideline-delay 0.02) ; seconds to wait before showing sideline
+  (lsp-ui-doc-enable t) ; docstrings on hover.
+  (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
+  (lsp-ui-peek-always-show t)
+  :config
+  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
+  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
 
-;; ;; LSP mode
-;; (use-package lsp-mode
-;;   :init
-;;   ;; (setq lsp-use-plists t)
-;;   ;; set prefix for lsp-command-keymap (few alternatives - "C-l", "C-c l")
-;;   (setq lsp-keymap-prefix "C-c l")
-;;   (defun my/lsp-mode-setup-completion ()
-;;     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-;;           '(basic)))
-;;   :hook
-;;   (python-mode . lsp-deferred)
-;;   (lsp-completion-mode . my/lsp-mode-setup-completion)
-;;   :config
-;;   (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))
-;;   :custom
-;;   (lsp-pylsp-plugins-black-enabled t)
-;;   (lsp-pylsp-plugins-mypy-enabled t)
-;;   (lsp-completion-provider :none) ;; we use Corfu!
-;;   :commands
-;;   (lsp lsp-deferred))
 
-;; ;; optionally
-;; (use-package lsp-ui
-;;   :commands lsp-ui-mode
-;;   :custom
-;;   (lsp-ui-sideline-enable nil)
-;;   (lsp-ui-sideline-show-diagnostics t) ; show diagnostics messages in sideline, eg type errors.
-;;   (lsp-ui-sideline-show-hover t) ; show hover messages in sideline. Often type info.
-;;   (lsp-ui-sideline-show-code-actions t) ; show code actions in sideline. Example??
-;;   (lsp-ui-sideline-update-mode "point") ; When set to 'line' the information will be updated when
-;;   ;; user changes current line otherwise the information will be updated when user changes current point.
-;;   (lsp-ui-sideline-delay 0.02) ; seconds to wait before showing sideline
-;;   (lsp-ui-doc-enable t) ; docstrings on hover.
-;;   (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
-;;   (lsp-ui-peek-always-show t)
-;;   :config
-;;   (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-;;   (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
+(use-package corfu
+  :init
+  (global-corfu-mode)
+  :custom
+  (completion-cycle t)
+  (completion-cycle-threshold 3)
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  (corfu-auto t)
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 3)
+  (completion-styles '(basic))
+  (corfu-quit-no-match 'separator)
+  (corfu-echo-documentation nil)
+  (corfu-popupinfo-mode t)
+  (corfu-echo-mode nil)
+  (corfu-history-mode t)
+  :bind
+  ("M-q" . corfu-quick-complete)
+  ("C-q" . corfu-quick-insert))
 
-;; (use-package corfu
-;;   :custom
-;;   (global-corfu-mode t)
-;;   (completion-cycle t)
-;;   (completion-cycle-threshold 3)
-;;   (read-extended-command-predicate #'command-completion-default-include-p)
-;;   (corfu-auto t)
-;;   (corfu-auto-delay 0.1)
-;;   (corfu-auto-prefix 3)
-;;   (completion-styles '(basic))
-;;   (corfu-quit-no-match 'separator)
-;;   (corfu-echo-documentation nil)
-;;   (corfu-popupinfo-mode t)
-;;   (corfu-echo-mode nil)
-;;   (corfu-history-mode t)
-;;   :bind
-;;   ("M-q" . corfu-quick-complete)
-;;   ("C-q" . corfu-quick-insert))
-
-;; (use-package kind-icon
-;;   :after corfu
-;;   :custom
-;;   (kind-icon-use-icons t)
-;;   (kind-icon-default-face 'corfu-default) ; Have background color be the same as `corfu' face background
-;;   (kind-icon-blend-background nil)  ; Use midpoint color between foreground and background colors ("blended")?
-;;   (kind-icon-blend-frac 0.08)
-
-;;   (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" user-emacs-directory)) ; Change cache dir
-;;   :config
-;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
-;;   )
-
-;; (use-package lsp-mode
-;;   :custom
-;;   (lsp-keymap-prefix "C-:")
-;;   (lsp-use-plists t)
-;;   (lsp-pylsp-plugins-pydocstyle-enabled nil)
-;;   (lsp-pylsp-plugins-jedi-hover-enabled nil)
-;;   (lsp-pylsp-plugins-mccabe-enabled nil)
-;;   (lsp-ui-doc-show-with-mouse nil)
-;;   (lsp-enable-snippet t)
-;;   (lsp-lua-completion-call-snippet "Replace")
-;;   (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
-;;   (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-;;   (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
-;;   (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
-;;   (lsp-enable-file-watchers nil)
-;;   ;; (lsp-log-io t)
-;;   :hook
-;;   (sh-mode . lsp-deferred)
-;;   (python-mode . lsp-deferred)
-;;   ;; (go-mode . lsp-deferred)
-;;   (LaTeX-mode . lsp-deferred)
-;;   (lua-mode . lsp-deferred)
-;;   ;; (terraform-mode . lsp-deferred)
-;;   (dockerfile-mode . lsp-deferred)
-;;   (c-mode . lsp-deferred)
-;;   (c++-mode . lsp-deferred)
-;;   :bind
-;;   ("<C-tab>" . company-complete))
-
-;; ;; LSP dependency
-;; (use-package lsp-ui
-;;   :commands lsp-ui-mode)
-
-;; ;; Buffer completion
-;; (use-package company
-;;   :custom
-;;   (company-minimum-prefix-length 2)
-;;   (company-selection-wrap-around t)
-;;   (company-tooltip-align-annotations t)
-;;   (global-company-mode t)
-;;   :bind
-;;   (("<C-iso-lefttab>" . company-files)
-;;    :map company-active-map
-;;    ("<tab>" . company-complete-selection)))
+(use-package kind-icon
+  :after corfu
+  :custom
+  (kind-icon-use-icons t)
+  (kind-icon-default-face 'corfu-default) ; Have background color be the same as `corfu' face background
+  (kind-icon-blend-background nil)  ; Use midpoint color between foreground and background colors ("blended")?
+  (kind-icon-blend-frac 0.08)
+  (kind-icon-default-style `(:padding -1 :stroke 0 :margin 0 :radius 0 :scale 1.0 :height 0.55)) ; make sure icons fit with scaled text
+  (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" user-emacs-directory)) ; Change cache dir
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
+  )
 
 ;; Code snippets
 (use-package yasnippet
@@ -791,34 +763,41 @@ version < emacs-28."
   (:map yas-minor-mode-map
         ("<tab>" . nil)
         ("TAB" . nil)
-        ("C-<tab>" . yas-expand)))
+        ("C-<tab>" . yas-expand))
+  :hook
+  (prog-mode . yas-minor-mode))
 
 ;; Code snippets templates
 (use-package yasnippet-snippets
   :defer t
   :after (yasnippet))
 
-(add-hook 'prog-mode-hook #'yas-minor-mode)
-
-;; lsp-bridge to replace lsp-mode
-(use-package lsp-bridge
-  :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
-            :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
-            :build (:not compile))
+(use-package helm-c-yasnippet
+  :defer t
   :custom
-  (lsp-bridge-python-command "~/.config/lsp-bridge/bin/python")
-  (lsp-bridge-user-langserver-dir "~/.config/lsp-bridge/configs-server")
-  (lsp-bridge-user-multiserver-dir "~/.config/lsp-bridge/configs-multiserver")
-  ;; (lsp-bridge-python-lsp-server "pylsp")
-  ;; (lsp-bridge-python-amulti-lsp-server "basedpyright_ruff")
-  (lsp-bridge-enable-hover-diagnostic t)
-  ;; (lsp-bridge-enable-debug t)
+  (helm-yas-space-match-any-greedy t)
   :bind
-  ("C-: r" . lsp-bridge-rename)
-  ("M-." . lsp-bridge-find-def)
-  ("M-," . lsp-bridge-find-def-return)
-  :init
-  (global-lsp-bridge-mode))
+  ("M-s" . helm-yas-complete))
+
+;; ;; lsp-bridge to replace lsp-mode
+;; (use-package lsp-bridge
+;;   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
+;;             :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
+;;             :build (:not compile))
+;;   :custom
+;;   (lsp-bridge-python-command "~/.config/lsp-bridge/bin/python")
+;;   (lsp-bridge-user-langserver-dir "~/.config/lsp-bridge/configs-server")
+;;   (lsp-bridge-user-multiserver-dir "~/.config/lsp-bridge/configs-multiserver")
+;;   ;; (lsp-bridge-python-lsp-server "pylsp")
+;;   ;; (lsp-bridge-python-amulti-lsp-server "basedpyright_ruff")
+;;   (lsp-bridge-enable-hover-diagnostic t)
+;;   ;; (lsp-bridge-enable-debug t)
+;;   :bind
+;;   ("C-: r" . lsp-bridge-rename)
+;;   ("M-." . lsp-bridge-find-def)
+;;   ("M-," . lsp-bridge-find-def-return)
+;;   :init
+;;   (global-lsp-bridge-mode))
 
 ;; Use grip from emacs
 (use-package grip-mode
@@ -826,9 +805,9 @@ version < emacs-28."
   :custom
   (grip-update-after-change nil))
 
-;; ;; Major mode for golang
-;; (use-package go-mode
-;;   :defer t)
+;; Major mode for golang
+(use-package go-mode
+  :defer t)
 
 ;; Major mode for cmake
 (use-package cmake-mode
@@ -839,6 +818,8 @@ version < emacs-28."
   :defer t
   :bind
   (:map c-mode-map
+        ("C-d" . nil))
+  (:map c++-mode-map
         ("C-d" . nil)))
 
 ;; Major mode for lua
@@ -897,7 +878,7 @@ version < emacs-28."
   )
 
 ;; Duplicate lines with C-d
-(defun my-duplicate-line()
+(defun my/duplicate-line()
   (interactive)
   (move-beginning-of-line 1)
   (kill-line)
@@ -906,7 +887,7 @@ version < emacs-28."
   (next-line 1)
   (yank)
   )
-(global-set-key (kbd "C-d") 'my-duplicate-line)
+(global-set-key (kbd "C-d") 'my/duplicate-line)
 
 ;; Enable hideshow minor mode
 (add-hook 'prog-mode-hook #'hs-minor-mode)
@@ -925,10 +906,10 @@ version < emacs-28."
 ;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
 (defvar winstack-stack '()
   "A Stack holding window configurations.
-Use `my-winstack-push' and
-`my-winstack-pop' to modify it.")
+Use `my/winstack-push' and
+`my/winstack-pop' to modify it.")
 
-(defun my-winstack-push()
+(defun my/winstack-push()
   "Push the current window configuration onto `winstack-stack'."
   (interactive)
   (if (and (window-configuration-p (cl-first winstack-stack))
@@ -938,7 +919,7 @@ Use `my-winstack-push' and
            (message (concat "pushed " (number-to-string
                                        (length (window-list (selected-frame)))) " frame config")))))
 
-(defun my-winstack-pop()
+(defun my/winstack-pop()
   "Pop the last window configuration off `winstack-stack' and apply it."
   (interactive)
   (if (cl-first winstack-stack)
@@ -946,12 +927,12 @@ Use `my-winstack-push' and
              (message "popped"))
     (message "End of window stack")))
 
-(global-set-key (kbd "<f7>") 'my-winstack-push)
+(global-set-key (kbd "<f7>") 'my/winstack-push)
 (global-set-key (kbd "<S-f7>") 'window-configuration-to-register)
-(global-set-key (kbd "<f8>") 'my-winstack-pop)
+(global-set-key (kbd "<f8>") 'my/winstack-pop)
 (global-set-key (kbd "<S-f8>") 'jump-to-register)
 
-(defun my-rename-window(name)
+(defun my/rename-window(name)
   (interactive "sNew name?: ")
   (setq-default frame-title-format (format "%s" name)))
 
