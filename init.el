@@ -530,7 +530,7 @@ version < emacs-28."
    ("M-i" . helm-imenu))
   :custom
   (helm-buffers-fuzzy-matching t)
-  (helm-boring-buffer-regexp-list '("\\*.*"))
+  (helm-boring-buffer-regexp-list '("\\*.*" "markdown-code-fontification.*"))
   (helm-ff-skip-boring-files t)
   (helm-boring-file-regexp-list '("__pycache__"))
   (helm-display-function 'my/helm-display-buffer-in-own-frame)
@@ -600,8 +600,7 @@ version < emacs-28."
 (use-package visual-regexp-steroids
   :demand
   :custom
-  (vr/command-custom (format "python3 %s" (expand-file-name "regexp.py" (file-name-directory load-file-name))))
-  (vr/engine 'custom)
+  (vr/command-python (format "python3 %s" (expand-file-name "regexp.py" (file-name-directory load-file-name))))
   :bind
   (("C-c r" . vr/replace)
    ("C-c q" . vr/query-replace)
@@ -682,12 +681,14 @@ version < emacs-28."
   (python-mode . lsp-deferred)
   (sh-mode . lsp-deferred)
   ;; (go-mode . lsp-deferred)
-  (LaTeX-mode . lsp-deferred)
-  (lua-mode . lsp-deferred)
+  ;; (LaTeX-mode . lsp-deferred)
+  ;; (lua-mode . lsp-deferred)
   ;; (terraform-mode . lsp-deferred)
   (dockerfile-mode . lsp-deferred)
-  (c-mode . lsp-deferred)
-  (c++-mode . lsp-deferred)
+  (yaml-mode . lsp-deferred)
+  ;; (rust-mode . lsp-deferred)
+  ;; (c-mode . lsp-deferred)
+  ;; (c++-mode . lsp-deferred)
   (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
   :config
   (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))  ;; allow loading pylsp in custom path
@@ -802,6 +803,8 @@ version < emacs-28."
 ;; Use grip from emacs
 (use-package grip-mode
   :defer t
+  :bind
+  ("C-c l g" . grip-mode)
   :custom
   (grip-update-after-change nil))
 

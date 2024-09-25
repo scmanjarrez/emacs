@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: sys exit
+# key: ex
+# group: debug
+# --
+import sys; sys.exit()

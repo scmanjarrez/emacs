@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
-# name: sys.exit
-# key: exi
+# name: pdb trace
+# key: bp
 # group: debug
 # --
-import sys; sys.exit()
+breakpoint()
