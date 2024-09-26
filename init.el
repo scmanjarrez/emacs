@@ -695,6 +695,7 @@ version < emacs-28."
   :custom
   (lsp-keymap-prefix "C-c l")
   ;; (lsp-pylsp-plugins-black-enabled t)
+  (lsp-pylsp-plugins-ruff-enabled t)
   (lsp-pylsp-plugins-mypy-enabled t)
   (lsp-completion-provider :none) ;; we use Corfu!
   (lsp-lua-completion-call-snippet "Replace")
