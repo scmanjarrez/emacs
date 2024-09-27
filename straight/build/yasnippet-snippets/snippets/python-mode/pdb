@@ -1,6 +1,1 @@
-# -*- mode: snippet; require-final-newline: nil -*-
-# name: pdb trace
-# key: pdb
-# group: debug
-# --
-import pdb; pdb.set_trace()
+/home/schica/.emacs.d/straight/repos/yasnippet-snippets/snippets/python-mode/pdb
