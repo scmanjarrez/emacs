@@ -78,7 +78,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-latex-sedate-face ((t (:foreground "#adc8ff")))))
+ '(font-latex-sedate-face ((t (:foreground "#adc8ff"))))
+ '(rainbow-delimiters-base-error-face ((t (:foreground "red"))))
+ '(rainbow-delimiters-depth-9-face ((t (:foreground "#99FF99")))) ; Light Green
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#61C5FF")))) ; Light Blue
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#FFC64D")))) ; Light Yellow
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#12D912")))) ; Medium Green
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#0AA5FF")))) ; Medium Blue
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#F5A700")))) ; Medium Yellow
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#2AA72A")))) ; Dark Green
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "#007EC7")))) ; Dark Blue
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "#CC8B00")))) ; Dark Yellow
+ '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))
 
 ;; Loads emacs fullscreened
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -388,17 +399,7 @@
 ;; Show parentheses/brackets/braces colored
 (use-package rainbow-delimiters
   :hook
-  (prog-mode . rainbow-delimiters-mode)
-  :config
-  ;; makes rainbow-mode colors more contrasted
-  (require 'cl-lib)
-  (require 'color)
-  (cl-loop
-   for index from 1 to rainbow-delimiters-max-face-count
-   do
-   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-     (cl-callf color-saturate-name (face-foreground face) 80)))
-  )
+  (prog-mode . rainbow-delimiters-mode))
 
 ;; Rebecca theme
 (use-package rebecca-theme
