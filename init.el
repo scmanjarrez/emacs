@@ -671,13 +671,13 @@ version < emacs-28."
     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
           '(basic)))
   (setq lsp-use-plists t)
-  (advice-add (if (progn (require 'json)
-                         (fboundp 'json-parse-buffer))
-                  'json-parse-buffer
-                'json-read)
-              :around
-              #'lsp-booster--advice-json-parse)
-  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  ;; (advice-add (if (progn (require 'json)
+  ;;                        (fboundp 'json-parse-buffer))
+  ;;                 'json-parse-buffer
+  ;;               'json-read)
+  ;;             :around
+  ;;             #'lsp-booster--advice-json-parse)
+  ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
   :hook
   (python-mode . lsp-deferred)
   (sh-mode . lsp-deferred)
@@ -691,8 +691,13 @@ version < emacs-28."
   ;; (c-mode . lsp-deferred)
   ;; (c++-mode . lsp-deferred)
   (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
-  :config
-  (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))  ;; allow loading pylsp in custom path
+  ;; :config
+  ;; pipx install python-lsp-server\[all\]
+  ;; pipx inject python-lsp-server pylsp-mypy --include-apps --include-deps
+  ;; pipx inject python-lsp-server python-lsp-ruff --include-apps --include-deps
+  ;; (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))  ;; allow loading pylsp in custom path
+  ;; (lsp-register-custom-settings
+  ;;  '(("pylsp.plugins.jedi_completion.include_function_objects" t t)))
   :custom
   (lsp-keymap-prefix "C-c l")
   ;; (lsp-pylsp-plugins-black-enabled t)
@@ -718,7 +723,7 @@ version < emacs-28."
   (lsp-ui-sideline-update-mode "point") ; When set to 'line' the information will be updated when
   ;; user changes current line otherwise the information will be updated when user changes current point.
   (lsp-ui-sideline-delay 0.02) ; seconds to wait before showing sideline
-  (lsp-ui-doc-enable t) ; docstrings on hover.
+  (lsp-ui-doc-enable nil) ; docstrings on hover.
   (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
   (lsp-ui-peek-always-show t)
   :config
