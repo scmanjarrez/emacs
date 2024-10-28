@@ -39,7 +39,8 @@
 
 ;; Configure use-package to use straight.el by default
 (use-package straight
-  :custom (straight-use-package-by-default t))
+  :custom
+  (straight-use-package-by-default t))
 
 ;; Disable package.el in favor of straight.el
 (setq package-enable-at-startup nil)
@@ -78,18 +79,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-latex-sedate-face ((t (:foreground "#adc8ff"))))
- '(rainbow-delimiters-base-error-face ((t (:foreground "red"))))
- '(rainbow-delimiters-depth-9-face ((t (:foreground "#99FF99")))) ; Light Green
- '(rainbow-delimiters-depth-8-face ((t (:foreground "#61C5FF")))) ; Light Blue
- '(rainbow-delimiters-depth-7-face ((t (:foreground "#FFC64D")))) ; Light Yellow
- '(rainbow-delimiters-depth-6-face ((t (:foreground "#12D912")))) ; Medium Green
- '(rainbow-delimiters-depth-5-face ((t (:foreground "#0AA5FF")))) ; Medium Blue
- '(rainbow-delimiters-depth-4-face ((t (:foreground "#F5A700")))) ; Medium Yellow
- '(rainbow-delimiters-depth-3-face ((t (:foreground "#2AA72A")))) ; Dark Green
- '(rainbow-delimiters-depth-2-face ((t (:foreground "#007EC7")))) ; Dark Blue
- '(rainbow-delimiters-depth-1-face ((t (:foreground "#CC8B00")))) ; Dark Yellow
- '(rainbow-delimiters-unmatched-face ((t (:foreground "red")))))
+ '(font-latex-sedate-face ((t (:foreground "#adc8ff")))))
 
 ;; Loads emacs fullscreened
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
@@ -174,6 +164,17 @@
 ;; Scroll window up/down by one line
 (global-set-key (kbd "M-n") (kbd "C-u 1 C-v"))
 (global-set-key (kbd "M-p") (kbd "C-u 1 M-v"))
+
+;; Keybinds to navigate between paragraphs
+(global-set-key (kbd "C-S-n") 'forward-paragraph)
+(global-set-key (kbd "C-S-p") 'backward-paragraph)
+
+;; Disable transpose chars and words keybinds
+(global-set-key (kbd "C-t") nil)
+(global-set-key (kbd "M-t") nil)
+
+;; Fix delete-indentation not working
+(global-set-key (kbd "M-<dead-circumflex>") 'delete-indentation)
 
 ;; Ignore case when completing
 (setq completion-ignore-case t)
@@ -272,18 +273,6 @@
 (set-face-attribute 'tab-line-highlight nil ;; mouseover
                     :background "#ff5faf" :foreground "#663399")
 
-;; Keybinds to navigate between paragraphs
-(global-set-key (kbd "C-S-n") 'forward-paragraph)
-(global-set-key (kbd "C-S-p") 'backward-paragraph)
-
-;; Disable transpose chars and words keybinds
-(global-set-key (kbd "C-t") nil)
-(global-set-key (kbd "M-t") nil)
-
-;; Fix delete-indentation not working
-(global-set-key (kbd "M-<dead-circumflex>") 'delete-indentation)
-
-
 ;; Delete non-matching text or the last character
 ;; https://gist.github.com/johnmastro/508fb22a2b4e1ce754e0
 ;; https://emacs.stackexchange.com/questions/10359/delete-portion-of-isearch-string-that-does-not-match-or-last-char-if-complete-m
@@ -303,15 +292,54 @@
   (isearch-update))
 (define-key isearch-mode-map (kbd "<backspace>") #'my/isearch-delete-something)
 
-;; ;; Find declared functions in buffer
-;; (use-package imenu
-;;   :bind
-;;   ("M-i" . imenu))
+;; Duplicate lines with C-d
+(defun my/duplicate-line()
+  (interactive)
+  (move-beginning-of-line 1)
+  (kill-line)
+  (yank)
+  (open-line 1)
+  (next-line 1)
+  (yank)
+  )
+(global-set-key (kbd "C-d") 'my/duplicate-line)
 
-;; Move line/region, M-Up M-Down
-(use-package move-text
-  :config
-  (move-text-default-bindings))
+;; Enable hideshow minor mode
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+(global-set-key (kbd "M-[") 'hs-toggle-hiding)
+
+;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
+(defvar winstack-stack '()
+  "A Stack holding window configurations.
+Use `my/winstack-push' and
+`my/winstack-pop' to modify it.")
+
+(defun my/winstack-push()
+  "Push the current window configuration onto `winstack-stack'."
+  (interactive)
+  (if (and (window-configuration-p (cl-first winstack-stack))
+           (compare-window-configurations (cl-first winstack-stack) (current-window-configuration)))
+      (message "Current config already pushed")
+    (progn (push (current-window-configuration) winstack-stack)
+           (message (concat "pushed " (number-to-string
+                                       (length (window-list (selected-frame)))) " frame config")))))
+
+(defun my/winstack-pop()
+  "Pop the last window configuration off `winstack-stack' and apply it."
+  (interactive)
+  (if (cl-first winstack-stack)
+      (progn (set-window-configuration (pop winstack-stack))
+             (message "popped"))
+    (message "End of window stack")))
+
+(global-set-key (kbd "<f7>") 'my/winstack-push)
+(global-set-key (kbd "<S-f7>") 'window-configuration-to-register)
+(global-set-key (kbd "<f8>") 'my/winstack-pop)
+(global-set-key (kbd "<S-f8>") 'jump-to-register)
+
+(defun my/rename-window(name)
+  (interactive "sNew name?: ")
+  (setq-default frame-title-format (format "%s" name)))
 
 ;; Indent region functions, https://stackoverflow.com/a/35183657
 (defun my/indent-region-custom(spaces)
@@ -356,67 +384,6 @@
 (global-set-key (kbd "M-<left>") 'my/untab-region)
 (global-set-key (kbd "M-<right>") 'my/tab-region)
 
-;; Use S-arrow to move between panes
-(use-package windmove
-  :config
-  (windmove-default-keybindings))
-
-;; Auto insert parens
-(use-package smartparens
-  :custom
-  (smartparens-global-mode t)
-  :config
-  (sp-pair "(" ")" :wrap "C-(")
-  (sp-pair "[" "]" :wrap "C-M-[")
-  (sp-pair "'" "'" :wrap "C-'")
-  (sp-pair "\"" "\"" :wrap "C-\"")
-  (sp-pair "{" "}" :wrap "C-{"))
-
-;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
-(defun my/iedit-dwim (arg)
-"Starts iedit but uses \\[narrow-to-defun] to limit its scope."
-(interactive "P")
-(if arg
-    (iedit-mode)
-  (save-excursion
-    (save-restriction
-      (widen)
-      ;; this function determines the scope of `iedit-start'.
-      (if iedit-mode
-          (iedit-done)
-        ;; `current-word' can of course be replaced by other
-        ;; functions.
-        (narrow-to-defun)
-        (iedit-start (current-word) (point-min) (point-max)))))))
-
-;; Intelligent variable name edit
-(use-package iedit
-  :config
-  (global-set-key (kbd "C-;") 'my/iedit-dwim)
-  :bind
-  ("C-c e" . iedit-mode))
-
-;; Show parentheses/brackets/braces colored
-(use-package rainbow-delimiters
-  :hook
-  (prog-mode . rainbow-delimiters-mode))
-
-;; Rebecca theme
-(use-package rebecca-theme
-  :config
-  (load-theme 'rebecca t))
-
-;; Show undo as a tree
-(use-package undo-tree
-  :init
-  (global-undo-tree-mode)
-  :custom
-  (undo-tree-auto-save-history nil)
-  ;; (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo-tree")))
-  :bind
-  (("C-z" . undo-tree-undo)
-   ("C-S-z" . undo-tree-redo)))
-
 ;; Highlight line with F9
 (defun my/find-overlays-specifying (prop pos)
   (let ((overlays (overlays-at pos))
@@ -439,193 +406,7 @@
                               (+ 1 (line-end-position)))))
       (overlay-put overlay-highlight 'face '(:background "HotPink"))
       (overlay-put overlay-highlight 'line-highlight-overlay-marker t))))
-(global-set-key [f9] 'my/toggle-highlight-line)
-
-;; Custom function to display helm mini-frame in the center of the screen
-;; original code: https://github.com/emacs-helm/helm/blob/master/helm-core.el
-;; original modification: https://www.reddit.com/r/emacs/comments/jj269n/display_helm_frames_in_the_center_of_emacs/
-(defun my/helm-display-buffer-in-own-frame (buffer &optional resume)
-  "Display Helm buffer BUFFER in a separate frame.
-Function suitable for `helm-display-function',
-`helm-completion-in-region-display-function' and/or
-`helm-show-completion-default-display-function'.
-See `helm-display-buffer-height' and `helm-display-buffer-width'
-to configure frame size.
-Note that this feature is available only with emacs-25+.
-Note also it is not working properly in helm nested session with emacs
-version < emacs-28."
-  (cl-assert (and (fboundp 'window-absolute-pixel-edges)
-                  (fboundp 'frame-geometry))
-             nil "Helm buffer in own frame is only available starting at emacs-25+")
-  (if (not (display-graphic-p))
-      ;; Fallback to default when frames are not usable.
-      (helm-default-display-buffer buffer)
-    (setq helm--buffer-in-new-frame-p t)
-    (let* (;; Custom code, center helm frame in screen
-           (parent (selected-frame))
-           (parent-left (car (frame-position parent)))
-           (parent-top (cdr (frame-position parent)))
-           ;;
-           (pos (window-absolute-pixel-position))
-           (half-screen-size (/ (display-pixel-height x-display-name) 2))
-           tab-bar-mode
-           (new-frame-alist
-             (if resume
-                 (buffer-local-value 'helm--last-frame-parameters
-                                     (get-buffer buffer))
-               `((parent . ,parent)
-                 (width . ,helm-display-buffer-width)
-                 (height . ,helm-display-buffer-height)
-                 (tool-bar-lines . 0)
-                 ;; Custom code, center helm frame in screen
-                 (left . ,(+ parent-left (/ (* (frame-char-width parent) (frame-width parent)) 4)))
-                 (top . ,(+ parent-top (/ (* (frame-char-width parent) (frame-height parent)) 2)))
-                 ;;
-                 (title . "Helm")
-                 (undecorated . ,helm-use-undecorated-frame-option)
-                 (background-color . ,(or helm-frame-background-color
-                                          (face-attribute 'default :background)))
-                 (foreground-color . ,(or helm-frame-foreground-color
-                                          (face-attribute 'default :foreground)))
-                 (alpha . ,(or helm-frame-alpha 100))
-                 (font . ,(assoc-default 'font (frame-parameters)))
-                 (vertical-scroll-bars . nil)
-                 (menu-bar-lines . 0)
-                 (fullscreen . nil)
-                 (visibility . ,(null helm-display-buffer-reuse-frame))
-                 (minibuffer . t))))
-           display-buffer-alist)
-      ;; Display minibuffer above or below only in initial session,
-      ;; not on a session triggered by action, this way if user have
-      ;; toggled minibuffer and header-line manually she keeps this
-      ;; setting in next action.
-      (unless (or helm--executing-helm-action resume)
-        ;; Add the hook inconditionally, if
-        ;; helm-echo-input-in-header-line is nil helm-hide-minibuffer-maybe
-        ;; will have anyway no effect so no need to remove the hook.
-        (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
-        (with-helm-buffer
-          (setq-local helm-echo-input-in-header-line
-                      (not (> (cdr pos) half-screen-size)))))
-      (helm-display-buffer-popup-frame buffer new-frame-alist)
-      ;; When frame size have been modified manually by user restore
-      ;; it to default value unless resuming or not using
-      ;; `helm-display-buffer-reuse-frame'.
-      ;; This have to be done AFTER raising the frame otherwise
-      ;; minibuffer visibility is lost until next session.
-      (unless (or resume (not helm-display-buffer-reuse-frame))
-        (set-frame-size helm-popup-frame
-                        helm-display-buffer-width
-                        helm-display-buffer-height)))
-    (helm-log-run-hook "helm-display-buffer-in-own-frame" 'helm-window-configuration-hook)))
-
-;; Better M-x menu
-(use-package helm
-  :defer t
-  :bind
-  (("M-x" . helm-M-x)
-   ("C-x C-f" . helm-find-files)
-   ("C-x b" . helm-mini)
-   ("C-h f" . helm-apropos)
-   ("C-h v" . helm-apropos)
-   ("M-i" . helm-imenu))
-  :custom
-  (helm-buffers-fuzzy-matching t)
-  (helm-boring-buffer-regexp-list '("\\*.*" "markdown-code-fontification.*"))
-  (helm-ff-skip-boring-files t)
-  (helm-boring-file-regexp-list '("__pycache__"))
-  (helm-display-function 'my/helm-display-buffer-in-own-frame)
-  (helm-display-buffer-reuse-frame t)
-  (helm-use-undecorated-frame-option t))
-
-;; Helm git
-(use-package helm-ls-git
-  :defer t
-  :bind
-  ("C-x g" . helm-ls-git))
-
-;; Better bindings information
-(use-package helm-descbinds
-  :defer t
-  :bind
-  ("C-h b" . helm-descbinds))
-
-;; Show current/total numbers in search
-(use-package anzu
-  :init
-  (global-anzu-mode 1)
-  :bind
-  (([remap query-replace] . anzu-query-replace)
-   ([remap query-replace-regexp] . anzu-query-replace-regexp))
-  :custom
-  (anzu-cons-mode-line-p nil))
-
-;; Nerd icons package
-(use-package nerd-icons)
-
-;; Better powerline
-(use-package doom-modeline
-  :init
-  (doom-modeline-mode 1)
-  :custom
-  (doom-modeline-height 25)
-  (doom-modeline-bar-width 0)
-  (doom-modeline-enable-word-count t)
-  (doom-modeline-buffer-file-name-style 'truncate-upto-root)
-  (doom-modeline-env-version nil)
-  (inhibit-compacting-font-caches t)
-  (lsp-modeline-diagnostics-enable nil)
-  (nerd-icons-scale-factor 1.3)
-  (nerd-icons-default-adjust 0.0)
-  (doom-modeline-major-mode-color-icon nil)
-  :config
-  (set-face-attribute 'mode-line nil :family "HackNerdFontMono" :height 95)
-  (set-face-attribute 'mode-line-inactive nil :family "HackNerdFontMono" :height 95))
-
-;; Performance package
-(use-package esup
-  :defer t
-  :custom
-  (esup-depth 0))
-
-;; Multiple cursors
-(use-package multiple-cursors
-  :defer t
-  :bind
-  ("C-c c" . mc/edit-lines))
-
-;; Python regexps
-(use-package visual-regexp
-  :defer t)
-
-(use-package visual-regexp-steroids
-  :demand
-  :custom
-  (vr/command-python (format "python3 %s" (expand-file-name "regexp.py" (file-name-directory load-file-name))))
-  :bind
-  (("C-c r" . vr/replace)
-   ("C-c q" . vr/query-replace)
-   ("C-c m" . vr/mc-mark)
-   ("C-r" . vr/isearch-backward)
-   ("C-s" . vr/isearch-forward)))
-
-;; Togle case sensitiveness for vr/isearch
-(defun toggle-vr-case-insensitive ()
-  "Toggle case-insensitive search for visual-regexp."
-  (interactive)
-  (setq advice-list (list))
-  (advice-mapc (lambda (advice _props) (push advice advice-list)) 'vr--isearch)
-  (message "advices %d" (length advice-list))
-  (if (= (length advice-list) 0)
-      (message "Enabling case-insensitive search"
-               (defadvice vr--isearch (around add-case-insensitive (forward string &optional bound noerror count) activate)
-                 (setq string (concat "(?i)" string))
-                 ad-do-it))
-    (message "Disabling case-insensitive search"
-             (advice-mapc (lambda (advice _props) (advice-remove 'vr--isearch advice)) 'vr--isearch)))
-  )
-(global-set-key (kbd "C-c t") 'toggle-vr-case-insensitive)
-
+(global-set-key (kbd "<f9>") 'my/toggle-highlight-line)
 
 ;; Toggle comments with M-;
 (defun my/toggle-comment ()
@@ -639,38 +420,296 @@ version < emacs-28."
     (next-line)))
 (global-set-key (kbd "M-;") 'my/toggle-comment)
 
+;; ### use-package configuration ###
+
+;; ;; Find declared functions in buffer -- Replaced with Helm
+;; (use-package imenu
+;;   :bind ("M-i" . imenu))
+
+;; Move line/region, M-Up M-Down
+(use-package move-text
+  :config
+  (move-text-default-bindings))
+
+;; Use S-arrow to move between panes
+(use-package windmove
+  :config
+  (windmove-default-keybindings))
+
+;; Auto insert parens
+(use-package smartparens
+  :custom
+  (smartparens-global-mode t)
+  :config
+  (sp-pair "(" ")" :wrap "C-(")
+  (sp-pair "[" "]" :wrap "C-M-[")
+  (sp-pair "'" "'" :wrap "C-'")
+  (sp-pair "\"" "\"" :wrap "C-\"")
+  (sp-pair "{" "}" :wrap "C-{"))
+
+;; Intelligent variable name edit
+(use-package iedit
+  :config
+  ;; https://www.masteringemacs.org/article/iedit-interactive-multi-occurrence-editing-in-your-buffer
+  (defun my/iedit-dwim (arg)
+    "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
+    (interactive "P")
+    (if arg
+        (iedit-mode)
+      (save-excursion
+        (save-restriction
+          (widen)
+          ;; this function determines the scope of `iedit-start'.
+          (if iedit-mode
+              (iedit-done)
+            ;; `current-word' can of course be replaced by other
+            ;; functions.
+            (narrow-to-defun)
+            (iedit-start (current-word) (point-min) (point-max)))))))
+  :bind (("C-c e" . iedit-mode)
+         ("C-;" . my/iedit-dwim)))
+
+;; Show parentheses/brackets/braces colored
+(use-package rainbow-delimiters
+  :hook
+  (prog-mode . rainbow-delimiters-mode)
+  :custom-face
+  (rainbow-delimiters-base-error-face ((t (:foreground "red"))))
+  (rainbow-delimiters-depth-9-face ((t (:foreground "#99FF99")))) ; Light Green
+  (rainbow-delimiters-depth-8-face ((t (:foreground "#61C5FF")))) ; Light Blue
+  (rainbow-delimiters-depth-7-face ((t (:foreground "#FFC64D")))) ; Light Yellow
+  (rainbow-delimiters-depth-6-face ((t (:foreground "#12D912")))) ; Medium Green
+  (rainbow-delimiters-depth-5-face ((t (:foreground "#0AA5FF")))) ; Medium Blue
+  (rainbow-delimiters-depth-4-face ((t (:foreground "#F5A700")))) ; Medium Yellow
+  (rainbow-delimiters-depth-3-face ((t (:foreground "#2AA72A")))) ; Dark Green
+  (rainbow-delimiters-depth-2-face ((t (:foreground "#007EC7")))) ; Dark Blue
+  (rainbow-delimiters-depth-1-face ((t (:foreground "#CC8B00")))) ; Dark Yellow
+  (rainbow-delimiters-unmatched-face ((t (:foreground "red")))))
+
+;; Rebecca theme
+(use-package rebecca-theme
+  :config
+  (load-theme 'rebecca t))
+
+;; Show undo as a tree
+(use-package undo-tree
+  :custom
+  (global-undo-tree-mode t)
+  (undo-tree-visualizer-diff t)
+  (undo-tree-auto-save-history nil)
+  ;; (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  :bind (("C-z" . undo-tree-undo)
+         ("C-S-z" . undo-tree-redo)
+         :map undo-tree-visualizer-mode-map
+         ("C-g" . undo-tree-visualizer-quit)))
+
+;; Better M-x menu
+(use-package helm
+  :defer t
+  :bind (("M-x" . helm-M-x)
+         ("C-x C-f" . helm-find-files)
+         ("C-x b" . helm-mini)
+         ("C-h f" . helm-apropos)
+         ("C-h v" . helm-apropos)
+         ("M-i" . helm-imenu))
+  :config
+  ;; Custom function to display helm mini-frame in the center of the screen
+  ;; original code: https://github.com/emacs-helm/helm/blob/master/helm-core.el
+  ;; original modification: https://www.reddit.com/r/emacs/comments/jj269n/display_helm_frames_in_the_center_of_emacs/
+  (defun my/helm-display-buffer-in-own-frame (buffer &optional resume)
+    "Display Helm buffer BUFFER in a separate frame.
+Function suitable for `helm-display-function',
+`helm-completion-in-region-display-function' and/or
+`helm-show-completion-default-display-function'.
+See `helm-display-buffer-height' and `helm-display-buffer-width'
+to configure frame size.
+Note that this feature is available only with emacs-25+.
+Note also it is not working properly in helm nested session with emacs
+version < emacs-28."
+    (cl-assert (and (fboundp 'window-absolute-pixel-edges)
+                    (fboundp 'frame-geometry))
+               nil "Helm buffer in own frame is only available starting at emacs-25+")
+    (if (not (display-graphic-p))
+        ;; Fallback to default when frames are not usable.
+        (helm-default-display-buffer buffer)
+      (setq helm--buffer-in-new-frame-p t)
+      (let* (;; Custom code, center helm frame in screen
+             (parent (selected-frame))
+             (parent-left (car (frame-position parent)))
+             (parent-top (cdr (frame-position parent)))
+             ;;
+             (pos (window-absolute-pixel-position))
+             (half-screen-size (/ (display-pixel-height x-display-name) 2))
+             tab-bar-mode
+             (new-frame-alist
+              (if resume
+                  (buffer-local-value 'helm--last-frame-parameters
+                                      (get-buffer buffer))
+                `((parent . ,parent)
+                  (width . ,helm-display-buffer-width)
+                  (height . ,helm-display-buffer-height)
+                  (tool-bar-lines . 0)
+                  ;; Custom code, center helm frame in screen
+                  (left . ,(+ parent-left (/ (* (frame-char-width parent) (frame-width parent)) 4)))
+                  (top . ,(+ parent-top (/ (* (frame-char-width parent) (frame-height parent)) 2)))
+                  ;;
+                  (title . "Helm")
+                  (undecorated . ,helm-use-undecorated-frame-option)
+                  (background-color . ,(or helm-frame-background-color
+                                           (face-attribute 'default :background)))
+                  (foreground-color . ,(or helm-frame-foreground-color
+                                           (face-attribute 'default :foreground)))
+                  (alpha . ,(or helm-frame-alpha 100))
+                  (font . ,(assoc-default 'font (frame-parameters)))
+                  (vertical-scroll-bars . nil)
+                  (menu-bar-lines . 0)
+                  (fullscreen . nil)
+                  (visibility . ,(null helm-display-buffer-reuse-frame))
+                  (minibuffer . t))))
+             display-buffer-alist)
+        ;; Display minibuffer above or below only in initial session,
+        ;; not on a session triggered by action, this way if user have
+        ;; toggled minibuffer and header-line manually she keeps this
+        ;; setting in next action.
+        (unless (or helm--executing-helm-action resume)
+          ;; Add the hook inconditionally, if
+          ;; helm-echo-input-in-header-line is nil helm-hide-minibuffer-maybe
+          ;; will have anyway no effect so no need to remove the hook.
+          (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
+          (with-helm-buffer
+            (setq-local helm-echo-input-in-header-line
+                        (not (> (cdr pos) half-screen-size)))))
+        (helm-display-buffer-popup-frame buffer new-frame-alist)
+        ;; When frame size have been modified manually by user restore
+        ;; it to default value unless resuming or not using
+        ;; `helm-display-buffer-reuse-frame'.
+        ;; This have to be done AFTER raising the frame otherwise
+        ;; minibuffer visibility is lost until next session.
+        (unless (or resume (not helm-display-buffer-reuse-frame))
+          (set-frame-size helm-popup-frame
+                          helm-display-buffer-width
+                          helm-display-buffer-height)))
+      (helm-log-run-hook "helm-display-buffer-in-own-frame" 'helm-window-configuration-hook)))
+  :custom
+  (helm-buffers-fuzzy-matching t)
+  (helm-boring-buffer-regexp-list '("\\*.*" "markdown-code-fontification.*"))
+  (helm-ff-skip-boring-files t)
+  (helm-boring-file-regexp-list '("__pycache__"))
+  (helm-display-function 'my/helm-display-buffer-in-own-frame)
+  (helm-display-buffer-reuse-frame t)
+  (helm-use-undecorated-frame-option t))
+
+;; Helm git
+(use-package helm-ls-git
+  :defer t
+  :bind ("C-x g" . helm-ls-git))
+
+;; Better bindings information
+(use-package helm-descbinds
+  :defer t
+  :bind ("C-h b" . helm-descbinds))
+
+;; Show current/total numbers in search
+(use-package anzu
+  :defer t
+  :bind (([remap query-replace] . anzu-query-replace)
+         ([remap query-replace-regexp] . anzu-query-replace-regexp))
+  :custom
+  (global-anzu-mode t)
+  (anzu-cons-mode-line-p nil))
+
+;; Nerd icons package
+(use-package nerd-icons)
+
+;; Better powerline
+(use-package doom-modeline
+  :custom-face
+  (mode-line ((t (:family "HackNerdFontMono" :height 95))))
+  (mode-line-inactive ((t (:family "HackNerdFontMono" :height 95))))
+  :custom
+  (doom-modeline-mode t)
+  (doom-modeline-height 25)
+  (doom-modeline-bar-width 0)
+  (doom-modeline-enable-word-count t)
+  (doom-modeline-buffer-file-name-style 'truncate-upto-root)
+  (doom-modeline-env-version nil)
+  (inhibit-compacting-font-caches t)
+  (lsp-modeline-diagnostics-enable nil)
+  (nerd-icons-scale-factor 1.3)
+  (nerd-icons-default-adjust 0.0)
+  (doom-modeline-major-mode-color-icon nil))
+
+;; Performance package
+(use-package esup
+  :defer t
+  :custom
+  (esup-depth 0))
+
+;; Multiple cursors
+(use-package multiple-cursors
+  :defer t
+  :bind ("C-S-<mouse-1>" . mc/toggle-cursor-on-click))
+
+;; Python regexps
+(use-package visual-regexp
+  :defer t)
+
+(use-package visual-regexp-steroids
+  :defer t
+  :init
+  ;; Togle case sensitiveness for vr/isearch
+  (defun my/toggle-vr-case-insensitive ()
+    "Toggle case-insensitive search for visual-regexp."
+    (interactive)
+    (setq advice-list (list))
+    (advice-mapc (lambda (advice _props) (push advice advice-list)) 'vr--isearch)
+    (message "advices %d" (length advice-list))
+    (if (= (length advice-list) 0)
+        (message "Enabling case-insensitive search"
+                 (defadvice vr--isearch (around add-case-insensitive (forward string &optional bound noerror count) activate)
+                   (setq string (concat "(?i)" string))
+                   ad-do-it))
+      (message "Enabling case-sensitive search"
+               (advice-mapc (lambda (advice _props) (advice-remove 'vr--isearch advice)) 'vr--isearch)))
+    )
+  :custom
+  (vr/command-python (format "python3 %s" (expand-file-name "regexp.py" (file-name-directory load-file-name))))
+  :bind (("C-c r" . vr/replace)
+         ("C-c q" . vr/query-replace)
+         ("C-c m" . vr/mc-mark)
+         ("C-r" . vr/isearch-backward)
+         ("C-s" . vr/isearch-forward)
+         ("C-c t" . my/toggle-vr-case-insensitive)))
+
 ;; LSP mode
 (use-package lsp-mode
-  :preface
-  ;; documentation https://github.com/blahgeek/emacs-lsp-booster
-  ;; and https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc88562e
-  (defun lsp-booster--advice-json-parse (old-fn &rest args)
-    "Try to parse bytecode instead of json."
-    (or
-     (when (equal (following-char) ?#)
-       (let ((bytecode (read (current-buffer))))
-         (when (byte-code-function-p bytecode)
-           (funcall bytecode))))
-     (apply old-fn args)))
-  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-    "Prepend emacs-lsp-booster command to lsp CMD."
-    (let ((orig-result (funcall old-fn cmd test?)))
-      (if (and (not test?)                             ;; for check lsp-server-present?
-               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-               lsp-use-plists
-               (not (functionp 'json-rpc-connection))  ;; native json-rpc
-               (executable-find "emacs-lsp-booster"))
-          (progn
-            (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-              (setcar orig-result command-from-exec-path))
-            (message "Using emacs-lsp-booster for %s!" orig-result)
-            (cons "emacs-lsp-booster" orig-result))
-        orig-result)))
+  ;; :preface
+  ;; ;; documentation https://github.com/blahgeek/emacs-lsp-booster
+  ;; ;; and https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc88562e
+  ;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+  ;;   "Try to parse bytecode instead of json."
+  ;;   (or
+  ;;    (when (equal (following-char) ?#)
+  ;;      (let ((bytecode (read (current-buffer))))
+  ;;        (when (byte-code-function-p bytecode)
+  ;;          (funcall bytecode))))
+  ;;    (apply old-fn args)))
+  ;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  ;;   "Prepend emacs-lsp-booster command to lsp CMD."
+  ;;   (let ((orig-result (funcall old-fn cmd test?)))
+  ;;     (if (and (not test?)                             ;; for check lsp-server-present?
+  ;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+  ;;              lsp-use-plists
+  ;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+  ;;              (executable-find "emacs-lsp-booster"))
+  ;;         (progn
+  ;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+  ;;             (setcar orig-result command-from-exec-path))
+  ;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+  ;;           (cons "emacs-lsp-booster" orig-result))
+  ;;       orig-result)))
   :init
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(basic)))
-  (setq lsp-use-plists t)
+  ;; (setq lsp-use-plists t)
   ;; (advice-add (if (progn (require 'json)
   ;;                        (fboundp 'json-parse-buffer))
   ;;                 'json-parse-buffer
@@ -678,29 +717,30 @@ version < emacs-28."
   ;;             :around
   ;;             #'lsp-booster--advice-json-parse)
   ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  (defun my/lsp-mode-setup-completion ()
+    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+          '(basic)))
   :hook
+  (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
   (python-mode . lsp-deferred)
   (sh-mode . lsp-deferred)
+  (dockerfile-mode . lsp-deferred)
+  (yaml-mode . lsp-deferred)
   ;; (go-mode . lsp-deferred)
   ;; (LaTeX-mode . lsp-deferred)
   ;; (lua-mode . lsp-deferred)
   ;; (terraform-mode . lsp-deferred)
-  (dockerfile-mode . lsp-deferred)
-  (yaml-mode . lsp-deferred)
   ;; (rust-mode . lsp-deferred)
   ;; (c-mode . lsp-deferred)
   ;; (c++-mode . lsp-deferred)
-  (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
-  ;; :config
-  ;; pipx install python-lsp-server\[all\]
+  :config
+  (add-to-list 'lsp-disabled-clients 'ruff)
+  ;; pipx install python-lsp-server
   ;; pipx inject python-lsp-server pylsp-mypy --include-apps --include-deps
   ;; pipx inject python-lsp-server python-lsp-ruff --include-apps --include-deps
-  ;; (add-to-list 'exec-path (expand-file-name "~/.config/lsp-bridge/bin"))  ;; allow loading pylsp in custom path
-  ;; (lsp-register-custom-settings
-  ;;  '(("pylsp.plugins.jedi_completion.include_function_objects" t t)))
+  (lsp-register-custom-settings '(("pylsp.plugins.jedi_completion.resolve_at_most" 100 t)))
   :custom
   (lsp-keymap-prefix "C-c l")
-  ;; (lsp-pylsp-plugins-black-enabled t)
   (lsp-pylsp-plugins-ruff-enabled t)
   (lsp-pylsp-plugins-mypy-enabled t)
   (lsp-completion-provider :none) ;; we use Corfu!
@@ -709,10 +749,10 @@ version < emacs-28."
   ;; (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
   ;; (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
   ;; (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
+  ;; (lsp-log-io t)
   :commands
   (lsp lsp-deferred))
 
-;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
   :custom
@@ -726,15 +766,14 @@ version < emacs-28."
   (lsp-ui-doc-enable nil) ; docstrings on hover.
   (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
   (lsp-ui-peek-always-show t)
-  :config
-  (define-key lsp-ui-mode-map [remap xref-find-definitions] #'lsp-ui-peek-find-definitions)
-  (define-key lsp-ui-mode-map [remap xref-find-references] #'lsp-ui-peek-find-references))
-
+  :bind (("C-," . xref-find-references)
+         (:map lsp-ui-mode-map
+              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+              ([remap xref-find-references] . lsp-ui-peek-find-references))))
 
 (use-package corfu
-  :init
-  (global-corfu-mode)
   :custom
+  (global-corfu-mode t)
   (completion-cycle t)
   (completion-cycle-threshold 3)
   (read-extended-command-predicate #'command-completion-default-include-p)
@@ -747,9 +786,8 @@ version < emacs-28."
   (corfu-popupinfo-mode t)
   (corfu-echo-mode nil)
   (corfu-history-mode t)
-  :bind
-  ("M-q" . corfu-quick-complete)
-  ("C-q" . corfu-quick-insert))
+  :bind (("M-q" . corfu-quick-complete)
+         ("C-q" . corfu-quick-insert)))
 
 (use-package kind-icon
   :after corfu
@@ -761,19 +799,16 @@ version < emacs-28."
   (kind-icon-default-style `(:padding -1 :stroke 0 :margin 0 :radius 0 :scale 1.0 :height 0.55)) ; make sure icons fit with scaled text
   (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" user-emacs-directory)) ; Change cache dir
   :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter) ; Enable `kind-icon'
-  )
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)) ; Enable `kind-icon'
 
 ;; Code snippets
 (use-package yasnippet
   :defer t
-  :bind
-  (:map yas-minor-mode-map
-        ("<tab>" . nil)
-        ("TAB" . nil)
-        ("C-<tab>" . yas-expand))
-  :hook
-  (prog-mode . yas-minor-mode))
+  :bind (:map yas-minor-mode-map
+              ("<tab>" . nil)
+              ("TAB" . nil)
+              ("C-<tab>" . yas-expand))
+  :hook (prog-mode . yas-minor-mode))
 
 ;; Code snippets templates
 (use-package yasnippet-snippets
@@ -782,36 +817,14 @@ version < emacs-28."
 
 (use-package helm-c-yasnippet
   :defer t
+  :bind ("M-s" . helm-yas-complete)
   :custom
-  (helm-yas-space-match-any-greedy t)
-  :bind
-  ("M-s" . helm-yas-complete))
-
-;; ;; lsp-bridge to replace lsp-mode
-;; (use-package lsp-bridge
-;;   :straight '(lsp-bridge :type git :host github :repo "manateelazycat/lsp-bridge"
-;;             :files (:defaults "*.el" "*.py" "acm" "core" "langserver" "multiserver" "resources")
-;;             :build (:not compile))
-;;   :custom
-;;   (lsp-bridge-python-command "~/.config/lsp-bridge/bin/python")
-;;   (lsp-bridge-user-langserver-dir "~/.config/lsp-bridge/configs-server")
-;;   (lsp-bridge-user-multiserver-dir "~/.config/lsp-bridge/configs-multiserver")
-;;   ;; (lsp-bridge-python-lsp-server "pylsp")
-;;   ;; (lsp-bridge-python-amulti-lsp-server "basedpyright_ruff")
-;;   (lsp-bridge-enable-hover-diagnostic t)
-;;   ;; (lsp-bridge-enable-debug t)
-;;   :bind
-;;   ("C-: r" . lsp-bridge-rename)
-;;   ("M-." . lsp-bridge-find-def)
-;;   ("M-," . lsp-bridge-find-def-return)
-;;   :init
-;;   (global-lsp-bridge-mode))
+  (helm-yas-space-match-any-greedy t))
 
 ;; Use grip from emacs
 (use-package grip-mode
   :defer t
-  :bind
-  ("C-c l g" . grip-mode)
+  :bind ("C-c l g" . grip-mode)
   :custom
   (grip-update-after-change nil))
 
@@ -828,14 +841,14 @@ version < emacs-28."
   :defer t
   :bind
   (:map c-mode-map
-        ("C-d" . nil))
-  (:map c++-mode-map
+        ("C-d" . nil)
+   :map c++-mode-map
         ("C-d" . nil)))
 
 ;; Major mode for lua
 (use-package lua-mode
-  :mode "\\.\\(lua\\|nse\\)\\'"
-  :defer t)
+  :defer t
+  :mode "\\.\\(lua\\|nse\\)\\'")
 
 ;; Major mode for json
 (use-package json-mode
@@ -847,9 +860,9 @@ version < emacs-28."
 ;; Need to delete hierarchy.elc
 ;; Minor mode for json
 (use-package json-navigator
+  :defer t
   :ensure hierarchy
-  :bind
-  ("C-c g" . json-navigator-navigate-region))
+  :bind ("C-c g" . json-navigator-navigate-region))
 
 ;; Major mode for yaml
 (use-package yaml-mode
@@ -858,9 +871,8 @@ version < emacs-28."
 ;; Minor mode for python/yaml
 (use-package indent-tools
   :defer t
-  :bind
-  ("C-c f" . indent-tools-hydra/body)
-  ("C-c F" . yafolding-toggle-element))
+  :bind (("C-c f" . indent-tools-hydra/body)
+         ("C-c F" . yafolding-toggle-element)))
 
 ;; ;; Major mode for qml (pyqt)
 ;; (use-package qml-mode
@@ -875,33 +887,17 @@ version < emacs-28."
   :defer t)
 
 ;; Better emacs sessions
-(use-package desktop+)
+(use-package desktop+
+  :defer t)
 
 ;; Change colors of whitespace-mode to be compatible with rebecca theme
 (use-package whitespace
   :defer t
-  :config
-  (set-face-attribute 'whitespace-space nil :background nil :foreground "#af5fff")
-  (set-face-attribute 'whitespace-space-before-tab nil :background "#424270" :foreground "#af5fff")
-  (set-face-attribute 'whitespace-newline nil :background nil :foreground "#8700d7")
-  (set-face-attribute 'whitespace-empty nil :background "#ff79c6" :foreground nil)
-  )
-
-;; Duplicate lines with C-d
-(defun my/duplicate-line()
-  (interactive)
-  (move-beginning-of-line 1)
-  (kill-line)
-  (yank)
-  (open-line 1)
-  (next-line 1)
-  (yank)
-  )
-(global-set-key (kbd "C-d") 'my/duplicate-line)
-
-;; Enable hideshow minor mode
-(add-hook 'prog-mode-hook #'hs-minor-mode)
-(global-set-key (kbd "M-[") 'hs-toggle-hiding)
+  :custom-face
+  (whitespace-space ((t (:background nil :foreground "#af5fff"))))
+  (whitespace-space-before-tab ((t (:background "#424270" :foreground "#af5fff"))))
+  (whitespace-newline ((t (:background nil :foreground "#8700d7"))))
+  (whitespace-empty ((t (:background "#ff79c6" :foreground nil)))))
 
 ;; ;; Github copilot
 ;; (use-package copilot
@@ -913,47 +909,14 @@ version < emacs-28."
 ;;   ("M-q" . 'copilot-accept-completion)
 ;;   ("M-e" . 'copilot-accept-completion-by-word))
 
-;; Quick swap between windows configurations, https://emacs.stackexchange.com/a/2714
-(defvar winstack-stack '()
-  "A Stack holding window configurations.
-Use `my/winstack-push' and
-`my/winstack-pop' to modify it.")
-
-(defun my/winstack-push()
-  "Push the current window configuration onto `winstack-stack'."
-  (interactive)
-  (if (and (window-configuration-p (cl-first winstack-stack))
-           (compare-window-configurations (cl-first winstack-stack) (current-window-configuration)))
-      (message "Current config already pushed")
-    (progn (push (current-window-configuration) winstack-stack)
-           (message (concat "pushed " (number-to-string
-                                       (length (window-list (selected-frame)))) " frame config")))))
-
-(defun my/winstack-pop()
-  "Pop the last window configuration off `winstack-stack' and apply it."
-  (interactive)
-  (if (cl-first winstack-stack)
-      (progn (set-window-configuration (pop winstack-stack))
-             (message "popped"))
-    (message "End of window stack")))
-
-(global-set-key (kbd "<f7>") 'my/winstack-push)
-(global-set-key (kbd "<S-f7>") 'window-configuration-to-register)
-(global-set-key (kbd "<f8>") 'my/winstack-pop)
-(global-set-key (kbd "<S-f8>") 'jump-to-register)
-
-(defun my/rename-window(name)
-  (interactive "sNew name?: ")
-  (setq-default frame-title-format (format "%s" name)))
-
 ;; LaTeX package
 (use-package auctex
   :defer t)
 
 (use-package flyspell
-  :hook
-  (LaTeX-mode . flyspell-mode)
-  (flyspell-mode . flyspell-buffer))
+  :defer t
+  :hook ((LaTeX-mode . flyspell-mode)
+         (flyspell-mode . flyspell-buffer)))
 
 ;; ;; Terraform package
 ;; (use-package terraform-mode

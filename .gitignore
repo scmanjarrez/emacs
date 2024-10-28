@@ -1,3 +1,4 @@
+.emacs.desktop
 url/
 svg-lib/
 projects
@@ -10,7 +11,7 @@ desktops/
 auto-save-list/
 straight/build/
 straight/repos/
-undo-tree/
+undo/
 elpa/
 ido.last
 smex-items
