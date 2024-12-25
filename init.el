@@ -681,10 +681,10 @@ version < emacs-28."
 
 ;; Python regexps
 (use-package visual-regexp
-  :defer t)
+  :demand t)
 
 (use-package visual-regexp-steroids
-  :defer t
+  :demand t
   :init
   ;; Togle case sensitiveness for vr/isearch
   (defun my/toggle-vr-case-insensitive ()
