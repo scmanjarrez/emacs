@@ -195,7 +195,12 @@
 (setq make-backup-files nil)
 
 ;; Disable creation of "#autosave#" files
-(setq auto-save-default nil)
+;; (setq auto-save-default nil)
+(let ((my-auto-save-dir (locate-user-emacs-file "auto-save")))
+  (setq auto-save-file-name-transforms
+        `((".*" ,(expand-file-name "\\2" my-auto-save-dir) t)))
+  (unless (file-exists-p my-auto-save-dir)
+    (make-directory my-auto-save-dir)))
 
 ;; Keep cursor at same position on scroll
 (setq scroll-conservatively 101)
@@ -420,6 +425,30 @@ Use `my/winstack-push' and
     (next-line)))
 (global-set-key (kbd "M-;") 'my/toggle-comment)
 
+;; https://emacs.stackexchange.com/a/24461/36168
+(defun my/revert-all-buffers ()
+  "Refresh all open file buffers without confirmation.
+Buffers in modified (not yet saved) state in emacs will not be reverted. They
+will be reverted though if they were modified outside emacs.
+Buffers visiting files which do not exist any more or are no longer readable
+will be killed."
+  (interactive)
+  (dolist (buf (buffer-list))
+    (let ((filename (buffer-file-name buf)))
+      ;; Revert only buffers containing files, which are not modified;
+      ;; do not try to revert non-file buffers like *Messages*.
+      (when (and filename
+                 (not (buffer-modified-p buf)))
+        (if (file-readable-p filename)
+            ;; If the file exists and is readable, revert the buffer.
+            (with-current-buffer buf
+              (revert-buffer :ignore-auto :noconfirm :preserve-modes))
+          ;; Otherwise, kill the buffer.
+          (let (kill-buffer-query-functions) ; No query done when killing buffer
+            (kill-buffer buf)
+            (message "Killed non-existing/unreadable file buffer: %s" filename))))))
+  (message "Finished reverting buffers containing unmodified files."))
+
 ;; ### use-package configuration ###
 
 ;; ;; Find declared functions in buffer -- Replaced with Helm
@@ -596,7 +625,6 @@ version < emacs-28."
   (helm-ff-skip-boring-files t)
   (helm-boring-file-regexp-list '("__pycache__"))
   (helm-display-function 'my/helm-display-buffer-in-own-frame)
-  (helm-display-buffer-reuse-frame t)
   (helm-use-undecorated-frame-option t))
 
 ;; Helm git
@@ -648,7 +676,8 @@ version < emacs-28."
 ;; Multiple cursors
 (use-package multiple-cursors
   :defer t
-  :bind ("C-S-<mouse-1>" . mc/toggle-cursor-on-click))
+  :bind (("C-S-<mouse-1>" . mc/toggle-cursor-on-click)
+         ("C-<" . mc/mark-more-like-this-extended)))
 
 ;; Python regexps
 (use-package visual-regexp
@@ -888,7 +917,13 @@ version < emacs-28."
 
 ;; Better emacs sessions
 (use-package desktop+
-  :defer t)
+  :defer t
+  :init
+  (setq desktop+-special-buffer-handlers nil)
+  :bind
+  ("C-c d s" . desktop+-create)
+  ("C-c d r" . desktop+-load)
+  )
 
 ;; Change colors of whitespace-mode to be compatible with rebecca theme
 (use-package whitespace

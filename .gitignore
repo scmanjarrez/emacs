@@ -1,3 +1,5 @@
+auto-save/
+.emacs.buffers
 .emacs.desktop
 url/
 svg-lib/
