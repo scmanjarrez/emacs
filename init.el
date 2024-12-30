@@ -202,6 +202,19 @@
   (unless (file-exists-p my-auto-save-dir)
     (make-directory my-auto-save-dir)))
 
+(defun my/save-all-unsaved ()
+  "Save all unsaved files. no ask.
+Version 2019-11-05"
+  (interactive)
+  (save-some-buffers t ))
+
+(if (version< emacs-version "27.1")
+    (add-hook 'focus-out-hook 'my/save-all-unsaved)
+  (setq after-focus-change-function 'my/save-all-unsaved))
+;; to undo this, run
+;; (setq after-focus-change-function 'ignore)
+
+
 ;; Keep cursor at same position on scroll
 (setq scroll-conservatively 101)
 
