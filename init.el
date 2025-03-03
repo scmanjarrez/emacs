@@ -634,7 +634,7 @@ version < emacs-28."
       (helm-log-run-hook "helm-display-buffer-in-own-frame" 'helm-window-configuration-hook)))
   :custom
   (helm-buffers-fuzzy-matching t)
-  (helm-boring-buffer-regexp-list '("\\*.*" "markdown-code-fontification.*"))
+  (helm-boring-buffer-regexp-list '("\\*.*" "markdown-code-fontification.*" ".ruff_cache" ".idea"))
   (helm-ff-skip-boring-files t)
   (helm-boring-file-regexp-list '("__pycache__"))
   (helm-display-function 'my/helm-display-buffer-in-own-frame)
@@ -768,7 +768,7 @@ version < emacs-28."
   (sh-mode . lsp-deferred)
   (dockerfile-mode . lsp-deferred)
   (yaml-mode . lsp-deferred)
-  ;; (go-mode . lsp-deferred)
+  (go-mode . lsp-deferred)
   ;; (LaTeX-mode . lsp-deferred)
   ;; (lua-mode . lsp-deferred)
   ;; (terraform-mode . lsp-deferred)
@@ -808,7 +808,9 @@ version < emacs-28."
   (lsp-ui-doc-enable nil) ; docstrings on hover.
   (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
   (lsp-ui-peek-always-show t)
-  :bind (("C-," . xref-find-references)
+  :bind (("M-," . xref-find-references)
+         ("C-," . xref-go-back)
+         ("C-." . xref-go-forward)
          (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))))

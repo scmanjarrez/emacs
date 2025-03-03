@@ -13,6 +13,7 @@ desktops/
 auto-save-list/
 straight/build/
 straight/repos/
+straight/modified/
 undo/
 elpa/
 ido.last
