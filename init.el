@@ -385,15 +385,18 @@ Use `my/winstack-push' and
 
 (defun my/untab-region ()
   (interactive)
-  (if (eq major-mode 'lua-mode)
-      (my/indent-region-custom (* lua-indent-level -1))
-    (my/indent-region-custom -4)))
+  (cond
+   ((eq major-mode 'lua-mode) (my/indent-region-custom (* lua-indent-level -1)))
+   ((eq major-mode 'python-mode) (my/indent-region-custom (* python-indent-offset -1)))
+   (t (my/indent-region-custom -2))))
+
 
 (defun my/tab-region ()
   (interactive)
-  (if (eq major-mode 'lua-mode)
-      (my/indent-region-custom lua-indent-level)
-    (my/indent-region-custom 4)))
+  (cond
+   ((eq major-mode 'lua-mode) (my/indent-region-custom lua-indent-level))
+   ((eq major-mode 'python-mode) (my/indent-region-custom python-indent-offset))
+   (t (my/indent-region-custom 2))))
 
 (defun my/tab-untab-n (n)
   (interactive "nHow many tabs?: ")
@@ -751,6 +754,8 @@ version < emacs-28."
   ;;           (cons "emacs-lsp-booster" orig-result))
   ;;       orig-result)))
   :init
+  (add-to-list 'exec-path "/home/schica/.nvm/versions/node/v18.18.1/bin")
+  (setenv "PATH" (concat "/home/schica/.nvm/versions/node/v18.18.1/bin:" (getenv "PATH")))
   ;; (setq lsp-use-plists t)
   ;; (advice-add (if (progn (require 'json)
   ;;                        (fboundp 'json-parse-buffer))
