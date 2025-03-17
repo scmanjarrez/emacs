@@ -172,6 +172,8 @@
 ;; Disable transpose chars and words keybinds
 (global-set-key (kbd "C-t") nil)
 (global-set-key (kbd "M-t") nil)
+;; Disable global pop mark
+(global-set-key (kbd "C-x C-SPC") nil)
 
 ;; Fix delete-indentation not working
 (global-set-key (kbd "M-<dead-circumflex>") 'delete-indentation)
