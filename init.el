@@ -88,8 +88,7 @@
 (menu-bar-mode nil)
 
 ;; Set Hack font
-;; (set-frame-font "HackNerdFontMono 14" nil t)
-(set-frame-font "HackNerdFontMono 15" nil t)
+(set-frame-font "HackNerdFontMono 14" nil t)
 
 (when (member "Noto Color Emoji" (font-family-list))
   (set-fontset-font
@@ -388,16 +387,24 @@ Use `my/winstack-push' and
 (defun my/untab-region ()
   (interactive)
   (cond
-   ((eq major-mode 'lua-mode) (my/indent-region-custom (* lua-indent-level -1)))
-   ((eq major-mode 'python-mode) (my/indent-region-custom (* python-indent-offset -1)))
+   ((eq major-mode 'lua-mode)
+    (my/indent-region-custom (* lua-indent-level -1)))
+   ((eq major-mode 'python-mode)
+    (my/indent-region-custom (* python-indent-offset -1)))
+   ((eq major-mode 'python-ts-mode)
+    (my/indent-region-custom (* python-indent-offset -1)))
    (t (my/indent-region-custom -2))))
 
 
 (defun my/tab-region ()
   (interactive)
   (cond
-   ((eq major-mode 'lua-mode) (my/indent-region-custom lua-indent-level))
-   ((eq major-mode 'python-mode) (my/indent-region-custom python-indent-offset))
+   ((eq major-mode 'lua-mode)
+    (my/indent-region-custom lua-indent-level))
+   ((eq major-mode 'python-mode)
+    (my/indent-region-custom python-indent-offset))
+   ((eq major-mode 'python-ts-mode)
+    (my/indent-region-custom python-indent-offset))
    (t (my/indent-region-custom 2))))
 
 (defun my/tab-untab-n (n)
@@ -466,6 +473,20 @@ will be killed."
             (kill-buffer buf)
             (message "Killed non-existing/unreadable file buffer: %s" filename))))))
   (message "Finished reverting buffers containing unmodified files."))
+
+;; https://superuser.com/a/1048475
+;; Jump to same indentation
+(defun my/jump-to-same-indent (direction)
+  (interactive "P")
+  (let ((start-indent (current-indentation)))
+    (while
+      (and (not (bobp))
+           (zerop (forward-line (or direction 1)))
+           (or (= (current-indentation) 0)
+           (> (current-indentation) start-indent)))))
+  (back-to-indentation))
+(global-set-key [C-S-up] #'(lambda () (interactive) (my/jump-to-same-indent -1)))
+(global-set-key [C-S-down] 'my/jump-to-same-indent)
 
 ;; ### use-package configuration ###
 
@@ -669,19 +690,19 @@ version < emacs-28."
 
 ;; Better powerline
 (use-package doom-modeline
-  :custom-face
-  (mode-line ((t (:family "HackNerdFontMono" :height 95))))
-  (mode-line-inactive ((t (:family "HackNerdFontMono" :height 95))))
+  :config
+  (set-face-attribute 'mode-line nil :height 120)
+  (set-face-attribute 'mode-line-inactive nil :height 120)
   :custom
   (doom-modeline-mode t)
-  (doom-modeline-height 25)
+  (doom-modeline-height 0.1)
   (doom-modeline-bar-width 0)
   (doom-modeline-enable-word-count t)
   (doom-modeline-buffer-file-name-style 'truncate-upto-root)
   (doom-modeline-env-version nil)
   (inhibit-compacting-font-caches t)
   (lsp-modeline-diagnostics-enable nil)
-  (nerd-icons-scale-factor 1.3)
+  (nerd-icons-scale-factor 1)
   (nerd-icons-default-adjust 0.0)
   (doom-modeline-major-mode-color-icon nil))
 
@@ -690,12 +711,6 @@ version < emacs-28."
   :defer t
   :custom
   (esup-depth 0))
-
-;; Multiple cursors
-(use-package multiple-cursors
-  :defer t
-  :bind (("C-S-<mouse-1>" . mc/toggle-cursor-on-click)
-         ("C-<" . mc/mark-more-like-this-extended)))
 
 ;; Python regexps
 (use-package visual-regexp
@@ -728,99 +743,124 @@ version < emacs-28."
          ("C-s" . vr/isearch-forward)
          ("C-c t" . my/toggle-vr-case-insensitive)))
 
-;; LSP mode
-(use-package lsp-mode
-  ;; :preface
-  ;; ;; documentation https://github.com/blahgeek/emacs-lsp-booster
-  ;; ;; and https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc88562e
-  ;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
-  ;;   "Try to parse bytecode instead of json."
-  ;;   (or
-  ;;    (when (equal (following-char) ?#)
-  ;;      (let ((bytecode (read (current-buffer))))
-  ;;        (when (byte-code-function-p bytecode)
-  ;;          (funcall bytecode))))
-  ;;    (apply old-fn args)))
-  ;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
-  ;;   "Prepend emacs-lsp-booster command to lsp CMD."
-  ;;   (let ((orig-result (funcall old-fn cmd test?)))
-  ;;     (if (and (not test?)                             ;; for check lsp-server-present?
-  ;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
-  ;;              lsp-use-plists
-  ;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
-  ;;              (executable-find "emacs-lsp-booster"))
-  ;;         (progn
-  ;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-  ;;             (setcar orig-result command-from-exec-path))
-  ;;           (message "Using emacs-lsp-booster for %s!" orig-result)
-  ;;           (cons "emacs-lsp-booster" orig-result))
-  ;;       orig-result)))
-  :init
-  (add-to-list 'exec-path "/home/schica/.nvm/versions/node/v18.18.1/bin")
-  (setenv "PATH" (concat "/home/schica/.nvm/versions/node/v18.18.1/bin:" (getenv "PATH")))
-  ;; (setq lsp-use-plists t)
-  ;; (advice-add (if (progn (require 'json)
-  ;;                        (fboundp 'json-parse-buffer))
-  ;;                 'json-parse-buffer
-  ;;               'json-read)
-  ;;             :around
-  ;;             #'lsp-booster--advice-json-parse)
-  ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
-  (defun my/lsp-mode-setup-completion ()
-    (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
-          '(basic)))
-  :hook
-  (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
-  (python-mode . lsp-deferred)
-  (sh-mode . lsp-deferred)
-  (dockerfile-mode . lsp-deferred)
-  (yaml-mode . lsp-deferred)
-  (go-mode . lsp-deferred)
-  ;; (LaTeX-mode . lsp-deferred)
-  ;; (lua-mode . lsp-deferred)
-  ;; (terraform-mode . lsp-deferred)
-  ;; (rust-mode . lsp-deferred)
-  ;; (c-mode . lsp-deferred)
-  ;; (c++-mode . lsp-deferred)
-  :config
-  (add-to-list 'lsp-disabled-clients 'ruff)
-  ;; pipx install python-lsp-server
-  ;; pipx inject python-lsp-server pylsp-mypy --include-apps --include-deps
-  ;; pipx inject python-lsp-server python-lsp-ruff --include-apps --include-deps
-  (lsp-register-custom-settings '(("pylsp.plugins.jedi_completion.resolve_at_most" 100 t)))
-  :custom
-  (lsp-keymap-prefix "C-c l")
-  (lsp-pylsp-plugins-ruff-enabled t)
-  (lsp-pylsp-plugins-mypy-enabled t)
-  (lsp-completion-provider :none) ;; we use Corfu!
-  (lsp-lua-completion-call-snippet "Replace")
-  ;; (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
-  ;; (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
-  ;; (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
-  ;; (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
-  ;; (lsp-log-io t)
-  :commands
-  (lsp lsp-deferred))
+;; ;; LSP mode
+;; (use-package lsp-mode
+;;   ;; :preface
+;;   ;; ;; documentation https://github.com/blahgeek/emacs-lsp-booster
+;;   ;; ;; and https://www.ovistoica.com/blog/2024-7-05-modern-emacs-typescript-web-tsx-config#orgc88562e
+;;   ;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   ;;   "Try to parse bytecode instead of json."
+;;   ;;   (or
+;;   ;;    (when (equal (following-char) ?#)
+;;   ;;      (let ((bytecode (read (current-buffer))))
+;;   ;;        (when (byte-code-function-p bytecode)
+;;   ;;          (funcall bytecode))))
+;;   ;;    (apply old-fn args)))
+;;   ;; (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+;;   ;;   "Prepend emacs-lsp-booster command to lsp CMD."
+;;   ;;   (let ((orig-result (funcall old-fn cmd test?)))
+;;   ;;     (if (and (not test?)                             ;; for check lsp-server-present?
+;;   ;;              (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+;;   ;;              lsp-use-plists
+;;   ;;              (not (functionp 'json-rpc-connection))  ;; native json-rpc
+;;   ;;              (executable-find "emacs-lsp-booster"))
+;;   ;;         (progn
+;;   ;;           (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+;;   ;;             (setcar orig-result command-from-exec-path))
+;;   ;;           (message "Using emacs-lsp-booster for %s!" orig-result)
+;;   ;;           (cons "emacs-lsp-booster" orig-result))
+;;   ;;       orig-result)))
+;;   :init
+;;   (add-to-list 'exec-path "/home/schica/.nvm/versions/node/v18.18.1/bin")
+;;   (setenv "PATH" (concat "/home/schica/.nvm/versions/node/v18.18.1/bin:" (getenv "PATH")))
+;;   ;; (setq lsp-use-plists t)
+;;   ;; (advice-add (if (progn (require 'json)
+;;   ;;                        (fboundp 'json-parse-buffer))
+;;   ;;                 'json-parse-buffer
+;;   ;;               'json-read)
+;;   ;;             :around
+;;   ;;             #'lsp-booster--advice-json-parse)
+;;   ;; (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+;;   (defun my/lsp-mode-setup-completion ()
+;;     (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+;;           '(basic)))
+;;   :hook
+;;   (lsp-completion-mode . my/lsp-mode-setup-completion) ;; instructions from corfu install, this makes only trigger completions if match the start of the candidate
+;;   (python-mode . lsp-deferred)
+;;   (sh-mode . lsp-deferred)
+;;   (dockerfile-mode . lsp-deferred)
+;;   (yaml-mode . lsp-deferred)
+;;   (go-mode . lsp-deferred)
+;;   ;; (LaTeX-mode . lsp-deferred)
+;;   ;; (lua-mode . lsp-deferred)
+;;   ;; (terraform-mode . lsp-deferred)
+;;   ;; (rust-mode . lsp-deferred)
+;;   ;; (c-mode . lsp-deferred)
+;;   ;; (c++-mode . lsp-deferred)
+;;   :config
+;;   (add-to-list 'lsp-disabled-clients 'ruff)
+;;   ;; pipx install python-lsp-server
+;;   ;; pipx inject python-lsp-server pylsp-mypy --include-apps --include-deps
+;;   ;; pipx inject python-lsp-server python-lsp-ruff --include-apps --include-deps
+;;   (lsp-register-custom-settings '(("pylsp.plugins.jedi_completion.resolve_at_most" 100 t)))
+;;   :custom
+;;   (lsp-keymap-prefix "C-c l")
+;;   (lsp-pylsp-plugins-ruff-enabled t)
+;;   (lsp-pylsp-plugins-mypy-enabled t)
+;;   (lsp-enable-on-type-formatting nil)
+;;   (lsp-python-format-on-type-enabled nil)
+;;   (lsp-enable-indentation nil)
+;;   (lsp-completion-provider :none) ;; we use Corfu!
+;;   (lsp-lua-completion-call-snippet "Replace")
+;;   ;; (lsp-clangd-binary-path "~/.emacs.d/.cache/lsp/c-language-server/bin/clangd")
+;;   ;; (lsp-clients-texlab-executable "~/.emacs.d/.cache/lsp/latex-language-server/texlab")
+;;   ;; (lsp-clients-lua-language-server-bin "~/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/lua-language-server")
+;;   ;; (lsp-clients-lua-language-server-main-location (concat (getenv "HOME") "/.emacs.d/.cache/lsp/lua-language-server/extension/server/bin/main.lua"))
+;;   ;; (lsp-log-io t)
+;;   :commands
+;;   (lsp lsp-deferred))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode
+;;   :custom
+;;   (lsp-ui-sideline-enable nil)
+;;   (lsp-ui-sideline-show-diagnostics t) ; show diagnostics messages in sideline, eg type errors.
+;;   (lsp-ui-sideline-show-hover t) ; show hover messages in sideline. Often type info.
+;;   (lsp-ui-sideline-show-code-actions t) ; show code actions in sideline. Example??
+;;   (lsp-ui-sideline-update-mode "point") ; When set to 'line' the information will be updated when
+;;   ;; user changes current line otherwise the information will be updated when user changes current point.
+;;   (lsp-ui-sideline-delay 0.02) ; seconds to wait before showing sideline
+;;   (lsp-ui-doc-enable nil) ; docstrings on hover.
+;;   (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
+;;   (lsp-ui-peek-always-show t)
+;;   :bind (("M-," . xref-find-references)
+;;          ("C-," . xref-go-back)
+;;          ("C-." . xref-go-forward)
+;;          (:map lsp-ui-mode-map
+;;               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+;;               ([remap xref-find-references] . lsp-ui-peek-find-references))))
+
+(use-package emacs
+  :ensure nil
+  :hook (python-ts-mode . eglot-ensure)
+  :config
+  (defun my/eglot-format-and-organize ()
+    "Format buffer or region and organize imports using Eglot."
+    (interactive)
+    (eglot-format)
+    (eglot-code-action-organize-imports (point-min) (point-max)))
+  :bind (("C-c l r" . eglot-rename)
+         ("C-c l o" . my/eglot-format-and-organize)
+         ("C-c l f" . eglot-format)
+         ("C-c l i" . eglot-code-action-organize-imports)
+         ))
+
+(use-package treesit-auto
   :custom
-  (lsp-ui-sideline-enable nil)
-  (lsp-ui-sideline-show-diagnostics t) ; show diagnostics messages in sideline, eg type errors.
-  (lsp-ui-sideline-show-hover t) ; show hover messages in sideline. Often type info.
-  (lsp-ui-sideline-show-code-actions t) ; show code actions in sideline. Example??
-  (lsp-ui-sideline-update-mode "point") ; When set to 'line' the information will be updated when
-  ;; user changes current line otherwise the information will be updated when user changes current point.
-  (lsp-ui-sideline-delay 0.02) ; seconds to wait before showing sideline
-  (lsp-ui-doc-enable nil) ; docstrings on hover.
-  (lsp-ui-peek-enable t) ; peek at definition or matches, instead of a big context switch
-  (lsp-ui-peek-always-show t)
-  :bind (("M-," . xref-find-references)
-         ("C-," . xref-go-back)
-         ("C-." . xref-go-forward)
-         (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references))))
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 (use-package corfu
   :custom
@@ -890,11 +930,10 @@ version < emacs-28."
 ;; Major mode for C. Generate compile_command.json with cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
 (use-package cc-mode
   :defer t
-  :bind
-  (:map c-mode-map
-        ("C-d" . nil)
-   :map c++-mode-map
-        ("C-d" . nil)))
+  :bind (:map c-mode-map
+              ("C-d" . nil)
+              :map c++-mode-map
+              ("C-d" . nil)))
 
 ;; Major mode for lua
 (use-package lua-mode
@@ -942,10 +981,8 @@ version < emacs-28."
   :defer t
   :init
   (setq desktop+-special-buffer-handlers nil)
-  :bind
-  ("C-c d s" . desktop+-create)
-  ("C-c d r" . desktop+-load)
-  )
+  :bind (("C-c d s" . desktop+-create)
+         ("C-c d r" . desktop+-load)))
 
 ;; Change colors of whitespace-mode to be compatible with rebecca theme
 (use-package whitespace
