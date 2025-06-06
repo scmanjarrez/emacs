@@ -910,7 +910,8 @@ version < emacs-28."
   :defer t
   :bind ("M-s" . helm-yas-complete)
   :custom
-  (helm-yas-space-match-any-greedy t))
+  (helm-yas-space-match-any-greedy t)
+  (helm-yas-display-key-on-candidate t))
 
 ;; Use grip from emacs
 (use-package grip-mode
