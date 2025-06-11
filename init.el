@@ -659,6 +659,7 @@ version < emacs-28."
                           helm-display-buffer-height)))
       (helm-log-run-hook "helm-display-buffer-in-own-frame" 'helm-window-configuration-hook)))
   :custom
+  (helm-move-to-line-cycle-in-source nil)
   (helm-buffers-fuzzy-matching t)
   (helm-boring-buffer-regexp-list '("\\*.*" "markdown-code-fontification.*" ".ruff_cache" ".idea"))
   (helm-ff-skip-boring-files t)
@@ -738,7 +739,6 @@ version < emacs-28."
   (vr/command-python (format "python3 %s" (expand-file-name "regexp.py" (file-name-directory load-file-name))))
   :bind (("C-c r" . vr/replace)
          ("C-c q" . vr/query-replace)
-         ("C-c m" . vr/mc-mark)
          ("C-r" . vr/isearch-backward)
          ("C-s" . vr/isearch-forward)
          ("C-c t" . my/toggle-vr-case-insensitive)))
@@ -1024,6 +1024,10 @@ version < emacs-28."
 ;; ;; Jinja2 package
 ;; (use-package jinja2-mode
 ;;   :defer t)
+
+;; Markdown package
+(use-package markdown-mode
+  :defer t)
 
 (run-with-idle-timer
  5 nil
