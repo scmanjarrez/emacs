@@ -4,11 +4,40 @@
 ;; Minimize garbage collection during startup
 (setq gc-cons-threshold (* 1024 1024 100))
 
-(setq read-process-output-max (* 1024 1024))
+;;; ===================================================================
+;;; Centralized Directory for Temporary and Auto-Generated Files
+;;; ===================================================================
+(defvar my-emacs-tmp-dir (expand-file-name ".tmp" user-emacs-directory)
+  "Root directory for all temporary, cache, and auto-generated Emacs files.")
+
+;; Create the necessary subdirectories if they don't exist
+(let ((subdirs '("auto-save" "auto-save-list" "backups" "temp" "undo-tree"
+                 "kind-icon-cache" "eln-cache" "desktop-sessions"
+                 "cache" "tree-sitter")))
+  (make-directory my-emacs-tmp-dir t)
+  (dolist (dir subdirs)
+    (make-directory (expand-file-name dir my-emacs-tmp-dir) t)))
+
+;; `.cache/` directory, often from url.el
+(setq url-cache-directory (expand-file-name "cache/" my-emacs-tmp-dir))
+
+;; Point native compilation cache to our new directory.
+;; We set the list directly to override the default location.
+(setq native-comp-eln-load-path (list (expand-file-name "eln-cache/" my-emacs-tmp-dir)))
+
+;; `project.el` known projects file
+(setq project-known-project-files (list (expand-file-name "projects" my-emacs-tmp-dir)))
+
+;; `recentf` file (list of recently opened files)
+(setq recentf-save-file (expand-file-name "recentf" my-emacs-tmp-dir))
+
+;; `tramp` persistency file (connection history)
+(setq tramp-persistency-file-name (expand-file-name "tramp" my-emacs-tmp-dir))
+
+(setq read-process-output-max (* 2048 2048))
 
 (setq file-name-handler-alist-original file-name-handler-alist)
 (setq file-name-handler-alist nil)
-
 
 ;; Startup time and garbage collector threshold
 (defun startup ()
@@ -18,12 +47,16 @@
                     (time-subtract after-init-time before-init-time)))
            gcs-done))
 (add-hook 'emacs-startup-hook #'startup)
+
+;; Move straight's working directories to our temporary location
+(setq straight-base-dir (expand-file-name "" my-emacs-tmp-dir))
+
 ;; Reduce start up time from straight due to 'find' on start
 (setq straight-check-for-modifications '(check-on-save find-when-checking))
 ;; Install straight.el
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" my-emacs-tmp-dir))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
@@ -192,16 +225,28 @@
 ;; always use spaces instead of tabs
 (setq-default indent-tabs-mode nil)
 
-;; Disable creation of "backup~" files
-(setq make-backup-files nil)
+;;; Centralize Auto-Saves, Backups, and Temporary Files
 
-;; Disable creation of "#autosave#" files
-;; (setq auto-save-default nil)
-(let ((my-auto-save-dir (locate-user-emacs-file "auto-save")))
-  (setq auto-save-file-name-transforms
-        `((".*" ,(expand-file-name "\\2" my-auto-save-dir) t)))
-  (unless (file-exists-p my-auto-save-dir)
-    (make-directory my-auto-save-dir)))
+;; Auto-save files (#...#)
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-save/" my-emacs-tmp-dir) t)))
+
+;; Auto-save list files (stores associations)
+(setq auto-save-list-file-prefix
+      (expand-file-name "auto-save-list/" my-emacs-tmp-dir))
+
+;; Backup files (...~)
+(setq make-backup-files t
+      backup-directory-alist
+      `(("." . ,(expand-file-name "backups/" my-emacs-tmp-dir)))
+      version-control t
+      kept-new-versions 20
+      kept-old-versions 5
+      delete-old-versions t)
+
+;; Other temporary files (like buffer-content-XXXXX)
+(setq temporary-file-directory (expand-file-name "temp/" my-emacs-tmp-dir))
+
 
 (defun my/save-all-unsaved ()
   "Save all unsaved files. no ask.
@@ -214,7 +259,6 @@ Version 2019-11-05"
   (setq after-focus-change-function 'my/save-all-unsaved))
 ;; to undo this, run
 ;; (setq after-focus-change-function 'ignore)
-
 
 ;; Keep cursor at same position on scroll
 (setq scroll-conservatively 101)
@@ -565,7 +609,9 @@ will be killed."
   (global-undo-tree-mode t)
   (undo-tree-visualizer-diff t)
   (undo-tree-auto-save-history nil)
-  ;; (undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  (undo-tree-auto-save-history t) ; Set to t to actually save history
+  (undo-tree-history-directory-alist
+   `(("." . ,(expand-file-name "undo-tree/" my-emacs-tmp-dir))))
   :bind (("C-z" . undo-tree-undo)
          ("C-S-z" . undo-tree-redo)
          :map undo-tree-visualizer-mode-map
@@ -842,7 +888,16 @@ version < emacs-28."
 
 (use-package emacs
   :ensure nil
-  :hook (python-ts-mode . eglot-ensure)
+  :hook ((python-ts-mode . eglot-ensure)
+         (html-mode . eglot-ensure)
+         (css-ts-mode . eglot-ensure)
+         (js-ts-mode . eglot-ensure)
+         (bash-ts-mode . eglot-ensure)
+         (dockerfile-ts-mode . eglot-ensure)
+         (docker-compose-mode . eglot-ensure)
+         (yaml-ts-mode . eglot-ensure)
+         (json-ts-mode . eglot-ensure)
+         (markdown-mode . eglot-ensure))
   :config
   (defun my/eglot-format-and-organize ()
     "Format buffer or region and organize imports using Eglot."
@@ -856,6 +911,12 @@ version < emacs-28."
          ))
 
 (use-package treesit-auto
+  :ensure t
+  :init
+  ;; Treesit grammar source code download directory
+  (setq treesit-install-dir (expand-file-name "tree-sitter/" my-emacs-tmp-dir))
+  ;; Treesit compiled libraries path
+  (setq treesit-extra-load-path (list treesit-install-dir))
   :custom
   (treesit-auto-install 'prompt)
   :config
@@ -888,7 +949,7 @@ version < emacs-28."
   (kind-icon-blend-background nil)  ; Use midpoint color between foreground and background colors ("blended")?
   (kind-icon-blend-frac 0.08)
   (kind-icon-default-style `(:padding -1 :stroke 0 :margin 0 :radius 0 :scale 1.0 :height 0.55)) ; make sure icons fit with scaled text
-  (svg-lib-icons-dir (expand-file-name "svg-lib/cache/" user-emacs-directory)) ; Change cache dir
+  (svg-lib-icons-dir (expand-file-name "kind-icon-cache/" my-emacs-tmp-dir))
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter)) ; Enable `kind-icon'
 
@@ -916,6 +977,7 @@ version < emacs-28."
 ;; Use grip from emacs
 (use-package grip-mode
   :defer t
+  :config (setq grip-command 'auto)
   :bind ("C-c l g" . grip-mode)
   :custom
   (grip-update-after-change nil))
@@ -924,17 +986,17 @@ version < emacs-28."
 (use-package go-mode
   :defer t)
 
-;; Major mode for cmake
-(use-package cmake-mode
-  :defer t)
+;; ;; Major mode for cmake
+;; (use-package cmake-mode
+;;   :defer t)
 
-;; Major mode for C. Generate compile_command.json with cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
-(use-package cc-mode
-  :defer t
-  :bind (:map c-mode-map
-              ("C-d" . nil)
-              :map c++-mode-map
-              ("C-d" . nil)))
+;; ;; Major mode for C. Generate compile_command.json with cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1
+;; (use-package cc-mode
+;;   :defer t
+;;   :bind (:map c-mode-map
+;;               ("C-d" . nil)
+;;               :map c++-mode-map
+;;               ("C-d" . nil)))
 
 ;; Major mode for lua
 (use-package lua-mode
@@ -982,6 +1044,8 @@ version < emacs-28."
   :defer t
   :init
   (setq desktop+-special-buffer-handlers nil)
+  (setq desktop-path (list (expand-file-name "desktop-sessions/" my-emacs-tmp-dir)))
+  (setq desktop-base-file-name "emacs-desktop")
   :bind (("C-c d s" . desktop+-create)
          ("C-c d r" . desktop+-load)))
 
@@ -1027,6 +1091,10 @@ version < emacs-28."
 
 ;; Markdown package
 (use-package markdown-mode
+  :defer t)
+
+(use-package html-ts-mode
+  :straight (html-ts-mode :type git :host github :repo "mickeynp/html-ts-mode")
   :defer t)
 
 (run-with-idle-timer
