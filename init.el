@@ -1093,10 +1093,6 @@ version < emacs-28."
 (use-package markdown-mode
   :defer t)
 
-(use-package html-ts-mode
-  :straight (html-ts-mode :type git :host github :repo "mickeynp/html-ts-mode")
-  :defer t)
-
 (run-with-idle-timer
  5 nil
  (lambda ()

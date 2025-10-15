@@ -3,4 +3,4 @@
 # key: pp
 # group: debug
 # --
-from pprint import pprint; pprint($0)
+from pprint import pp; pp($0)
