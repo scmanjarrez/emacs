@@ -10,13 +10,41 @@
 (defvar my-emacs-tmp-dir (expand-file-name ".tmp" user-emacs-directory)
   "Root directory for all temporary, cache, and auto-generated Emacs files.")
 
+(defvar my-tmp-dir (expand-file-name ".emacs/" "/tmp"))
+(make-directory my-tmp-dir t)
+
 ;; Create the necessary subdirectories if they don't exist
-(let ((subdirs '("auto-save" "auto-save-list" "backups" "temp" "undo-tree"
+(let ((subdirs '("auto-save" "auto-save-list" "snippets" "backups" "undo-tree"
                  "kind-icon-cache" "eln-cache" "desktop-sessions"
                  "cache" "tree-sitter")))
   (make-directory my-emacs-tmp-dir t)
   (dolist (dir subdirs)
     (make-directory (expand-file-name dir my-emacs-tmp-dir) t)))
+
+;;; Centralize Auto-Saves, Backups, and Temporary Files
+
+;; Auto-save files (#...#)
+(setq auto-save-file-name-transforms
+      `((".*" ,(expand-file-name "auto-save/" my-emacs-tmp-dir) t)))
+
+;; Auto-save list files (stores associations)
+(setq auto-save-list-file-prefix
+      (expand-file-name "auto-save-list/" my-emacs-tmp-dir))
+
+;; Backup files (...~)
+(setq make-backup-files t
+      backup-directory-alist
+      `(("." . ,(expand-file-name "backups/" my-emacs-tmp-dir)))
+      version-control t
+      kept-new-versions 20
+      kept-old-versions 5
+      delete-old-versions t)
+
+;; Other temporary files (like buffer-content-XXXXX)
+(setq temporary-file-directory my-tmp-dir)
+(setenv "TMPDIR" my-tmp-dir)
+(setenv "TMP" my-tmp-dir)
+(setenv "TEMP" my-tmp-dir)
 
 ;; `.cache/` directory, often from url.el
 (setq url-cache-directory (expand-file-name "cache/" my-emacs-tmp-dir))
@@ -121,11 +149,11 @@
 (menu-bar-mode nil)
 
 ;; Set Hack font
-(set-frame-font "HackNerdFontMono 14" nil t)
+(set-frame-font "HackNerdFontMono 11" nil t)
 
 (when (member "Noto Color Emoji" (font-family-list))
   (set-fontset-font
-    t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
+   t 'symbol (font-spec :family "Noto Color Emoji") nil 'prepend))
 
 ;; Delete trailing whitespaces before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
@@ -224,29 +252,6 @@
 
 ;; always use spaces instead of tabs
 (setq-default indent-tabs-mode nil)
-
-;;; Centralize Auto-Saves, Backups, and Temporary Files
-
-;; Auto-save files (#...#)
-(setq auto-save-file-name-transforms
-      `((".*" ,(expand-file-name "auto-save/" my-emacs-tmp-dir) t)))
-
-;; Auto-save list files (stores associations)
-(setq auto-save-list-file-prefix
-      (expand-file-name "auto-save-list/" my-emacs-tmp-dir))
-
-;; Backup files (...~)
-(setq make-backup-files t
-      backup-directory-alist
-      `(("." . ,(expand-file-name "backups/" my-emacs-tmp-dir)))
-      version-control t
-      kept-new-versions 20
-      kept-old-versions 5
-      delete-old-versions t)
-
-;; Other temporary files (like buffer-content-XXXXX)
-(setq temporary-file-directory (expand-file-name "temp/" my-emacs-tmp-dir))
-
 
 (defun my/save-all-unsaved ()
   "Save all unsaved files. no ask.
@@ -524,10 +529,10 @@ will be killed."
   (interactive "P")
   (let ((start-indent (current-indentation)))
     (while
-      (and (not (bobp))
-           (zerop (forward-line (or direction 1)))
-           (or (= (current-indentation) 0)
-           (> (current-indentation) start-indent)))))
+        (and (not (bobp))
+             (zerop (forward-line (or direction 1)))
+             (or (= (current-indentation) 0)
+                 (> (current-indentation) start-indent)))))
   (back-to-indentation))
 (global-set-key [C-S-up] #'(lambda () (interactive) (my/jump-to-same-indent -1)))
 (global-set-key [C-S-down] 'my/jump-to-same-indent)
@@ -691,8 +696,8 @@ version < emacs-28."
           ;; will have anyway no effect so no need to remove the hook.
           (add-hook 'helm-minibuffer-set-up-hook 'helm-hide-minibuffer-maybe)
           (with-helm-buffer
-            (setq-local helm-echo-input-in-header-line
-                        (not (> (cdr pos) half-screen-size)))))
+           (setq-local helm-echo-input-in-header-line
+                       (not (> (cdr pos) half-screen-size)))))
         (helm-display-buffer-popup-frame buffer new-frame-alist)
         ;; When frame size have been modified manually by user restore
         ;; it to default value unless resuming or not using
@@ -738,8 +743,8 @@ version < emacs-28."
 ;; Better powerline
 (use-package doom-modeline
   :config
-  (set-face-attribute 'mode-line nil :height 120)
-  (set-face-attribute 'mode-line-inactive nil :height 120)
+  (set-face-attribute 'mode-line nil :height 100)
+  (set-face-attribute 'mode-line-inactive nil :height 100)
   :custom
   (doom-modeline-mode t)
   (doom-modeline-height 0.1)
@@ -904,11 +909,21 @@ version < emacs-28."
     (interactive)
     (eglot-format)
     (eglot-code-action-organize-imports (point-min) (point-max)))
+  (setq eglot-workspace-configuration
+        '((:pylsp . (:plugins (:jedi_completion (:include_params t :fuzzy t))))))
   :bind (("C-c l r" . eglot-rename)
          ("C-c l o" . my/eglot-format-and-organize)
          ("C-c l f" . eglot-format)
          ("C-c l i" . eglot-code-action-organize-imports)
          ))
+
+(use-package eldoc-box
+  :ensure t
+  :hook (eglot-managed-mode . eldoc-box-mouse-mode)
+  :custom
+  (eldoc-box-mouse-mode-idle-delay 0.6)
+  (eldoc-box-max-pixel-width 400)
+  (eldoc-box-max-pixel-height 300))
 
 (use-package treesit-auto
   :ensure t
@@ -956,6 +971,8 @@ version < emacs-28."
 ;; Code snippets
 (use-package yasnippet
   :defer t
+  :config
+  (setq yas-snippet-dirs (list (expand-file-name "snippets/" my-emacs-tmp-dir)))
   :bind (:map yas-minor-mode-map
               ("<tab>" . nil)
               ("TAB" . nil)
@@ -1088,6 +1105,11 @@ version < emacs-28."
 ;; ;; Jinja2 package
 ;; (use-package jinja2-mode
 ;;   :defer t)
+
+;; html-ts package
+(use-package html-ts-mode
+  :straight (:host github :repo "mickeynp/html-ts-mode")
+  :defer t)
 
 ;; Markdown package
 (use-package markdown-mode
